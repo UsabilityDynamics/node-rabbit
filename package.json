@@ -1,0 +1,47 @@
+{
+  "name": "task-rabbit",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [
+  ],
+  "license": "MIT",
+  "copyright" : "Copyright (c) 2013 Usability Dynamics, Inc.",
+  "author": {
+    "name": "Usability Dynamics",
+    "email": "info@usabilitydynamics.com",
+    "url": "http://usabilitydynamics.com"
+  },
+  "contributors": [
+    {
+      "name": "Andy Potanin",
+      "email": "andy.potanin@usabilitydynamics.com",
+      "url": "http://usabilitydynamics.com"
+    },
+    {
+      "name": "Ivan McCarthy",
+      "email": "ivan.mccarthy@usabilitydynamics.com",
+      "url": "http://usabilitydynamics.com"
+    }
+  ],
+  "engines": [
+    "node >=0.8.0",
+    "npm >=1.0.0"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodejitsu/http-server.git"
+  },
+  "main": "index",
+  "preferGlobal": false,
+  "scripts": {
+  },
+  "dependencies" : {
+    "amqp": "*",
+    "object-emitter": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*",
+    "faker": "*"
+  }
+}
