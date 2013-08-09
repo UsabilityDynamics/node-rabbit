@@ -6,22 +6,34 @@
  */
 
 var express   = require( 'express' );
-var app       = express();
+var Rabbit    = require( '../' );
 
+
+
+
+var app = express();
 app.configure( function configure() {
 
   this.use( express.bodyParser() );
   this.use( this.router );
   this.use( express.errorHandler() );
 
+  this.rabbit = Rabbit.createConnection({
+    host         : 'localhost',
+    port         : 5672,
+    login        : 'udx',
+    password     : 'ISM0Rules'
+  });
 
+  Rabbit.on( '**', function( data ) {
+    console.log( this.event, data );
+  });
 
-
-
-
-
-
-
+  this.post( '/generate/user', function( req, res, next ) {
+    var user = req.body.user;
+    this.rabbit.run( 'validate.email', user.email, console.log );
+    this.rabbit.run( 'create.account', user, console.log );
+  });
 
 
   // Start Service

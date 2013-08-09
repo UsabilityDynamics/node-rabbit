@@ -36,8 +36,10 @@
   "scripts": {
   },
   "dependencies" : {
+    "debug": "*",
     "amqp": "*",
-    "object-emitter": "*"
+    "object-emitter": "*",
+    "object-settings": "*"
   },
   "devDependencies": {
     "mocha": "*",
