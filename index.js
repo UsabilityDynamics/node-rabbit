@@ -3,4 +3,4 @@
  *
  */
 
-module.exports = require( './lib/rabbit' );
+module.exports = process.env.APP_COVERAGE ? require( './static/lib-cov/rabbit' ) : require( './lib/rabbit' );

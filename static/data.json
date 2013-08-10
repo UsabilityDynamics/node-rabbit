@@ -1,0 +1,34 @@
+{
+    "project": {
+        "name": "Rabbit",
+        "description": "RabbitMQ powered distributed job management.",
+        "version": "0.0.1",
+        "url": "https://github.com/UsabilityDynamics/abstract/",
+        "logo": "http://a3d72a45d111006ec192-ec5b80a12b0b09b4d52373336afb4254.r80.cf1.rackcdn.com/usability-dynamics.png"
+    },
+    "files": {
+        "lib/rabbit.js": {
+            "name": "lib/rabbit.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {},
+    "classitems": [
+        {
+            "file": "lib/rabbit.js",
+            "line": 141,
+            "description": "Returns new instance of Rabbit.",
+            "class": ""
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type\nReturns new instance of Rabbit.",
+            "line": " lib/rabbit.js:141"
+        }
+    ]
+}
