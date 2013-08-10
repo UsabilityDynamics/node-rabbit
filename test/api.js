@@ -1,7 +1,7 @@
 /**
  * Mocha Test for Rabbit api
  *
- * mocha test/api.js --reporter list --ui exports --watch
+ * RABBIT_LOGIN=guest RABBIT_PASSWORD=guest mocha test/api.js --reporter list --ui exports --watch
  *
  * @author potanin@UD
  * @date 8/10/13
@@ -10,12 +10,19 @@
 module.exports = {
 
   'before': function() {
+
     require( 'colors' );
+
+    // Default RabbitMQ Credentials
+    process.env.RABBIT_LOGIN = process.env.RABBIT_LOGIN || 'guest';
+    process.env.RABBIT_PASSWORD = process.env.RABBIT_PASSWORD || 'guest';
+
   },
 
   'Rabbit API': {
 
     /**
+     *
      *
      */
     'has expected properties.': function() {
@@ -31,36 +38,63 @@ module.exports = {
       Rabbit.should.have.property( 'createConnection' );
 
       // Prototype properties.
-      Rabbit.prototype.should.have.property( 'defineJob' );
+      Rabbit.prototype.should.have.property( 'configure' );
+      Rabbit.prototype.should.have.property( 'registerJob' );
       Rabbit.prototype.should.have.property( 'runJob' );
-      Rabbit.prototype.should.have.property( 'message' );
+      Rabbit.prototype.should.have.property( 'Message' );
+      Rabbit.prototype.should.have.property( 'Job' );
 
       // Shortcuts.
       Rabbit.prototype.should.have.property( 'define' );
       Rabbit.prototype.should.have.property( 'run' );
 
       // Message properties.
-      Rabbit.prototype.message.prototype.should.have.property( 'pack' );
-      Rabbit.prototype.message.prototype.should.have.property( 'unpack' );
+      Rabbit.prototype.Message.prototype.should.have.property( 'pack' );
+      Rabbit.prototype.Message.prototype.should.have.property( 'unpack' );
 
+      // Job properties.
+      Rabbit.prototype.Job.prototype.should.have.property( 'progress' );
+      Rabbit.prototype.Job.prototype.should.have.property( 'complete' );
+
+    },
+
+    'can establish a RabbitMQ connection and use configure() method.': function( done ) {
+
+      var Rabbit = require( '../' );
+      var Client = require( '../' ).createConnection({ login: process.env.RABBIT_LOGIN, password: process.env.RABBIT_PASSWORD });
+
+      Client.configure( function configure( client ) {
+
+        this.should.have.property( 'get' );
+        this.should.have.property( 'set' );
+        this.should.have.property( 'registerJob' );
+        this.should.have.property( 'runJob' );
+
+        client.should.have.property( 'get' );
+        client.should.have.property( 'set' );
+        client.should.have.property( 'registerJob' );
+        client.should.have.property( 'runJob' );
+
+        done();
+
+      });
+
+      Client.once( 'connection.error', function( error, data ) {
+        done();
+      });
     },
 
     'can establish a RabbitMQ connection.': function( done ) {
       this.timeout( 5000 );
 
       var Rabbit = require( '../' );
-
-      var Client = require( '../' ).createConnection({
-        login: 'demo',
-        password: 'demo'
-      });
+      var Client = require( '../' ).createConnection({ login: process.env.RABBIT_LOGIN, password: process.env.RABBIT_PASSWORD });
 
       Client.once( 'connection.success', function() {
         done();
       });
 
       Client.once( 'connection.error', function( error, data ) {
-        //console.log( this.event.magenta, error.message.red );
         done();
       });
 

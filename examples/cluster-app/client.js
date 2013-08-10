@@ -1,40 +1,38 @@
 /**
- * -
+ * Rabbit Client
  *
- * -
+ * - Process jobs.
+ *
+ * Set your RabbitMQ login and password as a global variable (e.g. in .bash_profile) and execute as:
+ * clear && DEBUG=rabbit RABBIT_LOGIN=$RABBIT_LOGIN RABBIT_PASSWORD=$RABBIT_PASSWORD node client.js
  *
  * @author potanin
  * @date 8/10/13
  */
 
-var Rabbit = require( '../' );
+var Rabbit  = require( '../../' );
+var Client  = Rabbit.createConnection({ login: process.env.RABBIT_LOGIN, password: process.env.RABBIT_PASSWORD });
 
-var Client = require( '../' ).createConnection({
-  login: 'demo',
-  password: 'demo',
-  vhost: '/'
-});
+var card    =  require( 'faker' ).Helpers.createCard
+var async   =  require( 'async' )
 
-Client.once( 'connection.success', function() {
+// Successful client connection.
+Client.configure( function configure( client ) {
+  Rabbit.debug( 'Connected to RabbitMQ server.' );
 
-  return done();
+  // Add several "test-job-one" jobs.
+  async.times( 2, function( i ) {
+    Rabbit.debug( 'Sending job [%d] to [%s] exchange.', i, client.get( 'exchange.name' ) );
 
-  Client.defineJob( 'test-job', function TestJob( data ) {
-    console.log( 'doing test-job' );
-  });
-
-  setTimeout( function() {
-
-    Client.runJob( 'test-job', { 'message': 'hello 2!' }, function job_complete() {
+    client.runJob( 'test-job-one', card(), function job_complete() {
       console.log( 'test job complete' );
     });
 
-  }, 1000 )
-
+  });
 
 });
 
+// Client connection failure.
 Client.once( 'connection.error', function( error, data ) {
-  console.log( this.event.magenta, error.message.red );
-  done( error );
+  Rabbit.debug( 'Connection Error: [%s].', error.message );
 });
