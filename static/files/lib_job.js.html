@@ -104,6 +104,10 @@ function Job( data ) {
     return new Job( data );
   }
 
+  // Mixin Settings and EventEmitter
+  require( &#x27;object-settings&#x27; ).mixin( this );
+  require( &#x27;object-emitter&#x27; ).mixin( this );
+
   // Set Message Properties
   Object.defineProperties( this, {
     id: {
@@ -119,13 +123,25 @@ function Job( data ) {
       writable: true
     },
     format: {
-      value: data.format,
+      value: data.format || &#x27;application/json&#x27;,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    },
+    correlation_key: {
+      value: data.correlation_key,
       enumerable: true,
       configurable: true,
       writable: true
     },
     client: {
       value: data.client,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    },
+    routing: {
+      value: data.routing,
       enumerable: true,
       configurable: true,
       writable: true
@@ -148,6 +164,12 @@ function Job( data ) {
       configurable: true,
       writable: true
     },
+    exchange: {
+      value: data.exchange,
+      enumerable: false,
+      configurable: true,
+      writable: true
+    },
     rabbit: {
       value: data.rabbit,
       enumerable: false,
@@ -160,7 +182,7 @@ function Job( data ) {
       configurable: true,
       writable: true
     }
-  })
+  });
 
   return this;
 
@@ -229,9 +251,23 @@ Object.defineProperties( Job.prototype, {
      * @param string
      * @returns {*}
      */
-    value: function progress( string ) {
-      Job.debug( &#x27;Completing progress of job [%s/%s].&#x27;, this.type, this.id );
+    value: function progress( value, message ) {
+      Job.debug( &#x27;Updating progress job type [%s]. Responding to CQ [%s].&#x27;, this.routing, this.correlation_key );
 
+      this.exchange.publish( this.correlation_key, { progress: value, message: message }, {
+        messageId: this.id,
+        contentType: this.format,
+        type: this.correlation_key,
+        deliveryMode: 2,
+        headers: {
+          event: &#x27;progress&#x27;,
+          correlation_key: this.correlation_key,
+          job_type: this.type
+        }
+      });
+
+      // @chainable
+      return this;
 
     },
     enumerable: true,
@@ -247,8 +283,22 @@ Object.defineProperties( Job.prototype, {
      * @returns {*}
      */
     value: function complete( error, response ) {
-      Job.debug( &#x27;Completing job type [%s/%s].&#x27;, this.type, this.id );
+      Job.debug( &#x27;Completing job type [%s]. Responding to CQ [%s].&#x27;, this.routing, this.correlation_key );
 
+      this.exchange.publish( this.correlation_key, response, {
+        messageId: this.id,
+        contentType: this.format,
+        type: this.correlation_key,
+        deliveryMode: 2,
+        headers: {
+          event: &#x27;complete&#x27;,
+          correlation_key: this.correlation_key,
+          job_type: this.type
+        }
+      });
+
+      // @chainable
+      return this;
 
     },
     enumerable: true,

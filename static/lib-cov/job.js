@@ -6,22 +6,28 @@ if (! _$jscoverage['job.js']) {
   _$jscoverage['job.js'][17] = 0;
   _$jscoverage['job.js'][18] = 0;
   _$jscoverage['job.js'][22] = 0;
-  _$jscoverage['job.js'][79] = 0;
-  _$jscoverage['job.js'][84] = 0;
-  _$jscoverage['job.js'][94] = 0;
-  _$jscoverage['job.js'][96] = 0;
-  _$jscoverage['job.js'][97] = 0;
-  _$jscoverage['job.js'][100] = 0;
-  _$jscoverage['job.js'][104] = 0;
-  _$jscoverage['job.js'][120] = 0;
+  _$jscoverage['job.js'][23] = 0;
+  _$jscoverage['job.js'][26] = 0;
+  _$jscoverage['job.js'][101] = 0;
+  _$jscoverage['job.js'][106] = 0;
+  _$jscoverage['job.js'][116] = 0;
+  _$jscoverage['job.js'][118] = 0;
+  _$jscoverage['job.js'][119] = 0;
   _$jscoverage['job.js'][122] = 0;
-  _$jscoverage['job.js'][123] = 0;
   _$jscoverage['job.js'][126] = 0;
-  _$jscoverage['job.js'][131] = 0;
-  _$jscoverage['job.js'][147] = 0;
-  _$jscoverage['job.js'][164] = 0;
-  _$jscoverage['job.js'][175] = 0;
-  _$jscoverage['job.js'][201] = 0;
+  _$jscoverage['job.js'][142] = 0;
+  _$jscoverage['job.js'][144] = 0;
+  _$jscoverage['job.js'][145] = 0;
+  _$jscoverage['job.js'][148] = 0;
+  _$jscoverage['job.js'][153] = 0;
+  _$jscoverage['job.js'][169] = 0;
+  _$jscoverage['job.js'][171] = 0;
+  _$jscoverage['job.js'][184] = 0;
+  _$jscoverage['job.js'][200] = 0;
+  _$jscoverage['job.js'][202] = 0;
+  _$jscoverage['job.js'][215] = 0;
+  _$jscoverage['job.js'][225] = 0;
+  _$jscoverage['job.js'][251] = 0;
 }
 _$jscoverage['job.js'][14]++;
 function Job(data) {
@@ -31,47 +37,59 @@ function Job(data) {
     return new Job(data);
   }
   _$jscoverage['job.js'][22]++;
-  Object.defineProperties(this, {id: {value: data.id, enumerable: true, configurable: true, writable: true}, type: {value: data.type, enumerable: true, configurable: true, writable: true}, format: {value: data.format, enumerable: true, configurable: true, writable: true}, client: {value: data.client, enumerable: true, configurable: true, writable: true}, message: {value: this.unpack(data.message), enumerable: true, configurable: true, writable: true}, meta: {value: data.meta, enumerable: false, configurable: true, writable: true}, queue: {value: data.queue, enumerable: false, configurable: true, writable: true}, rabbit: {value: data.rabbit, enumerable: false, configurable: true, writable: true}, headers: {value: data.headers, enumerable: false, configurable: true, writable: true}});
-  _$jscoverage['job.js'][79]++;
+  require("object-settings").mixin(this);
+  _$jscoverage['job.js'][23]++;
+  require("object-emitter").mixin(this);
+  _$jscoverage['job.js'][26]++;
+  Object.defineProperties(this, {id: {value: data.id, enumerable: true, configurable: true, writable: true}, type: {value: data.type, enumerable: true, configurable: true, writable: true}, format: {value: data.format || "application/json", enumerable: true, configurable: true, writable: true}, correlation_key: {value: data.correlation_key, enumerable: true, configurable: true, writable: true}, client: {value: data.client, enumerable: true, configurable: true, writable: true}, routing: {value: data.routing, enumerable: true, configurable: true, writable: true}, message: {value: this.unpack(data.message), enumerable: true, configurable: true, writable: true}, meta: {value: data.meta, enumerable: false, configurable: true, writable: true}, queue: {value: data.queue, enumerable: false, configurable: true, writable: true}, exchange: {value: data.exchange, enumerable: false, configurable: true, writable: true}, rabbit: {value: data.rabbit, enumerable: false, configurable: true, writable: true}, headers: {value: data.headers, enumerable: false, configurable: true, writable: true}});
+  _$jscoverage['job.js'][101]++;
   return this;
 }
-_$jscoverage['job.js'][84]++;
+_$jscoverage['job.js'][106]++;
 Object.defineProperties(Job.prototype, {pack: {value: (function pack(string) {
-  _$jscoverage['job.js'][94]++;
+  _$jscoverage['job.js'][116]++;
   if (this.format === "application/msgpack") {
-    _$jscoverage['job.js'][96]++;
+    _$jscoverage['job.js'][118]++;
     if (this.data instanceof Buffer) {
-      _$jscoverage['job.js'][97]++;
+      _$jscoverage['job.js'][119]++;
       this.data = this.data.toString();
     }
-    _$jscoverage['job.js'][100]++;
+    _$jscoverage['job.js'][122]++;
     this.data = Job.msgpack.pack(this.data);
   }
-  _$jscoverage['job.js'][104]++;
+  _$jscoverage['job.js'][126]++;
   return this.data;
 }), enumerable: true, configurable: true, writable: true}, unpack: {value: (function unpack(message) {
-  _$jscoverage['job.js'][120]++;
+  _$jscoverage['job.js'][142]++;
   if (this.format === "application/msgpack") {
-    _$jscoverage['job.js'][122]++;
+    _$jscoverage['job.js'][144]++;
     if (message instanceof Buffer) {
-      _$jscoverage['job.js'][123]++;
+      _$jscoverage['job.js'][145]++;
       message = message.toString();
     }
-    _$jscoverage['job.js'][126]++;
+    _$jscoverage['job.js'][148]++;
     message = Job.msgpack.unpack(message);
   }
-  _$jscoverage['job.js'][131]++;
+  _$jscoverage['job.js'][153]++;
   return message;
-}), enumerable: true, configurable: true, writable: true}, progress: {value: (function progress(string) {
-  _$jscoverage['job.js'][147]++;
-  Job.debug("Completing progress of job [%s/%s].", this.type, this.id);
+}), enumerable: true, configurable: true, writable: true}, progress: {value: (function progress(value, message) {
+  _$jscoverage['job.js'][169]++;
+  Job.debug("Updating progress job type [%s]. Responding to CQ [%s].", this.routing, this.correlation_key);
+  _$jscoverage['job.js'][171]++;
+  this.exchange.publish(this.correlation_key, {progress: value, message: message}, {messageId: this.id, contentType: this.format, type: this.correlation_key, deliveryMode: 2, headers: {event: "progress", correlation_key: this.correlation_key, job_type: this.type}});
+  _$jscoverage['job.js'][184]++;
+  return this;
 }), enumerable: true, configurable: true, writable: true}, complete: {value: (function complete(error, response) {
-  _$jscoverage['job.js'][164]++;
-  Job.debug("Completing job type [%s/%s].", this.type, this.id);
+  _$jscoverage['job.js'][200]++;
+  Job.debug("Completing job type [%s]. Responding to CQ [%s].", this.routing, this.correlation_key);
+  _$jscoverage['job.js'][202]++;
+  this.exchange.publish(this.correlation_key, response, {messageId: this.id, contentType: this.format, type: this.correlation_key, deliveryMode: 2, headers: {event: "complete", correlation_key: this.correlation_key, job_type: this.type}});
+  _$jscoverage['job.js'][215]++;
+  return this;
 }), enumerable: true, configurable: true, writable: true}});
-_$jscoverage['job.js'][175]++;
+_$jscoverage['job.js'][225]++;
 Object.defineProperties(module.exports = Job, {debug: {value: require("debug")("rabbit:job"), enumerable: false, writable: true, configurable: true}, msgpack: {value: require("msgpack"), enumerable: false, writable: true, configurable: true}, Rabbit: {value: require("./rabbit"), enumerable: false, configurable: true, writable: true}, create: {value: (function create(data) {
-  _$jscoverage['job.js'][201]++;
+  _$jscoverage['job.js'][251]++;
   return new Job(data);
 }), enumerable: true, configurable: true, writable: true}});
-_$jscoverage['job.js'].source = ["/**"," * -"," *"," * -"," *"," * @chainable"," *"," * @param data"," * @returns {*}"," * @constructor"," *"," * @author potanin@UD"," */","function Job( data ) {","","  // Make sure context is correct otherwise we could screw up the global scope.","  if( !( this instanceof Job ) ) {","    return new Job( data );","  }","","  // Set Message Properties","  Object.defineProperties( this, {","    id: {","      value: data.id,","      enumerable: true,","      configurable: true,","      writable: true","    },","    type: {","      value: data.type,","      enumerable: true,","      configurable: true,","      writable: true","    },","    format: {","      value: data.format,","      enumerable: true,","      configurable: true,","      writable: true","    },","    client: {","      value: data.client,","      enumerable: true,","      configurable: true,","      writable: true","    },","    message: {","      value: this.unpack( data.message ),","      enumerable: true,","      configurable: true,","      writable: true","    },","    meta: {","      value: data.meta,","      enumerable: false,","      configurable: true,","      writable: true","    },","    queue: {","      value: data.queue,","      enumerable: false,","      configurable: true,","      writable: true","    },","    rabbit: {","      value: data.rabbit,","      enumerable: false,","      configurable: true,","      writable: true","    },","    headers: {","      value: data.headers,","      enumerable: false,","      configurable: true,","      writable: true","    }","  })","","  return this;","","}","","// Rabbit Job prototype properties.","Object.defineProperties( Job.prototype, {","  pack: {","    /**","     * Pack String","     *","     * @param string","     * @returns {*}","     */","    value: function pack( string ) {","","      if( this.format === 'application/msgpack' ) {","","        if( this.data instanceof Buffer ) {","          this.data = this.data.toString();","        }","","        this.data = Job.msgpack.pack( this.data );","","      }","","      return this.data;","","    },","    enumerable: true,","    configurable: true,","    writable: true","  },","  unpack: {","    /**","     * Unpack Message","     *","     * @param string","     * @returns {*}","     */","    value: function unpack( message ) {","","      if( this.format === 'application/msgpack' ) {","","        if( message instanceof Buffer ) {","          message = message.toString();","        }","","        message = Job.msgpack.unpack( message );","","","      }","","      return message;","","    },","    enumerable: true,","    configurable: true,","    writable: true","  },","  progress: {","    /**","     * Update Progress.","     *","     * @method progress","     * @param string","     * @returns {*}","     */","    value: function progress( string ) {","      Job.debug( 'Completing progress of job [%s/%s].', this.type, this.id );","","","    },","    enumerable: true,","    configurable: true,","    writable: true","  },","  complete: {","    /**","     * Complete Job.","     *","     * @method complete","     * @param string","     * @returns {*}","     */","    value: function complete( error, response ) {","      Job.debug( 'Completing job type [%s/%s].', this.type, this.id );","","","    },","    enumerable: true,","    configurable: true,","    writable: true","  }","})","","// Rabit Job constructor properties.","Object.defineProperties( module.exports = Job, {","  debug: {","    value: require( 'debug' )( 'rabbit:job' ),","    enumerable: false,","    writable: true,","    configurable: true","  },","  msgpack: {","    value: require( 'msgpack' ),","    enumerable: false,","    writable: true,","    configurable: true","  },","  Rabbit: {","    value: require( './rabbit' ),","    enumerable: false,","    configurable: true,","    writable: true","  },","  create: {","    /**","     *","     * @param data","     * @returns {Message}","     */","    value: function create( data ) {","      return new Job( data );","    },","    enumerable: true,","    configurable: true,","    writable: true","  }","})"];
+_$jscoverage['job.js'].source = ["/**"," * -"," *"," * -"," *"," * @chainable"," *"," * @param data"," * @returns {*}"," * @constructor"," *"," * @author potanin@UD"," */","function Job( data ) {","","  // Make sure context is correct otherwise we could screw up the global scope.","  if( !( this instanceof Job ) ) {","    return new Job( data );","  }","","  // Mixin Settings and EventEmitter","  require( 'object-settings' ).mixin( this );","  require( 'object-emitter' ).mixin( this );","","  // Set Message Properties","  Object.defineProperties( this, {","    id: {","      value: data.id,","      enumerable: true,","      configurable: true,","      writable: true","    },","    type: {","      value: data.type,","      enumerable: true,","      configurable: true,","      writable: true","    },","    format: {","      value: data.format || 'application/json',","      enumerable: true,","      configurable: true,","      writable: true","    },","    correlation_key: {","      value: data.correlation_key,","      enumerable: true,","      configurable: true,","      writable: true","    },","    client: {","      value: data.client,","      enumerable: true,","      configurable: true,","      writable: true","    },","    routing: {","      value: data.routing,","      enumerable: true,","      configurable: true,","      writable: true","    },","    message: {","      value: this.unpack( data.message ),","      enumerable: true,","      configurable: true,","      writable: true","    },","    meta: {","      value: data.meta,","      enumerable: false,","      configurable: true,","      writable: true","    },","    queue: {","      value: data.queue,","      enumerable: false,","      configurable: true,","      writable: true","    },","    exchange: {","      value: data.exchange,","      enumerable: false,","      configurable: true,","      writable: true","    },","    rabbit: {","      value: data.rabbit,","      enumerable: false,","      configurable: true,","      writable: true","    },","    headers: {","      value: data.headers,","      enumerable: false,","      configurable: true,","      writable: true","    }","  });","","  return this;","","}","","// Rabbit Job prototype properties.","Object.defineProperties( Job.prototype, {","  pack: {","    /**","     * Pack String","     *","     * @param string","     * @returns {*}","     */","    value: function pack( string ) {","","      if( this.format === 'application/msgpack' ) {","","        if( this.data instanceof Buffer ) {","          this.data = this.data.toString();","        }","","        this.data = Job.msgpack.pack( this.data );","","      }","","      return this.data;","","    },","    enumerable: true,","    configurable: true,","    writable: true","  },","  unpack: {","    /**","     * Unpack Message","     *","     * @param string","     * @returns {*}","     */","    value: function unpack( message ) {","","      if( this.format === 'application/msgpack' ) {","","        if( message instanceof Buffer ) {","          message = message.toString();","        }","","        message = Job.msgpack.unpack( message );","","","      }","","      return message;","","    },","    enumerable: true,","    configurable: true,","    writable: true","  },","  progress: {","    /**","     * Update Progress.","     *","     * @method progress","     * @param string","     * @returns {*}","     */","    value: function progress( value, message ) {","      Job.debug( 'Updating progress job type [%s]. Responding to CQ [%s].', this.routing, this.correlation_key );","","      this.exchange.publish( this.correlation_key, { progress: value, message: message }, {","        messageId: this.id,","        contentType: this.format,","        type: this.correlation_key,","        deliveryMode: 2,","        headers: {","          event: 'progress',","          correlation_key: this.correlation_key,","          job_type: this.type","        }","      });","","      // @chainable","      return this;","","    },","    enumerable: true,","    configurable: true,","    writable: true","  },","  complete: {","    /**","     * Complete Job.","     *","     * @method complete","     * @param string","     * @returns {*}","     */","    value: function complete( error, response ) {","      Job.debug( 'Completing job type [%s]. Responding to CQ [%s].', this.routing, this.correlation_key );","","      this.exchange.publish( this.correlation_key, response, {","        messageId: this.id,","        contentType: this.format,","        type: this.correlation_key,","        deliveryMode: 2,","        headers: {","          event: 'complete',","          correlation_key: this.correlation_key,","          job_type: this.type","        }","      });","","      // @chainable","      return this;","","    },","    enumerable: true,","    configurable: true,","    writable: true","  }","})","","// Rabit Job constructor properties.","Object.defineProperties( module.exports = Job, {","  debug: {","    value: require( 'debug' )( 'rabbit:job' ),","    enumerable: false,","    writable: true,","    configurable: true","  },","  msgpack: {","    value: require( 'msgpack' ),","    enumerable: false,","    writable: true,","    configurable: true","  },","  Rabbit: {","    value: require( './rabbit' ),","    enumerable: false,","    configurable: true,","    writable: true","  },","  create: {","    /**","     *","     * @param data","     * @returns {Message}","     */","    value: function create( data ) {","      return new Job( data );","    },","    enumerable: true,","    configurable: true,","    writable: true","  }","})"];

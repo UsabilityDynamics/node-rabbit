@@ -4,7 +4,7 @@
  * - Process jobs.
  *
  * Set your RabbitMQ login and password as a global variable (e.g. in .bash_profile) and execute as:
- * clear && DEBUG=rabbit RABBIT_LOGIN=$RABBIT_LOGIN RABBIT_PASSWORD=$RABBIT_PASSWORD node client.js
+ * clear && DEBUG=rabbit* RABBIT_LOGIN=$RABBIT_LOGIN RABBIT_PASSWORD=$RABBIT_PASSWORD node client.js
  *
  * @author potanin
  * @date 8/10/13
@@ -20,12 +20,25 @@ var async   =  require( 'async' )
 Client.configure( function configure( client ) {
   Rabbit.debug( 'Connected to RabbitMQ server.' );
 
-  // Add several "test-job-one" jobs.
   async.times( 2, function( i ) {
     Rabbit.debug( 'Sending job [%d] to [%s] exchange.', i, client.get( 'exchange.name' ) );
 
     client.runJob( 'test-job-one', card(), function job_complete() {
-      console.log( 'test job complete' );
+      Rabbit.debug( 'A "test-job-one" work request sent.' );
+
+      this.on( 'complete', function( message ) {
+        Rabbit.debug( 'test-job-one complete', message );
+      });
+
+    });
+
+    client.runJob( 'test-job-two', card(), function job_complete() {
+      Rabbit.debug( 'A "test-job-two" work request sent.' );
+
+      this.on( 'complete', function( message ) {
+        Rabbit.debug( 'test-job-two complete', message );
+      });
+
     });
 
   });

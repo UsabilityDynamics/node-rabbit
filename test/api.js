@@ -37,24 +37,25 @@ module.exports = {
       Rabbit.should.have.property( 'prototype' );
       Rabbit.should.have.property( 'createConnection' );
 
+      Rabbit.should.have.property( 'Message' );
+      Rabbit.should.have.property( 'Job' );
+
       // Prototype properties.
       Rabbit.prototype.should.have.property( 'configure' );
       Rabbit.prototype.should.have.property( 'registerJob' );
       Rabbit.prototype.should.have.property( 'runJob' );
-      Rabbit.prototype.should.have.property( 'Message' );
-      Rabbit.prototype.should.have.property( 'Job' );
 
       // Shortcuts.
       Rabbit.prototype.should.have.property( 'define' );
       Rabbit.prototype.should.have.property( 'run' );
 
       // Message properties.
-      Rabbit.prototype.Message.prototype.should.have.property( 'pack' );
-      Rabbit.prototype.Message.prototype.should.have.property( 'unpack' );
+      Rabbit.Message.prototype.should.have.property( 'pack' );
+      Rabbit.Message.prototype.should.have.property( 'unpack' );
 
       // Job properties.
-      Rabbit.prototype.Job.prototype.should.have.property( 'progress' );
-      Rabbit.prototype.Job.prototype.should.have.property( 'complete' );
+      Rabbit.Job.prototype.should.have.property( 'progress' );
+      Rabbit.Job.prototype.should.have.property( 'complete' );
 
     },
 

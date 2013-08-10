@@ -1,6 +1,6 @@
 {
   "name": "rabbit",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "RabbitMQ powered distributed job management.",
   "keywords": [
     "rabbitmq",

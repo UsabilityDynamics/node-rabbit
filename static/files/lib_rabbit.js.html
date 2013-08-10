@@ -121,8 +121,15 @@ function Rabbit( settings, cb ) {
   // Configure instance.
   Instance.set({
     settings: Rabbit.extend( {}, Rabbit.defaults, settings ),
-    config: {
-      fetch_count: 10
+    options: {
+      job_subscription: {
+        prefetchCount: 10,
+        ack: true
+      },
+      correlation_subscription: {
+        prefetchCount: 10,
+        ack: true
+      },
     },
     environment: &#x27;production&#x27;,
     exchange: {},
@@ -155,14 +162,19 @@ function Rabbit( settings, cb ) {
   // RabbitMQ connection established.
   this.connection.on( &#x27;ready&#x27;, function rabbit_ready( connection ) {
 
-    this.exchange( Instance.get( &#x27;settings.exchange&#x27; ), {
-      type: &#x27;topic&#x27;,
+    // Exchange Options.
+    var _options = {
+      type: &#x27;direct&#x27;,
       passive: false,
       durable: true,
-      // confirm: true,
-      // autoDelete: true,
-      // noDeclare: false,
-    }, function have_exchange() {
+      autoDelete: true,
+      arguments: {
+        created: new Date().getTime()
+      }
+    }
+
+    // Create/Update Exchange.
+    this.exchange( Instance.get( &#x27;settings.exchange&#x27; ), _options, function have_exchange() {
 
       // Set Exchange Variables.
       Instance.set( &#x27;exchange&#x27;, this );
@@ -237,50 +249,51 @@ Object.defineProperties( Rabbit.prototype, {
         autoDelete: false,
         passive: false,
         arguments: {
+          routing_key: [ &#x27;job&#x27;, type ].join( &#x27;.&#x27; ),
           type: type
         }
       };
 
       // Use the default &#x27;amqueue.topic&#x27; exchange
-      this.connection.queue( type, _options, function have_queue( queue ) {
-        Rabbit.debug( &#x27;Monitoring [%s/%s].&#x27;, Instance.get( &#x27;exchange.name&#x27; ), type );
+      this.connection.queue( _options.arguments.routing_key, _options, function have_queue( queue ) {
+        Rabbit.debug( &#x27;Monitoring [%s/%s].&#x27;, Instance.get( &#x27;exchange.name&#x27; ), _options.arguments.routing_key );
 
         // Bind to exchange with routing of &quot;job&quot;
-        queue.bind( Instance.get( &#x27;exchange.name&#x27; ), type );
+        queue.bind( Instance.get( &#x27;exchange.name&#x27; ), _options.arguments.routing_key );
 
         // Receive messages
-        queue.subscribe({ prefetchCount: Instance.get( &#x27;config.fetch_count&#x27; ), ack: true }, function have_message( message, headers, info ) {
+        queue.subscribe( Instance.get( &#x27;options.job_subscription&#x27; ), function have_message( message, headers, info ) {
 
           // Acknowledge Receipt.
-          queue.shift();
+          if( Instance.get( &#x27;options.job_subscription&#x27; ).ack ) {
+            queue.shift();
+          }
 
           // Create Job Instance.
-          var job = Instance.Job.create({
+          var job = Rabbit.Job.create({
             id: info.messageId,
             type: info.type,
             client: info.replyTo,
             message: message,
             format: info.contentType,
+            routing: info.routingKey,
+            correlation_key: headers.correlation_key,
             meta: {
               exchange: info.exchange,
               appId: info.appId,
               correlation: info.correlationId,
               mode: info.deliveryMode,
               consumer: info.consumerTag,
-              routing: info.routingKey,
               redelivered: info.redelivered,
             },
             queue: queue,
             headers: headers,
+            exchange: Instance.get( &#x27;exchange&#x27; ),
             rabbit: Instance
           })
 
           // Call the Job Worker callback.
-          fn.call( job, job.message, function( error, response ) {
-
-            job.complete( error, response )
-
-          });
+          fn.call( job, job.message, function complete_wrapper( error, response ) { job.complete( error, response ) });
 
         });
 
@@ -295,36 +308,76 @@ Object.defineProperties( Rabbit.prototype, {
     /**
      * Run a job.
      *
-     * @param name
-     * @param data
-     * @param response
+     * @method runJob
+     * @chainable
+     * @param job_type {String} Name of job type.
+     * @param message {Object} Job data.
+     * @param response {Function} Callback method.
      */
-    value: function runJob( type, data, response ) {
+    value: function runJob( job_type, message, response ) {
 
-      var _options = {
-        type: type,
-        correlationId : Math.random().toString( 36 ).substring( 2 ),
-        contentType: &#x27;application/json&#x27;,
-        headers: {
-          format: &#x27;json&#x27;,
-        },
-        deliveryMode: 2,
-        appId: this.get( &#x27;identity&#x27; ),
-        replyTo: Math.random().toString( 36 ).substring( 2 ),
-        messageId: Math.random().toString( 36 ).substring( 2 ),
-        priority: 9,
-        // immediate : false,
-        // confirm: false,
-        // expiration: &quot;10000&quot;
+      if( &#x27;function&#x27; !== typeof response ) {
+        return new Error( &#x27;Response must be a method&#x27; );
       }
 
-      this.get( &#x27;exchange&#x27; ).publish( type, data, _options, function published() {
-        Rabbit.debug( &#x27;job request for [%s] published&#x27;, type );
+      var Instance            = this;
+      var sid                 = Math.random().toString( 36 ).substring( 2 );
+      var mid                 = Math.random().toString( 36 ).substring( 2 );
+      var job_key             = [ &#x27;job&#x27;, job_type ].join( &#x27;.&#x27; );
+      var correlation         = Rabbit.Correlation.create();
 
-        // Instance.subscribe( _options.correlationId );
+      this.get( &#x27;exchange&#x27; ).publish( job_key, message, {
+        type: job_key,
+        correlationId : correlation.id,
+        messageId: mid,
+        replyTo: sid,
+        contentType: &#x27;application/json&#x27;,
+        deliveryMode: 2,
+        appId: this.get( &#x27;identity&#x27; ),
+        headers: {
+          correlation_key: correlation.key,
+          job_type: job_type
+        }
+      });
+
+      // Create exclusive (Correlation) queue options.
+      var _options = {
+        durable: true,
+        exclusive: true,
+        autoDelete: true,
+        passive: false,
+        arguments: {
+          job_key: job_key,
+          job_type: job_type
+        }
+      };
+
+      // Use the default &#x27;amqueue.topic&#x27; exchange
+      this.connection.queue( correlation.key, _options, function have_correlation_queue( queue ) {
+        Rabbit.debug( &#x27;Created Correlation Queue [%s] for job key [%s].&#x27;, correlation.key, job_key )
+
+        // Start Response correlation stream.
+        response.call( correlation );
+
+        // Bind to exchange with direct routing.
+        queue.bind( Instance.get( &#x27;exchange.name&#x27; ), correlation.key );
+
+        // Receive messages
+        queue.subscribe( Instance.get( &#x27;options.correlation_subscription&#x27; ), function have_correlation_message( message, headers, info ) {
+          Rabbit.debug( &#x27;Received Correlation Queue (QC) [%s] job response type: [%s].&#x27;, headers.correlation_key, headers.event )
+
+          correlation.emit( headers.event, message, {
+            id: info.messageId,
+            message: message,
+            format: info.contentType,
+            headers: headers
+          });
+
+        });
 
       });
 
+      // @chainable.
       return this;
 
     },
@@ -378,7 +431,11 @@ Object.defineProperties( Rabbit.prototype, {
     get: function() { return this.runJob },
     enumerable: false,
     configurable: true
-  },
+  }
+});
+
+// Rabit constructor properties.
+Object.defineProperties( module.exports = Rabbit, {
   Message: {
     value: require( &#x27;./message&#x27; ),
     enumerable: true,
@@ -391,10 +448,12 @@ Object.defineProperties( Rabbit.prototype, {
     writable: true,
     configurable: true
   },
-});
-
-// Rabit constructor properties.
-Object.defineProperties( module.exports = Rabbit, {
+  Correlation: {
+    value: require( &#x27;./correlation&#x27; ),
+    enumerable: true,
+    writable: true,
+    configurable: true
+  },
   debug: {
     value: require( &#x27;debug&#x27; )( &#x27;rabbit&#x27; ),
     enumerable: false,

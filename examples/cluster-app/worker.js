@@ -19,24 +19,23 @@ Worker.configure( function configure( client ) {
   Rabbit.debug( 'Connected to RabbitMQ server.' );
 
   // Define Job One
-  client.registerJob( 'test-job-one', function TestJob( data, complete ) {
-    Rabbit.debug( 'Doing [%s] job.', this.type );
-
-    // this.progress( 0.5 );
+  client.registerJob( 'test-job-one', function TestJobOne( data, complete ) {
+    Rabbit.Job.debug( 'Doing [%s] job.', this.type );
 
     setTimeout( function() {
-
-      complete( null, {
-        message: 'this job has been done'
-      });
-
+      complete( null, { message: 'The TestJobOne has been complete.' });
     }, 500 )
 
   });
 
   // Define Job Two
-  client.registerJob( 'test-job-two', function TestJob( data ) {
-    console.log( 'doing test-job-two' );
+  client.registerJob( 'test-job-two', function TestJobTwo( data, complete ) {
+    Rabbit.Job.debug( 'Doing [%s] job.', this.type );
+
+    setTimeout( function() {
+      complete( null, { message: 'The TestJobTwo has been complete.' });
+    }, 1000 )
+
   });
 
 });
