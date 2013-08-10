@@ -4,14 +4,16 @@
  * - Process jobs.
  *
  * Set your RabbitMQ login and password as a global variable (e.g. in .bash_profile) and execute as:
- * clear && DEBUG=rabbit* RABBIT_HOST=$RABBIT_HOST RABBIT_PORT=$RABBIT_PORT RABBIT_LOGIN=$RABBIT_LOGIN RABBIT_PASSWORD=$RABBIT_PASSWORD node client.js
+ * clear && DEBUG=rabbit* RABBIT_HOST=$RABBIT_HOST RABBIT_PORT=$RABBIT_PORT RABBIT_LOGIN=$RABBIT_LOGIN RABBIT_PASSWORD=$RABBIT_PASSWORD node client
  *
  * @author potanin
  * @date 8/10/13
  */
 
 var Rabbit  = require( '../../' );
-var Client  = Rabbit.createConnection({ 
+
+// Create Connection.
+var Client  = Rabbit.createConnection({
   host: process.env.RABBIT_HOST,
   port: process.env.RABBIT_PORT,
   login: process.env.RABBIT_LOGIN, 
@@ -25,7 +27,6 @@ var async   =  require( 'async' )
 Client.configure( function configure( client ) {
   Rabbit.debug( 'Connected to RabbitMQ server.' );
 
-  async.times( 10, function( i, next ) {
     Rabbit.debug( 'Sending job [%d] to [%s] exchange.', i, client.get( 'exchange.name' ) );
 
     client.runJob( 'test-job-one', card(), function job_complete() {
@@ -45,6 +46,8 @@ Client.configure( function configure( client ) {
       });
 
     });
+
+  async.times( 10, function( i, next ) {
 
     next();
 
