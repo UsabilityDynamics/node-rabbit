@@ -2,7 +2,7 @@
     "project": {
         "name": "Rabbit",
         "description": "RabbitMQ powered distributed job management.",
-        "version": "0.0.3",
+        "version": "0.0.4",
         "url": "https://github.com/UsabilityDynamics/abstract/",
         "logo": "http://a3d72a45d111006ec192-ec5b80a12b0b09b4d52373336afb4254.r80.cf1.rackcdn.com/usability-dynamics.png"
     },
@@ -16,13 +16,6 @@
         },
         "lib/job.js": {
             "name": "lib/job.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "lib/message.js": {
-            "name": "lib/message.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -52,7 +45,10 @@
         {
             "file": "lib/correlation.js",
             "line": 45,
-            "description": "Job Timeout.",
+            "description": "Correlation job timeout.",
+            "todo": [
+                "-"
+            ],
             "return": {
                 "description": "",
                 "type": "*"
@@ -61,7 +57,7 @@
         },
         {
             "file": "lib/correlation.js",
-            "line": 65,
+            "line": 66,
             "params": [
                 {
                     "name": "data",
@@ -172,62 +168,7 @@
             ],
             "return": {
                 "description": "",
-                "type": "Message"
-            },
-            "class": ""
-        },
-        {
-            "file": "lib/message.js",
-            "line": 1,
-            "description": "-\n\n-",
-            "author": "potanin",
-            "date": "8/10/13",
-            "class": ""
-        },
-        {
-            "file": "lib/message.js",
-            "line": 26,
-            "description": "Pack String",
-            "params": [
-                {
-                    "name": "string",
-                    "description": ""
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "*"
-            },
-            "class": ""
-        },
-        {
-            "file": "lib/message.js",
-            "line": 48,
-            "description": "Unpack Message",
-            "params": [
-                {
-                    "name": "string",
-                    "description": ""
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "*"
-            },
-            "class": ""
-        },
-        {
-            "file": "lib/message.js",
-            "line": 73,
-            "params": [
-                {
-                    "name": "data",
-                    "description": ""
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Message"
+                "type": "Job"
             },
             "class": ""
         },
@@ -308,7 +249,7 @@
         },
         {
             "file": "lib/rabbit.js",
-            "line": 222,
+            "line": 224,
             "description": "Run a job.",
             "itemtype": "method",
             "name": "runJob",
@@ -334,7 +275,7 @@
         },
         {
             "file": "lib/rabbit.js",
-            "line": 303,
+            "line": 326,
             "description": "Make RabbitMQ API Request",
             "example": [
                 "\n\n   // Get Vhosts\n   Instance.api( 'get', 'vhosts', console.log );\n\n   // Get queues\n   Instance.api( 'get', 'queues', console.log );"
@@ -359,7 +300,7 @@
         },
         {
             "file": "lib/rabbit.js",
-            "line": 411,
+            "line": 418,
             "description": "Returns new instance of Rabbit.",
             "params": [
                 {
@@ -386,7 +327,7 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/correlation.js:65"
+            "line": " lib/correlation.js:66"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -413,22 +354,6 @@
             "line": " lib/job.js:245"
         },
         {
-            "message": "unknown tag: date",
-            "line": " lib/message.js:1"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/message.js:26"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/message.js:48"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/message.js:73"
-        },
-        {
             "message": "replacing incorrect tag: returns with return",
             "line": " lib/rabbit.js:1"
         },
@@ -438,19 +363,19 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/rabbit.js:411"
+            "line": " lib/rabbit.js:418"
         },
         {
             "message": "Missing item type\nCorrelation Response Stream\n\n-",
             "line": " lib/correlation.js:1"
         },
         {
-            "message": "Missing item type\nJob Timeout.",
+            "message": "Missing item type\nCorrelation job timeout.",
             "line": " lib/correlation.js:45"
         },
         {
             "message": "Missing item type",
-            "line": " lib/correlation.js:65"
+            "line": " lib/correlation.js:66"
         },
         {
             "message": "Missing item type\n-\n\n-",
@@ -469,22 +394,6 @@
             "line": " lib/job.js:245"
         },
         {
-            "message": "Missing item type\n-\n\n-",
-            "line": " lib/message.js:1"
-        },
-        {
-            "message": "Missing item type\nPack String",
-            "line": " lib/message.js:26"
-        },
-        {
-            "message": "Missing item type\nUnpack Message",
-            "line": " lib/message.js:48"
-        },
-        {
-            "message": "Missing item type",
-            "line": " lib/message.js:73"
-        },
-        {
             "message": "Missing item type\nRabbit\n\nThe Rabbit works, or else the Rabbit gets fucked; proper fucked, that is\n\n## Events\n- connection: General connection event - could be an error or a success.\n- connection.success: Successful connection event.\n- connection.error: Connection failure.",
             "line": " lib/rabbit.js:1"
         },
@@ -498,11 +407,11 @@
         },
         {
             "message": "Missing item type\nMake RabbitMQ API Request",
-            "line": " lib/rabbit.js:303"
+            "line": " lib/rabbit.js:326"
         },
         {
             "message": "Missing item type\nReturns new instance of Rabbit.",
-            "line": " lib/rabbit.js:411"
+            "line": " lib/rabbit.js:418"
         }
     ]
 }

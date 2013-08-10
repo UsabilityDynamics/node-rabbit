@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.3</em>
+            <em>API Docs for: 0.0.4</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -108,7 +108,7 @@ function Job( data ) {
   require( &#x27;object-settings&#x27; ).mixin( this );
   require( &#x27;object-emitter&#x27; ).mixin( this );
 
-  // Set Message Properties
+  // Set Job Properties
   Object.defineProperties( this, {
     id: {
       value: data.id,
@@ -331,7 +331,7 @@ Object.defineProperties( module.exports = Job, {
     /**
      *
      * @param data
-     * @returns {Message}
+     * @returns {Job}
      */
     value: function create( data ) {
       return new Job( data );

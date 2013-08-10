@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.3</em>
+            <em>API Docs for: 0.0.4</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -293,7 +293,9 @@ Object.defineProperties( Rabbit.prototype, {
           })
 
           // Call the Job Worker callback.
-          fn.call( job, job.message, function complete_wrapper( error, response ) { job.complete( error, response ) });
+          fn.call( job, job.message, function complete_wrapper( error, response ) {
+            job.complete( error, response )
+          });
 
         });
 
@@ -362,16 +364,27 @@ Object.defineProperties( Rabbit.prototype, {
         // Bind to exchange with direct routing.
         queue.bind( Instance.get( &#x27;exchange.name&#x27; ), correlation.key );
 
-        // Receive messages
+        // Receive a correlation message.
         queue.subscribe( Instance.get( &#x27;options.correlation_subscription&#x27; ), function have_correlation_message( message, headers, info ) {
           Rabbit.debug( &#x27;Received Correlation Queue (QC) [%s] job response type: [%s].&#x27;, headers.correlation_key, headers.event )
 
+          // Emit a correlation event.
           correlation.emit( headers.event, message, {
             id: info.messageId,
             message: message,
             format: info.contentType,
             headers: headers
           });
+
+          // Destroy Correlation Queue on completion.
+          if( headers.event === &#x27;complete&#x27; ) {
+
+            queue.destroy({
+              ifUnused: false,
+              ifEmpty: false
+            });
+
+          }
 
         });
 
@@ -383,6 +396,16 @@ Object.defineProperties( Rabbit.prototype, {
     },
     enumerable: true,
     writable: true,
+    configurable: true
+  },
+  define: {
+    get: function() { return this.registerJob },
+    enumerable: false,
+    configurable: true
+  },
+  run: {
+    get: function() { return this.runJob },
+    enumerable: false,
     configurable: true
   },
   api: {
@@ -421,27 +444,11 @@ Object.defineProperties( Rabbit.prototype, {
     enumerable: true,
     writable: true,
     configurable: true
-  },
-  define: {
-    get: function() { return this.registerJob },
-    enumerable: false,
-    configurable: true
-  },
-  run: {
-    get: function() { return this.runJob },
-    enumerable: false,
-    configurable: true
   }
 });
 
 // Rabit constructor properties.
 Object.defineProperties( module.exports = Rabbit, {
-  Message: {
-    value: require( &#x27;./message&#x27; ),
-    enumerable: true,
-    writable: true,
-    configurable: true
-  },
   Job: {
     value: require( &#x27;./job&#x27; ),
     enumerable: true,

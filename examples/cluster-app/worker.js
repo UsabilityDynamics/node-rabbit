@@ -24,7 +24,7 @@ Worker.configure( function configure( client ) {
 
     setTimeout( function() {
       complete( null, { message: 'The TestJobOne has been complete.' });
-    }, 500 )
+    }, 5000 )
 
   });
 
@@ -34,7 +34,7 @@ Worker.configure( function configure( client ) {
 
     setTimeout( function() {
       complete( null, { message: 'The TestJobTwo has been complete.' });
-    }, 1000 )
+    }, 10000 )
 
   });
 

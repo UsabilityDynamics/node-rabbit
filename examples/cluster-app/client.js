@@ -20,7 +20,7 @@ var async   =  require( 'async' )
 Client.configure( function configure( client ) {
   Rabbit.debug( 'Connected to RabbitMQ server.' );
 
-  async.times( 2, function( i ) {
+  async.times( 10, function( i, next ) {
     Rabbit.debug( 'Sending job [%d] to [%s] exchange.', i, client.get( 'exchange.name' ) );
 
     client.runJob( 'test-job-one', card(), function job_complete() {
@@ -41,7 +41,9 @@ Client.configure( function configure( client ) {
 
     });
 
-  });
+    next();
+
+  }, function() {});
 
 });
 

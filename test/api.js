@@ -37,7 +37,7 @@ module.exports = {
       Rabbit.should.have.property( 'prototype' );
       Rabbit.should.have.property( 'createConnection' );
 
-      Rabbit.should.have.property( 'Message' );
+      Rabbit.should.have.property( 'Correlation' );
       Rabbit.should.have.property( 'Job' );
 
       // Prototype properties.
@@ -50,8 +50,7 @@ module.exports = {
       Rabbit.prototype.should.have.property( 'run' );
 
       // Message properties.
-      Rabbit.Message.prototype.should.have.property( 'pack' );
-      Rabbit.Message.prototype.should.have.property( 'unpack' );
+      Rabbit.Correlation.prototype.should.have.property( 'timeout' );
 
       // Job properties.
       Rabbit.Job.prototype.should.have.property( 'progress' );
