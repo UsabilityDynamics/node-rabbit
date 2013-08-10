@@ -2,11 +2,18 @@
     "project": {
         "name": "Rabbit",
         "description": "RabbitMQ powered distributed job management.",
-        "version": "0.0.1",
+        "version": "0.0.3",
         "url": "https://github.com/UsabilityDynamics/abstract/",
         "logo": "http://a3d72a45d111006ec192-ec5b80a12b0b09b4d52373336afb4254.r80.cf1.rackcdn.com/usability-dynamics.png"
     },
     "files": {
+        "lib/job.js": {
+            "name": "lib/job.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "lib/message.js": {
             "name": "lib/message.js",
             "modules": {},
@@ -26,6 +33,108 @@
     "classes": {},
     "classitems": [
         {
+            "file": "lib/job.js",
+            "line": 1,
+            "description": "-\n\n-",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "is_constructor": 1,
+            "author": "potanin@UD",
+            "class": ""
+        },
+        {
+            "file": "lib/job.js",
+            "line": 86,
+            "description": "Pack String",
+            "params": [
+                {
+                    "name": "string",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": ""
+        },
+        {
+            "file": "lib/job.js",
+            "line": 112,
+            "description": "Unpack Message",
+            "params": [
+                {
+                    "name": "string",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": ""
+        },
+        {
+            "file": "lib/job.js",
+            "line": 139,
+            "description": "Update Progress.",
+            "itemtype": "method",
+            "name": "progress",
+            "params": [
+                {
+                    "name": "string",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": ""
+        },
+        {
+            "file": "lib/job.js",
+            "line": 156,
+            "description": "Complete Job.",
+            "itemtype": "method",
+            "name": "complete",
+            "params": [
+                {
+                    "name": "string",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": ""
+        },
+        {
+            "file": "lib/job.js",
+            "line": 195,
+            "params": [
+                {
+                    "name": "data",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Message"
+            },
+            "class": ""
+        },
+        {
             "file": "lib/message.js",
             "line": 1,
             "description": "-\n\n-",
@@ -35,7 +144,7 @@
         },
         {
             "file": "lib/message.js",
-            "line": 25,
+            "line": 26,
             "description": "Pack String",
             "params": [
                 {
@@ -51,7 +160,7 @@
         },
         {
             "file": "lib/message.js",
-            "line": 47,
+            "line": 48,
             "description": "Unpack Message",
             "params": [
                 {
@@ -67,7 +176,7 @@
         },
         {
             "file": "lib/message.js",
-            "line": 72,
+            "line": 73,
             "params": [
                 {
                     "name": "data",
@@ -91,6 +200,11 @@
                     "type": "Object",
                     "props": [
                         {
+                            "name": "exchange",
+                            "description": "Unique name for the work exchange, defaults to \"node-rabbit\".",
+                            "type": "String"
+                        },
+                        {
                             "name": "api",
                             "description": "URL to RabbitMQ management API, if available.",
                             "type": "String"
@@ -99,20 +213,80 @@
                 },
                 {
                     "name": "cb",
-                    "description": "Callback function.",
+                    "description": "Callback function, optional. May also bind listener to \"connection\", \"connection.success\" or \"connection.error\" events.",
                     "type": "Function"
                 }
             ],
             "return": {
-                "description": "",
+                "description": "Newly created Rabbit instance.",
                 "type": "Rabbit"
             },
+            "async": 1,
+            "chainable": 1,
             "is_constructor": 1,
             "class": ""
         },
         {
             "file": "lib/rabbit.js",
-            "line": 92,
+            "line": 100,
+            "description": "Configure Client\n\nMethod executed when connection is ready.\nUsage and semantics emulating Express.",
+            "params": [
+                {
+                    "name": "env",
+                    "description": ""
+                },
+                {
+                    "name": "fn",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": ""
+        },
+        {
+            "file": "lib/rabbit.js",
+            "line": 133,
+            "description": "Define a job.",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Name of job type.",
+                    "type": "String"
+                },
+                {
+                    "name": "fn",
+                    "description": "Function to process job.",
+                    "type": "Function"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "lib/rabbit.js",
+            "line": 209,
+            "description": "Run a job.",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "data",
+                    "description": ""
+                },
+                {
+                    "name": "response",
+                    "description": ""
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "lib/rabbit.js",
+            "line": 250,
             "description": "Make RabbitMQ API Request",
             "example": [
                 "\n\n   // Get Vhosts\n   Instance.api( 'get', 'vhosts', console.log );\n\n   // Get queues\n   Instance.api( 'get', 'queues', console.log );"
@@ -137,45 +311,7 @@
         },
         {
             "file": "lib/rabbit.js",
-            "line": 129,
-            "description": "Define a job.",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "Name of job type.",
-                    "type": "String"
-                },
-                {
-                    "name": "fn",
-                    "description": "Function to process job.",
-                    "type": "Function"
-                }
-            ],
-            "class": ""
-        },
-        {
-            "file": "lib/rabbit.js",
-            "line": 177,
-            "description": "Run a job.",
-            "params": [
-                {
-                    "name": "name",
-                    "description": ""
-                },
-                {
-                    "name": "data",
-                    "description": ""
-                },
-                {
-                    "name": "response",
-                    "description": ""
-                }
-            ],
-            "class": ""
-        },
-        {
-            "file": "lib/rabbit.js",
-            "line": 280,
+            "line": 352,
             "description": "Returns new instance of Rabbit.",
             "params": [
                 {
@@ -193,20 +329,44 @@
     ],
     "warnings": [
         {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/job.js:1"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/job.js:86"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/job.js:112"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/job.js:139"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/job.js:156"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/job.js:195"
+        },
+        {
             "message": "unknown tag: date",
             "line": " lib/message.js:1"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/message.js:25"
+            "line": " lib/message.js:26"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/message.js:47"
+            "line": " lib/message.js:48"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/message.js:72"
+            "line": " lib/message.js:73"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -214,7 +374,27 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/rabbit.js:280"
+            "line": " lib/rabbit.js:100"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/rabbit.js:352"
+        },
+        {
+            "message": "Missing item type\n-\n\n-",
+            "line": " lib/job.js:1"
+        },
+        {
+            "message": "Missing item type\nPack String",
+            "line": " lib/job.js:86"
+        },
+        {
+            "message": "Missing item type\nUnpack Message",
+            "line": " lib/job.js:112"
+        },
+        {
+            "message": "Missing item type",
+            "line": " lib/job.js:195"
         },
         {
             "message": "Missing item type\n-\n\n-",
@@ -222,35 +402,39 @@
         },
         {
             "message": "Missing item type\nPack String",
-            "line": " lib/message.js:25"
+            "line": " lib/message.js:26"
         },
         {
             "message": "Missing item type\nUnpack Message",
-            "line": " lib/message.js:47"
+            "line": " lib/message.js:48"
         },
         {
             "message": "Missing item type",
-            "line": " lib/message.js:72"
+            "line": " lib/message.js:73"
         },
         {
             "message": "Missing item type\nRabbit\n\nThe Rabbit works, or else the Rabbit gets fucked; proper fucked, that is\n\n## Events\n- connection: General connection event - could be an error or a success.\n- connection.success: Successful connection event.\n- connection.error: Connection failure.",
             "line": " lib/rabbit.js:1"
         },
         {
-            "message": "Missing item type\nMake RabbitMQ API Request",
-            "line": " lib/rabbit.js:92"
+            "message": "Missing item type\nConfigure Client\n\nMethod executed when connection is ready.\nUsage and semantics emulating Express.",
+            "line": " lib/rabbit.js:100"
         },
         {
             "message": "Missing item type\nDefine a job.",
-            "line": " lib/rabbit.js:129"
+            "line": " lib/rabbit.js:133"
         },
         {
             "message": "Missing item type\nRun a job.",
-            "line": " lib/rabbit.js:177"
+            "line": " lib/rabbit.js:209"
+        },
+        {
+            "message": "Missing item type\nMake RabbitMQ API Request",
+            "line": " lib/rabbit.js:250"
         },
         {
             "message": "Missing item type\nReturns new instance of Rabbit.",
-            "line": " lib/rabbit.js:280"
+            "line": " lib/rabbit.js:352"
         }
     ]
 }

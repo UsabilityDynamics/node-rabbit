@@ -8,20 +8,20 @@ if (! _$jscoverage['message.js']) {
   _$jscoverage['message.js'][13] = 0;
   _$jscoverage['message.js'][14] = 0;
   _$jscoverage['message.js'][16] = 0;
-  _$jscoverage['message.js'][19] = 0;
-  _$jscoverage['message.js'][23] = 0;
-  _$jscoverage['message.js'][32] = 0;
+  _$jscoverage['message.js'][20] = 0;
+  _$jscoverage['message.js'][24] = 0;
   _$jscoverage['message.js'][33] = 0;
-  _$jscoverage['message.js'][35] = 0;
+  _$jscoverage['message.js'][34] = 0;
   _$jscoverage['message.js'][36] = 0;
-  _$jscoverage['message.js'][39] = 0;
-  _$jscoverage['message.js'][54] = 0;
+  _$jscoverage['message.js'][37] = 0;
+  _$jscoverage['message.js'][40] = 0;
   _$jscoverage['message.js'][55] = 0;
-  _$jscoverage['message.js'][57] = 0;
+  _$jscoverage['message.js'][56] = 0;
   _$jscoverage['message.js'][58] = 0;
-  _$jscoverage['message.js'][61] = 0;
-  _$jscoverage['message.js'][70] = 0;
-  _$jscoverage['message.js'][78] = 0;
+  _$jscoverage['message.js'][59] = 0;
+  _$jscoverage['message.js'][62] = 0;
+  _$jscoverage['message.js'][71] = 0;
+  _$jscoverage['message.js'][79] = 0;
 }
 _$jscoverage['message.js'][9]++;
 function Message(data) {
@@ -41,38 +41,38 @@ function Message(data) {
       console.error("Unexpected context for Message");
     }
   }
-  _$jscoverage['message.js'][19]++;
-  var Instance = this;
+  _$jscoverage['message.js'][20]++;
+  this.message = message;
 }
-_$jscoverage['message.js'][23]++;
+_$jscoverage['message.js'][24]++;
 Object.defineProperties(Message.prototype, {pack: {value: (function pack(string) {
-  _$jscoverage['message.js'][32]++;
-  var Instance = this;
   _$jscoverage['message.js'][33]++;
+  var Instance = this;
+  _$jscoverage['message.js'][34]++;
   var msgpack = require("msgpack");
-  _$jscoverage['message.js'][35]++;
+  _$jscoverage['message.js'][36]++;
   if (string instanceof Buffer) {
-    _$jscoverage['message.js'][36]++;
+    _$jscoverage['message.js'][37]++;
     string = string.toString();
   }
-  _$jscoverage['message.js'][39]++;
+  _$jscoverage['message.js'][40]++;
   return msgpack.pack(string);
 }), enumerable: true, configurable: true, writable: true}, unpack: {value: (function unpack(string) {
-  _$jscoverage['message.js'][54]++;
-  var Instance = this;
   _$jscoverage['message.js'][55]++;
+  var Instance = this;
+  _$jscoverage['message.js'][56]++;
   var msgpack = require("msgpack");
-  _$jscoverage['message.js'][57]++;
+  _$jscoverage['message.js'][58]++;
   if (string instanceof Buffer) {
-    _$jscoverage['message.js'][58]++;
+    _$jscoverage['message.js'][59]++;
     string = string.toString();
   }
-  _$jscoverage['message.js'][61]++;
+  _$jscoverage['message.js'][62]++;
   return msgpack.unpack(string);
 }), enumerable: true, configurable: true, writable: true}});
-_$jscoverage['message.js'][70]++;
+_$jscoverage['message.js'][71]++;
 Object.defineProperties(module.exports = Message, {create: {value: (function create(data) {
-  _$jscoverage['message.js'][78]++;
+  _$jscoverage['message.js'][79]++;
   return new Message(data);
 }), enumerable: true, configurable: true, writable: true}});
-_$jscoverage['message.js'].source = ["/**"," * -"," *"," * -"," *"," * @author potanin"," * @date 8/10/13"," */","function Message( data ) {","","  if( this instanceof Message ) {","    var type = 'own';","  } else if( this instanceof require( './rabbit' ) ) {","    var type = 'rabbit';","  } else {","    console.error( 'Unexpected context for Message' );","  }","","  var Instance = this;","","}","","Object.defineProperties( Message.prototype, {","  pack: {","    /**","     * Pack String","     *","     * @param string","     * @returns {*}","     */","    value: function pack( string ) {","      var Instance    = this;","      var msgpack     = require( 'msgpack' );","","      if( string instanceof Buffer ) {","        string = string.toString();","      }","","      return msgpack.pack( string );","","    },","    enumerable: true,","    configurable: true,","    writable: true","  },","  unpack: {","    /**","     * Unpack Message","     *","     * @param string","     * @returns {*}","     */","    value: function unpack( string ) {","      var Instance    = this;","      var msgpack     = require( 'msgpack' );","","      if( string instanceof Buffer ) {","        string = string.toString();","      }","","      return msgpack.unpack( string )","","    },","    enumerable: true,","    configurable: true,","    writable: true","  }","})","","Object.defineProperties( module.exports = Message, {","  create: {","    /**","     *","     * @param data","     * @returns {Message}","     */","    value: function create( data ) {","      return new Message( data );","    },","    enumerable: true,","    configurable: true,","    writable: true","  }","})"];
+_$jscoverage['message.js'].source = ["/**"," * -"," *"," * -"," *"," * @author potanin"," * @date 8/10/13"," */","function Message( data ) {","","  if( this instanceof Message ) {","    var type = 'own';","  } else if( this instanceof require( './rabbit' ) ) {","    var type = 'rabbit';","  } else {","    console.error( 'Unexpected context for Message' );","  }","","","  this.message = message;","","}","","Object.defineProperties( Message.prototype, {","  pack: {","    /**","     * Pack String","     *","     * @param string","     * @returns {*}","     */","    value: function pack( string ) {","      var Instance    = this;","      var msgpack     = require( 'msgpack' );","","      if( string instanceof Buffer ) {","        string = string.toString();","      }","","      return msgpack.pack( string );","","    },","    enumerable: true,","    configurable: true,","    writable: true","  },","  unpack: {","    /**","     * Unpack Message","     *","     * @param string","     * @returns {*}","     */","    value: function unpack( string ) {","      var Instance    = this;","      var msgpack     = require( 'msgpack' );","","      if( string instanceof Buffer ) {","        string = string.toString();","      }","","      return msgpack.unpack( string )","","    },","    enumerable: true,","    configurable: true,","    writable: true","  }","})","","Object.defineProperties( module.exports = Message, {","  create: {","    /**","     *","     * @param data","     * @returns {Message}","     */","    value: function create( data ) {","      return new Message( data );","    },","    enumerable: true,","    configurable: true,","    writable: true","  }","})"];

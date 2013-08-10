@@ -2,148 +2,188 @@
 if (typeof _$jscoverage === 'undefined') _$jscoverage = {};
 if (! _$jscoverage['rabbit.js']) {
   _$jscoverage['rabbit.js'] = [];
-  _$jscoverage['rabbit.js'][17] = 0;
-  _$jscoverage['rabbit.js'][18] = 0;
   _$jscoverage['rabbit.js'][21] = 0;
   _$jscoverage['rabbit.js'][22] = 0;
   _$jscoverage['rabbit.js'][25] = 0;
-  _$jscoverage['rabbit.js'][28] = 0;
+  _$jscoverage['rabbit.js'][26] = 0;
   _$jscoverage['rabbit.js'][29] = 0;
   _$jscoverage['rabbit.js'][32] = 0;
-  _$jscoverage['rabbit.js'][39] = 0;
-  _$jscoverage['rabbit.js'][51] = 0;
-  _$jscoverage['rabbit.js'][52] = 0;
-  _$jscoverage['rabbit.js'][56] = 0;
-  _$jscoverage['rabbit.js'][57] = 0;
-  _$jscoverage['rabbit.js'][58] = 0;
-  _$jscoverage['rabbit.js'][62] = 0;
+  _$jscoverage['rabbit.js'][33] = 0;
+  _$jscoverage['rabbit.js'][36] = 0;
+  _$jscoverage['rabbit.js'][47] = 0;
+  _$jscoverage['rabbit.js'][59] = 0;
+  _$jscoverage['rabbit.js'][60] = 0;
   _$jscoverage['rabbit.js'][64] = 0;
-  _$jscoverage['rabbit.js'][74] = 0;
-  _$jscoverage['rabbit.js'][77] = 0;
-  _$jscoverage['rabbit.js'][78] = 0;
+  _$jscoverage['rabbit.js'][65] = 0;
+  _$jscoverage['rabbit.js'][66] = 0;
+  _$jscoverage['rabbit.js'][70] = 0;
+  _$jscoverage['rabbit.js'][72] = 0;
+  _$jscoverage['rabbit.js'][82] = 0;
   _$jscoverage['rabbit.js'][85] = 0;
-  _$jscoverage['rabbit.js'][90] = 0;
+  _$jscoverage['rabbit.js'][86] = 0;
+  _$jscoverage['rabbit.js'][93] = 0;
+  _$jscoverage['rabbit.js'][98] = 0;
   _$jscoverage['rabbit.js'][111] = 0;
+  _$jscoverage['rabbit.js'][112] = 0;
+  _$jscoverage['rabbit.js'][113] = 0;
+  _$jscoverage['rabbit.js'][115] = 0;
+  _$jscoverage['rabbit.js'][117] = 0;
   _$jscoverage['rabbit.js'][118] = 0;
   _$jscoverage['rabbit.js'][121] = 0;
-  _$jscoverage['rabbit.js'][137] = 0;
-  _$jscoverage['rabbit.js'][140] = 0;
-  _$jscoverage['rabbit.js'][150] = 0;
-  _$jscoverage['rabbit.js'][151] = 0;
-  _$jscoverage['rabbit.js'][154] = 0;
-  _$jscoverage['rabbit.js'][157] = 0;
+  _$jscoverage['rabbit.js'][122] = 0;
+  _$jscoverage['rabbit.js'][125] = 0;
+  _$jscoverage['rabbit.js'][141] = 0;
+  _$jscoverage['rabbit.js'][143] = 0;
+  _$jscoverage['rabbit.js'][144] = 0;
+  _$jscoverage['rabbit.js'][145] = 0;
+  _$jscoverage['rabbit.js'][149] = 0;
   _$jscoverage['rabbit.js'][159] = 0;
   _$jscoverage['rabbit.js'][160] = 0;
   _$jscoverage['rabbit.js'][163] = 0;
-  _$jscoverage['rabbit.js'][164] = 0;
-  _$jscoverage['rabbit.js'][186] = 0;
-  _$jscoverage['rabbit.js'][206] = 0;
-  _$jscoverage['rabbit.js'][207] = 0;
-  _$jscoverage['rabbit.js'][213] = 0;
-  _$jscoverage['rabbit.js'][221] = 0;
-  _$jscoverage['rabbit.js'][226] = 0;
-  _$jscoverage['rabbit.js'][239] = 0;
+  _$jscoverage['rabbit.js'][166] = 0;
+  _$jscoverage['rabbit.js'][169] = 0;
+  _$jscoverage['rabbit.js'][172] = 0;
+  _$jscoverage['rabbit.js'][193] = 0;
+  _$jscoverage['rabbit.js'][195] = 0;
+  _$jscoverage['rabbit.js'][218] = 0;
+  _$jscoverage['rabbit.js'][235] = 0;
+  _$jscoverage['rabbit.js'][236] = 0;
+  _$jscoverage['rabbit.js'][242] = 0;
+  _$jscoverage['rabbit.js'][269] = 0;
+  _$jscoverage['rabbit.js'][276] = 0;
+  _$jscoverage['rabbit.js'][279] = 0;
   _$jscoverage['rabbit.js'][287] = 0;
+  _$jscoverage['rabbit.js'][292] = 0;
+  _$jscoverage['rabbit.js'][311] = 0;
+  _$jscoverage['rabbit.js'][359] = 0;
 }
-_$jscoverage['rabbit.js'][17]++;
+_$jscoverage['rabbit.js'][21]++;
 function Rabbit(settings, cb) {
-  _$jscoverage['rabbit.js'][18]++;
+  _$jscoverage['rabbit.js'][22]++;
   Rabbit.debug("Creating new connection.");
-  _$jscoverage['rabbit.js'][21]++;
+  _$jscoverage['rabbit.js'][25]++;
   if (! (this instanceof Rabbit)) {
-    _$jscoverage['rabbit.js'][22]++;
+    _$jscoverage['rabbit.js'][26]++;
     return new Rabbit(settings, cb);
   }
-  _$jscoverage['rabbit.js'][25]++;
-  var Instance = this;
-  _$jscoverage['rabbit.js'][28]++;
-  require("object-settings").mixin(Instance);
   _$jscoverage['rabbit.js'][29]++;
-  require("object-emitter").mixin(Instance);
+  var Instance = this;
   _$jscoverage['rabbit.js'][32]++;
-  Instance.set({settings: Rabbit.extend({}, Rabbit.defaults, settings), exchange: {}, identity: String(process.pid)});
-  _$jscoverage['rabbit.js'][39]++;
+  require("object-settings").mixin(Instance);
+  _$jscoverage['rabbit.js'][33]++;
+  require("object-emitter").mixin(Instance);
+  _$jscoverage['rabbit.js'][36]++;
+  Instance.set({settings: Rabbit.extend({}, Rabbit.defaults, settings), config: {fetch_count: 10}, environment: "production", exchange: {}, identity: String(process.pid)});
+  _$jscoverage['rabbit.js'][47]++;
   this.connection = Rabbit.amqp.createConnection({host: Instance.get("settings.host"), port: Instance.get("settings.port"), login: Instance.get("settings.login"), password: Instance.get("settings.password"), vhost: Instance.get("settings.vhost")}, {defaultExchangeName: Instance.get("settings.defaultExchange", ""), reconnect: Instance.get("settings.reconnect", true)});
-  _$jscoverage['rabbit.js'][51]++;
+  _$jscoverage['rabbit.js'][59]++;
   if ("function" === typeof cb) {
-    _$jscoverage['rabbit.js'][52]++;
+    _$jscoverage['rabbit.js'][60]++;
     this.on("ready", cb);
   }
-  _$jscoverage['rabbit.js'][56]++;
+  _$jscoverage['rabbit.js'][64]++;
   this.connection.on("error", (function rabbit_error(error) {
-  _$jscoverage['rabbit.js'][57]++;
+  _$jscoverage['rabbit.js'][65]++;
   Instance.emit("connection", new Error(error.message), Instance);
-  _$jscoverage['rabbit.js'][58]++;
+  _$jscoverage['rabbit.js'][66]++;
   Instance.emit("connection.error", new Error(error.message), Instance);
 }));
-  _$jscoverage['rabbit.js'][62]++;
+  _$jscoverage['rabbit.js'][70]++;
   this.connection.on("ready", (function rabbit_ready(connection) {
-  _$jscoverage['rabbit.js'][64]++;
-  this.exchange("wabbit", {type: "topic", passive: false, durable: true}, (function have_exchange() {
-  _$jscoverage['rabbit.js'][74]++;
+  _$jscoverage['rabbit.js'][72]++;
+  this.exchange(Instance.get("settings.exchange"), {type: "topic", passive: false, durable: true}, (function have_exchange() {
+  _$jscoverage['rabbit.js'][82]++;
   Instance.set("exchange", this);
-  _$jscoverage['rabbit.js'][77]++;
+  _$jscoverage['rabbit.js'][85]++;
   Instance.emit("connection", null, Instance);
-  _$jscoverage['rabbit.js'][78]++;
+  _$jscoverage['rabbit.js'][86]++;
   Instance.emit("connection.success", Instance);
 }));
 }));
-  _$jscoverage['rabbit.js'][85]++;
+  _$jscoverage['rabbit.js'][93]++;
   return this;
 }
-_$jscoverage['rabbit.js'][90]++;
-Object.defineProperties(Rabbit.prototype, {api: {value: (function api(method, query, cb) {
+_$jscoverage['rabbit.js'][98]++;
+Object.defineProperties(Rabbit.prototype, {configure: {value: (function configure(env, fn) {
   _$jscoverage['rabbit.js'][111]++;
+  var Instance = this;
+  _$jscoverage['rabbit.js'][112]++;
+  var envs = "all";
+  _$jscoverage['rabbit.js'][113]++;
+  var args = [].slice.call(arguments);
+  _$jscoverage['rabbit.js'][115]++;
+  fn = args.pop();
+  _$jscoverage['rabbit.js'][117]++;
+  if (args.length) {
+    _$jscoverage['rabbit.js'][118]++;
+    envs = args;
+  }
+  _$jscoverage['rabbit.js'][121]++;
+  if ("all" == envs || ~ envs.indexOf(this.get("environment"))) {
+    _$jscoverage['rabbit.js'][122]++;
+    Instance.on("connection.success", fn.bind(this, this));
+  }
+  _$jscoverage['rabbit.js'][125]++;
+  return this;
+}), enumerable: true, writable: true, configurable: true}, registerJob: {value: (function registerJob(type, fn) {
+  _$jscoverage['rabbit.js'][141]++;
+  var Instance = this;
+  _$jscoverage['rabbit.js'][143]++;
+  if ("function" !== typeof fn) {
+    _$jscoverage['rabbit.js'][144]++;
+    Rabbit.debug(new Error("The second argument of registerJob() must be a function."));
+    _$jscoverage['rabbit.js'][145]++;
+    return this;
+  }
+  _$jscoverage['rabbit.js'][149]++;
+  var _options = {durable: true, autoDelete: false, passive: false, arguments: {type: type}};
+  _$jscoverage['rabbit.js'][159]++;
+  this.connection.queue(type, _options, (function have_queue(queue) {
+  _$jscoverage['rabbit.js'][160]++;
+  Rabbit.debug("Monitoring [%s/%s].", Instance.get("exchange.name"), type);
+  _$jscoverage['rabbit.js'][163]++;
+  queue.bind(Instance.get("exchange.name"), type);
+  _$jscoverage['rabbit.js'][166]++;
+  queue.subscribe({prefetchCount: Instance.get("config.fetch_count"), ack: true}, (function have_message(message, headers, info) {
+  _$jscoverage['rabbit.js'][169]++;
+  queue.shift();
+  _$jscoverage['rabbit.js'][172]++;
+  var job = Instance.Job.create({id: info.messageId, type: info.type, client: info.replyTo, message: message, format: info.contentType, meta: {exchange: info.exchange, appId: info.appId, correlation: info.correlationId, mode: info.deliveryMode, consumer: info.consumerTag, routing: info.routingKey, redelivered: info.redelivered}, queue: queue, headers: headers, rabbit: Instance});
+  _$jscoverage['rabbit.js'][193]++;
+  fn.call(job, job.message, (function (error, response) {
+  _$jscoverage['rabbit.js'][195]++;
+  job.complete(error, response);
+}));
+}));
+}));
+}), enumerable: true, writable: true, configurable: true}, runJob: {value: (function runJob(type, data, response) {
+  _$jscoverage['rabbit.js'][218]++;
+  var _options = {type: type, correlationId: Math.random().toString(36).substring(2), contentType: "application/json", headers: {format: "json"}, deliveryMode: 2, appId: this.get("identity"), replyTo: Math.random().toString(36).substring(2), messageId: Math.random().toString(36).substring(2), priority: 9};
+  _$jscoverage['rabbit.js'][235]++;
+  this.get("exchange").publish(type, data, _options, (function published() {
+  _$jscoverage['rabbit.js'][236]++;
+  Rabbit.debug("job request for [%s] published", type);
+}));
+  _$jscoverage['rabbit.js'][242]++;
+  return this;
+}), enumerable: true, writable: true, configurable: true}, api: {value: (function api(method, query, cb) {
+  _$jscoverage['rabbit.js'][269]++;
   Rabbit.request({url: Instance.get("settings.api") + "/vhosts", json: true, auth: {user: Instance.get("settings.login"), pass: Instance.get("settings.password")}}, (function (error, req, body) {
-  _$jscoverage['rabbit.js'][118]++;
+  _$jscoverage['rabbit.js'][276]++;
   cb(error, body);
 }));
-  _$jscoverage['rabbit.js'][121]++;
-  return this;
-}), enumerable: true, writable: true, configurable: true}, defineJob: {value: (function defineJob(name, fn) {
-  _$jscoverage['rabbit.js'][137]++;
-  var Instance = this;
-  _$jscoverage['rabbit.js'][140]++;
-  var _options = {durable: true, autoDelete: false, passive: false, arguments: {name: name}};
-  _$jscoverage['rabbit.js'][150]++;
-  this.connection.queue(_options.arguments.name, _options, (function have_queue(queue) {
-  _$jscoverage['rabbit.js'][151]++;
-  console.log("have_queue", queue.state, Instance.get("exchange.name"));
-  _$jscoverage['rabbit.js'][154]++;
-  queue.bind(Instance.get("exchange.name"), name);
-  _$jscoverage['rabbit.js'][157]++;
-  queue.subscribe({prefetchCount: 1, ack: true}, (function have_message(message, headers, info) {
-  _$jscoverage['rabbit.js'][159]++;
-  console.log("message", message);
-  _$jscoverage['rabbit.js'][160]++;
-  console.log("headers", headers);
-  _$jscoverage['rabbit.js'][163]++;
-  setTimeout((function () {
-  _$jscoverage['rabbit.js'][164]++;
-  queue.shift();
-}), 1000);
-}));
-}));
-}), enumerable: true, writable: true, configurable: true}, runJob: {value: (function runJob(name, data, response) {
-  _$jscoverage['rabbit.js'][186]++;
-  var _options = {type: "job", correlationId: Math.random().toString(36).substring(2), contentType: "application/json", headers: {format: "json", sid: Math.random().toString(36).substring(2), jid: Math.random().toString(36).substring(2), pid: this.get("identity")}, deliveryMode: 2};
-  _$jscoverage['rabbit.js'][206]++;
-  this.get("exchange").publish(name, data, _options, (function published() {
-  _$jscoverage['rabbit.js'][207]++;
-  console.log("job request published");
-}));
-  _$jscoverage['rabbit.js'][213]++;
+  _$jscoverage['rabbit.js'][279]++;
   return this;
 }), enumerable: true, writable: true, configurable: true}, define: {get: (function () {
-  _$jscoverage['rabbit.js'][221]++;
-  return this.defineJob;
-}), enumerable: false, configurable: true}, run: {get: (function () {
-  _$jscoverage['rabbit.js'][226]++;
-  return this.runJob;
-}), enumerable: false, configurable: true}, message: {value: require("./message"), enumerable: true, writable: true, configurable: true}});
-_$jscoverage['rabbit.js'][239]++;
-Object.defineProperties(module.exports = Rabbit, {debug: {value: require("debug")("rabbit"), enumerable: false, writable: true, configurable: true}, request: {value: require("request"), enumerable: false, writable: true, configurable: true}, extend: {value: require("extend"), enumerable: false, writable: true, configurable: true}, amqp: {value: require("amqp"), enumerable: false, writable: true, configurable: true}, defaults: {value: {host: "localhost", port: 5672, login: "guest", password: "guest", vhost: "/", exchange: "wabbit", reconnect: true, api: "http://localhost:15672/api"}, enumerable: false, writable: true, configurable: true}, createConnection: {value: (function createConnection(settings, cb) {
   _$jscoverage['rabbit.js'][287]++;
+  return this.registerJob;
+}), enumerable: false, configurable: true}, run: {get: (function () {
+  _$jscoverage['rabbit.js'][292]++;
+  return this.runJob;
+}), enumerable: false, configurable: true}, Message: {value: require("./message"), enumerable: true, writable: true, configurable: true}, Job: {value: require("./job"), enumerable: true, writable: true, configurable: true}});
+_$jscoverage['rabbit.js'][311]++;
+Object.defineProperties(module.exports = Rabbit, {debug: {value: require("debug")("rabbit"), enumerable: false, writable: true, configurable: true}, request: {value: require("request"), enumerable: false, writable: true, configurable: true}, extend: {value: require("extend"), enumerable: false, writable: true, configurable: true}, amqp: {value: require("amqp"), enumerable: false, writable: true, configurable: true}, defaults: {value: {exchange: "node-rabbit", host: "localhost", port: 5672, login: "guest", password: "guest", vhost: "/", reconnect: true, api: "http://localhost:15672/api"}, enumerable: false, writable: true, configurable: true}, createConnection: {value: (function createConnection(settings, cb) {
+  _$jscoverage['rabbit.js'][359]++;
   return new Rabbit(settings, cb);
 }), enumerable: true, writable: true, configurable: true}});
-_$jscoverage['rabbit.js'].source = ["/**"," * Rabbit"," *"," * The Rabbit works, or else the Rabbit gets fucked; proper fucked, that is"," *"," * ## Events"," * - connection: General connection event - could be an error or a success."," * - connection.success: Successful connection event."," * - connection.error: Connection failure."," *"," * @param settings {Object} Configuration."," * @param settings.api {String} URL to RabbitMQ management API, if available."," * @param cb {Function} Callback function."," * @returns {Rabbit}"," * @constructor"," */","function Rabbit( settings, cb ) {","  Rabbit.debug( 'Creating new connection.' );","","  // Make sure context is correct otherwise we could screw up the global scope.","  if( !( this instanceof Rabbit ) ) {","    return new Rabbit( settings, cb );","  }","","  var Instance = this;","","  // Mixin Settings and EventEmitter","  require( 'object-settings' ).mixin( Instance );","  require( 'object-emitter' ).mixin( Instance );","","  // Configure instance.","  Instance.set({","    settings: Rabbit.extend( {}, Rabbit.defaults, settings ),","    exchange: {},","    identity: String( process.pid )","  });","","  // Connect to AMQP.","  this.connection = Rabbit.amqp.createConnection({","    host: Instance.get( 'settings.host' ),","    port: Instance.get( 'settings.port' ),","    login: Instance.get( 'settings.login' ),","    password: Instance.get( 'settings.password' ),","    vhost: Instance.get( 'settings.vhost' )","  }, {","    defaultExchangeName: Instance.get( 'settings.defaultExchange', '' ),","    reconnect: Instance.get( 'settings.reconnect', true ),","  });","","  // Bind callback to ready event, if provided.","  if( 'function' === typeof cb ) {","    this.on( 'ready', cb );","  }","","  // RabbitMQ connection failed.","  this.connection.on( 'error', function rabbit_error( error ) {","    Instance.emit( 'connection', new Error( error.message ), Instance );","    Instance.emit( 'connection.error', new Error( error.message ), Instance );","  });","","  // RabbitMQ connection established.","  this.connection.on( 'ready', function rabbit_ready( connection ) {","","    this.exchange( 'wabbit', {","      type: 'topic',","      passive: false,","      durable: true,","      //confirm: true,","      //autoDelete: true,","      //noDeclare: false,","    }, function have_exchange() {","","      // Set Exchange Variables.","      Instance.set( 'exchange', this );","","      // Emit connection success.","      Instance.emit( 'connection', null, Instance );","      Instance.emit( 'connection.success', Instance );","","    });","","  });","","  // Return context.","  return this;","","}","","// Rabbit prototype properties.","Object.defineProperties( Rabbit.prototype, {","  api: {","    /**","     * Make RabbitMQ API Request","     *","     * @example","     *","     *    // Get Vhosts","     *    Instance.api( 'get', 'vhosts', console.log );","     *","     *    // Get queues","     *    Instance.api( 'get', 'queues', console.log );","     *","     * @async","     * @chainable","     * @param method","     * @param query","     * @param cb","     */","    value: function api( method, query, cb ) {","","      Rabbit.request({","        url: Instance.get( 'settings.api' ) + '/vhosts',","        json: true,","        auth: {","          user: Instance.get( 'settings.login' ),","          pass: Instance.get( 'settings.password' )","        }","      }, function( error, req, body ) { cb( error, body ); });","","      // Chainable.","      return this;","","    },","    enumerable: true,","    writable: true,","    configurable: true","  },","  defineJob: {","    /**","     * Define a job.","     *","     * @param name {String} Name of job type.","     * @param fn {Function} Function to process job.","     */","    value: function defineJob( name, fn ) {","","      var Instance = this;","","      // Job Queue Options.","      var _options = {","        durable: true,","        autoDelete: false,","        passive: false,","        arguments: {","          name: name","        }","      };","","      // Use the default 'amqueue.topic' exchange","      this.connection.queue( _options.arguments.name, _options, function have_queue( queue ) {","        console.log( 'have_queue', queue.state, Instance.get( 'exchange.name' ) );","","        // Bind to exchange with routing of \"job\"","        queue.bind( Instance.get( 'exchange.name' ), name );","","        // Receive messages","        queue.subscribe({ prefetchCount: 1, ack: true }, function have_message( message, headers, info ) {","","          console.log( 'message', message );","          console.log( 'headers', headers );","          // console.log( 'deliveryTag', info.deliveryTag.toString() );","","          setTimeout( function() {","            queue.shift();","          }, 1000 )","","        });","","      });","","    },","    enumerable: true,","    writable: true,","    configurable: true","  },","  runJob: {","    /**","     * Run a job.","     *","     * @param name","     * @param data","     * @param response","     */","    value: function runJob( name, data, response ) {","","      var _options = {","        type: 'job',","        correlationId : Math.random().toString( 36 ).substring( 2 ),","        contentType:'application/json',","        headers: {","          format: 'json',","          sid: Math.random().toString( 36 ).substring( 2 ),","          jid: Math.random().toString( 36 ).substring( 2 ),","          pid: this.get( 'identity' )","        },","        deliveryMode: 2","        // immediate : false,","        // confirm: false,","        // priority: 9,","        // expiration: \"10000\",","        // messageId: Math.random().toString( 36 ).substring( 2 ),","        // replyTo: message.email,","        // appId: this.get( 'app_id' )","      }","","      this.get( 'exchange' ).publish( name, data, _options, function published() {","        console.log( 'job request published' );","","        // Instance.subscribe( _options.correlationId );","","      });","","      return this;","","    },","    enumerable: true,","    writable: true,","    configurable: true","  },","  define: {","    get: function() { return this.defineJob },","    enumerable: false,","    configurable: true","  },","  run: {","    get: function() { return this.runJob },","    enumerable: false,","    configurable: true","  },","  message: {","    value: require( './message' ),","    enumerable: true,","    writable: true,","    configurable: true","  }","});","","// Rabit constructor properties.","Object.defineProperties( module.exports = Rabbit, {","  debug: {","    value: require( 'debug' )( 'rabbit' ),","    enumerable: false,","    writable: true,","    configurable: true","  },","  request: {","    value: require( 'request' ),","    enumerable: false,","    writable: true,","    configurable: true","  },","  extend: {","    value: require( 'extend' ),","    enumerable: false,","    writable: true,","    configurable: true","  },","  amqp: {","    value: require( 'amqp' ),","    enumerable: false,","    writable: true,","    configurable: true","  },","  defaults: {","    value: {","      host: 'localhost',","      port: 5672,","      login: 'guest',","      password: 'guest',","      vhost: '/',","      exchange: 'wabbit',","      reconnect: true,","      api: 'http://localhost:15672/api'","    },","    enumerable: false,","    writable: true,","    configurable: true","  },","  createConnection: {","    /**","     * Returns new instance of Rabbit.","     *","     * @param settings {Object} Configuration for connection.","     * @returns {Rabbit}","     */","    value: function createConnection ( settings, cb ) {","      return new Rabbit( settings, cb );","    },","    enumerable: true,","    writable: true,","    configurable: true","  }","});","","","",""];
+_$jscoverage['rabbit.js'].source = ["/**"," * Rabbit"," *"," * The Rabbit works, or else the Rabbit gets fucked; proper fucked, that is"," *"," * ## Events"," * - connection: General connection event - could be an error or a success."," * - connection.success: Successful connection event."," * - connection.error: Connection failure."," *"," * @param settings {Object} Configuration."," * @param settings.exchange {String} Unique name for the work exchange, defaults to \"node-rabbit\"."," * @param settings.api {String} URL to RabbitMQ management API, if available."," *"," * @param cb {Function} Callback function, optional. May also bind listener to \"connection\", \"connection.success\" or \"connection.error\" events."," * @returns {Rabbit} Newly created Rabbit instance."," * @async"," * @chainable"," * @constructor"," */","function Rabbit( settings, cb ) {","  Rabbit.debug( 'Creating new connection.' );","","  // Make sure context is correct otherwise we could screw up the global scope.","  if( !( this instanceof Rabbit ) ) {","    return new Rabbit( settings, cb );","  }","","  var Instance = this;","","  // Mixin Settings and EventEmitter","  require( 'object-settings' ).mixin( Instance );","  require( 'object-emitter' ).mixin( Instance );","","  // Configure instance.","  Instance.set({","    settings: Rabbit.extend( {}, Rabbit.defaults, settings ),","    config: {","      fetch_count: 10","    },","    environment: 'production',","    exchange: {},","    identity: String( process.pid )","  });","","  // Connect to AMQP.","  this.connection = Rabbit.amqp.createConnection({","    host: Instance.get( 'settings.host' ),","    port: Instance.get( 'settings.port' ),","    login: Instance.get( 'settings.login' ),","    password: Instance.get( 'settings.password' ),","    vhost: Instance.get( 'settings.vhost' )","  }, {","    defaultExchangeName: Instance.get( 'settings.defaultExchange', '' ),","    reconnect: Instance.get( 'settings.reconnect', true ),","  });","","  // Bind callback to ready event, if provided.","  if( 'function' === typeof cb ) {","    this.on( 'ready', cb );","  }","","  // RabbitMQ connection failed.","  this.connection.on( 'error', function rabbit_error( error ) {","    Instance.emit( 'connection', new Error( error.message ), Instance );","    Instance.emit( 'connection.error', new Error( error.message ), Instance );","  });","","  // RabbitMQ connection established.","  this.connection.on( 'ready', function rabbit_ready( connection ) {","","    this.exchange( Instance.get( 'settings.exchange' ), {","      type: 'topic',","      passive: false,","      durable: true,","      // confirm: true,","      // autoDelete: true,","      // noDeclare: false,","    }, function have_exchange() {","","      // Set Exchange Variables.","      Instance.set( 'exchange', this );","","      // Emit connection success.","      Instance.emit( 'connection', null, Instance );","      Instance.emit( 'connection.success', Instance );","","    });","","  });","","  // Return context.","  return this;","","}","","// Rabbit prototype properties.","Object.defineProperties( Rabbit.prototype, {","  configure: {","    /**","     * Configure Client","     *","     * Method executed when connection is ready.","     * Usage and semantics emulating Express.","     *","     * @param env","     * @param fn","     * @returns {*}","     */","    value: function configure( env, fn ) {","      var Instance  = this;","      var envs      = 'all';","      var args      = [].slice.call(arguments);","","      fn = args.pop();","","      if( args.length ) {","        envs = args;","      }","","      if( 'all' == envs || ~envs.indexOf( this.get( 'environment' ) ) ) {","        Instance.on( 'connection.success', fn.bind( this, this ) );","      }","","      return this;","","    },","    enumerable: true,","    writable: true,","    configurable: true","  },","  registerJob: {","    /**","     * Define a job.","     *","     * @param name {String} Name of job type.","     * @param fn {Function} Function to process job.","     */","    value: function registerJob( type, fn ) {","","      var Instance = this;","","      if( 'function' !== typeof fn ) {","        Rabbit.debug( new Error( 'The second argument of registerJob() must be a function.' ) );","        return this;","      }","","      // Job Queue Options.","      var _options = {","        durable: true,","        autoDelete: false,","        passive: false,","        arguments: {","          type: type","        }","      };","","      // Use the default 'amqueue.topic' exchange","      this.connection.queue( type, _options, function have_queue( queue ) {","        Rabbit.debug( 'Monitoring [%s/%s].', Instance.get( 'exchange.name' ), type );","","        // Bind to exchange with routing of \"job\"","        queue.bind( Instance.get( 'exchange.name' ), type );","","        // Receive messages","        queue.subscribe({ prefetchCount: Instance.get( 'config.fetch_count' ), ack: true }, function have_message( message, headers, info ) {","","          // Acknowledge Receipt.","          queue.shift();","","          // Create Job Instance.","          var job = Instance.Job.create({","            id: info.messageId,","            type: info.type,","            client: info.replyTo,","            message: message,","            format: info.contentType,","            meta: {","              exchange: info.exchange,","              appId: info.appId,","              correlation: info.correlationId,","              mode: info.deliveryMode,","              consumer: info.consumerTag,","              routing: info.routingKey,","              redelivered: info.redelivered,","            },","            queue: queue,","            headers: headers,","            rabbit: Instance","          })","","          // Call the Job Worker callback.","          fn.call( job, job.message, function( error, response ) {","","            job.complete( error, response )","","          });","","        });","","      });","","    },","    enumerable: true,","    writable: true,","    configurable: true","  },","  runJob: {","    /**","     * Run a job.","     *","     * @param name","     * @param data","     * @param response","     */","    value: function runJob( type, data, response ) {","","      var _options = {","        type: type,","        correlationId : Math.random().toString( 36 ).substring( 2 ),","        contentType: 'application/json',","        headers: {","          format: 'json',","        },","        deliveryMode: 2,","        appId: this.get( 'identity' ),","        replyTo: Math.random().toString( 36 ).substring( 2 ),","        messageId: Math.random().toString( 36 ).substring( 2 ),","        priority: 9,","        // immediate : false,","        // confirm: false,","        // expiration: \"10000\"","      }","","      this.get( 'exchange' ).publish( type, data, _options, function published() {","        Rabbit.debug( 'job request for [%s] published', type );","","        // Instance.subscribe( _options.correlationId );","","      });","","      return this;","","    },","    enumerable: true,","    writable: true,","    configurable: true","  },","  api: {","    /**","     * Make RabbitMQ API Request","     *","     * @example","     *","     *    // Get Vhosts","     *    Instance.api( 'get', 'vhosts', console.log );","     *","     *    // Get queues","     *    Instance.api( 'get', 'queues', console.log );","     *","     * @async","     * @chainable","     * @param method","     * @param query","     * @param cb","     */","    value: function api( method, query, cb ) {","","      Rabbit.request({","        url: Instance.get( 'settings.api' ) + '/vhosts',","        json: true,","        auth: {","          user: Instance.get( 'settings.login' ),","          pass: Instance.get( 'settings.password' )","        }","      }, function( error, req, body ) { cb( error, body ); });","","      // Chainable.","      return this;","","    },","    enumerable: true,","    writable: true,","    configurable: true","  },","  define: {","    get: function() { return this.registerJob },","    enumerable: false,","    configurable: true","  },","  run: {","    get: function() { return this.runJob },","    enumerable: false,","    configurable: true","  },","  Message: {","    value: require( './message' ),","    enumerable: true,","    writable: true,","    configurable: true","  },","  Job: {","    value: require( './job' ),","    enumerable: true,","    writable: true,","    configurable: true","  },","});","","// Rabit constructor properties.","Object.defineProperties( module.exports = Rabbit, {","  debug: {","    value: require( 'debug' )( 'rabbit' ),","    enumerable: false,","    writable: true,","    configurable: true","  },","  request: {","    value: require( 'request' ),","    enumerable: false,","    writable: true,","    configurable: true","  },","  extend: {","    value: require( 'extend' ),","    enumerable: false,","    writable: true,","    configurable: true","  },","  amqp: {","    value: require( 'amqp' ),","    enumerable: false,","    writable: true,","    configurable: true","  },","  defaults: {","    value: {","      exchange: 'node-rabbit',","      host: 'localhost',","      port: 5672,","      login: 'guest',","      password: 'guest',","      vhost: '/',","      reconnect: true,","      api: 'http://localhost:15672/api'","    },","    enumerable: false,","    writable: true,","    configurable: true","  },","  createConnection: {","    /**","     * Returns new instance of Rabbit.","     *","     * @param settings {Object} Configuration for connection.","     * @returns {Rabbit}","     */","    value: function createConnection ( settings, cb ) {","      return new Rabbit( settings, cb );","    },","    enumerable: true,","    writable: true,","    configurable: true","  }","});","","","",""];

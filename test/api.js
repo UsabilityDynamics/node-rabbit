@@ -59,6 +59,7 @@ module.exports = {
     },
 
     'can establish a RabbitMQ connection and use configure() method.': function( done ) {
+      this.timeout( 5000 );
 
       var Rabbit = require( '../' );
       var Client = require( '../' ).createConnection({ login: process.env.RABBIT_LOGIN, password: process.env.RABBIT_PASSWORD });

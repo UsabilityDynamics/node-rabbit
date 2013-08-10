@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>lib/message.js - Rabbit</title>
+    <title>lib/job.js - Rabbit</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -80,7 +80,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: lib/message.js</h1>
+                        <h1 class="file-heading">File: lib/job.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -89,25 +89,85 @@
  *
  * -
  *
- * @author potanin
- * @date 8/10/13
+ * @chainable
+ *
+ * @param data
+ * @returns {*}
+ * @constructor
+ *
+ * @author potanin@UD
  */
-function Message( data ) {
+function Job( data ) {
 
-  if( this instanceof Message ) {
-    var type = &#x27;own&#x27;;
-  } else if( this instanceof require( &#x27;./rabbit&#x27; ) ) {
-    var type = &#x27;rabbit&#x27;;
-  } else {
-    console.error( &#x27;Unexpected context for Message&#x27; );
+  // Make sure context is correct otherwise we could screw up the global scope.
+  if( !( this instanceof Job ) ) {
+    return new Job( data );
   }
 
+  // Set Message Properties
+  Object.defineProperties( this, {
+    id: {
+      value: data.id,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    },
+    type: {
+      value: data.type,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    },
+    format: {
+      value: data.format,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    },
+    client: {
+      value: data.client,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    },
+    message: {
+      value: this.unpack( data.message ),
+      enumerable: true,
+      configurable: true,
+      writable: true
+    },
+    meta: {
+      value: data.meta,
+      enumerable: false,
+      configurable: true,
+      writable: true
+    },
+    queue: {
+      value: data.queue,
+      enumerable: false,
+      configurable: true,
+      writable: true
+    },
+    rabbit: {
+      value: data.rabbit,
+      enumerable: false,
+      configurable: true,
+      writable: true
+    },
+    headers: {
+      value: data.headers,
+      enumerable: false,
+      configurable: true,
+      writable: true
+    }
+  })
 
-  this.message = message;
+  return this;
 
 }
 
-Object.defineProperties( Message.prototype, {
+// Rabbit Job prototype properties.
+Object.defineProperties( Job.prototype, {
   pack: {
     /**
      * Pack String
@@ -116,14 +176,18 @@ Object.defineProperties( Message.prototype, {
      * @returns {*}
      */
     value: function pack( string ) {
-      var Instance    = this;
-      var msgpack     = require( &#x27;msgpack&#x27; );
 
-      if( string instanceof Buffer ) {
-        string = string.toString();
+      if( this.format === &#x27;application/msgpack&#x27; ) {
+
+        if( this.data instanceof Buffer ) {
+          this.data = this.data.toString();
+        }
+
+        this.data = Job.msgpack.pack( this.data );
+
       }
 
-      return msgpack.pack( string );
+      return this.data;
 
     },
     enumerable: true,
@@ -137,15 +201,54 @@ Object.defineProperties( Message.prototype, {
      * @param string
      * @returns {*}
      */
-    value: function unpack( string ) {
-      var Instance    = this;
-      var msgpack     = require( &#x27;msgpack&#x27; );
+    value: function unpack( message ) {
 
-      if( string instanceof Buffer ) {
-        string = string.toString();
+      if( this.format === &#x27;application/msgpack&#x27; ) {
+
+        if( message instanceof Buffer ) {
+          message = message.toString();
+        }
+
+        message = Job.msgpack.unpack( message );
+
+
       }
 
-      return msgpack.unpack( string )
+      return message;
+
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  progress: {
+    /**
+     * Update Progress.
+     *
+     * @method progress
+     * @param string
+     * @returns {*}
+     */
+    value: function progress( string ) {
+      Job.debug( &#x27;Completing progress of job [%s/%s].&#x27;, this.type, this.id );
+
+
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  complete: {
+    /**
+     * Complete Job.
+     *
+     * @method complete
+     * @param string
+     * @returns {*}
+     */
+    value: function complete( error, response ) {
+      Job.debug( &#x27;Completing job type [%s/%s].&#x27;, this.type, this.id );
+
 
     },
     enumerable: true,
@@ -154,7 +257,26 @@ Object.defineProperties( Message.prototype, {
   }
 })
 
-Object.defineProperties( module.exports = Message, {
+// Rabit Job constructor properties.
+Object.defineProperties( module.exports = Job, {
+  debug: {
+    value: require( &#x27;debug&#x27; )( &#x27;rabbit:job&#x27; ),
+    enumerable: false,
+    writable: true,
+    configurable: true
+  },
+  msgpack: {
+    value: require( &#x27;msgpack&#x27; ),
+    enumerable: false,
+    writable: true,
+    configurable: true
+  },
+  Rabbit: {
+    value: require( &#x27;./rabbit&#x27; ),
+    enumerable: false,
+    configurable: true,
+    writable: true
+  },
   create: {
     /**
      *
@@ -162,7 +284,7 @@ Object.defineProperties( module.exports = Message, {
      * @returns {Message}
      */
     value: function create( data ) {
-      return new Message( data );
+      return new Job( data );
     },
     enumerable: true,
     configurable: true,
