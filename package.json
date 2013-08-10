@@ -1,8 +1,12 @@
 {
-  "name": "task-rabbit",
+  "name": "rabbit",
   "version": "0.0.2",
   "description": "RabbitMQ powered distributed job management.",
   "keywords": [
+    "rabbitmq",
+    "mq",
+    "jobs",
+    "amqp"
   ],
   "license": "MIT",
   "copyright" : "Copyright (c) 2013 Usability Dynamics, Inc.",
@@ -29,19 +33,17 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/nodejitsu/http-server.git"
+    "url": "https://github.com/UsabilityDynamics/rabbit"
   },
   "main": "index",
   "preferGlobal": false,
-  "scripts": {
-  },
   "dependencies" : {
     "msgpack": "*",
     "request": "*",
     "colors": "*",
     "extend": "*",
-    "debug": "*",
     "amqp": "*",
+    "debug": "*",
     "object-emitter": ">=0.0.4",
     "object-settings": "*"
   },
