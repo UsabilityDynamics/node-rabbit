@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.4</em>
+            <em>API Docs for: 0.0.5</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -323,17 +323,21 @@ Object.defineProperties( Rabbit.prototype, {
       }
 
       var Instance            = this;
-      var sid                 = Math.random().toString( 36 ).substring( 2 );
-      var mid                 = Math.random().toString( 36 ).substring( 2 );
-      var job_key             = [ &#x27;job&#x27;, job_type ].join( &#x27;.&#x27; );
-      var correlation         = Rabbit.Correlation.create();
 
-      this.get( &#x27;exchange&#x27; ).publish( job_key, message, {
-        type: job_key,
+      var correlation         = Rabbit.Correlation.create({
+        sid: Math.random().toString( 36 ).substring( 2 ),
+        mid: Math.random().toString( 36 ).substring( 2 ),
+        format: &#x27;application/json&#x27;,
+        job_key: [ &#x27;job&#x27;, job_type ].join( &#x27;.&#x27; ),
+        job_type: job_type
+      });
+
+      this.get( &#x27;exchange&#x27; ).publish( correlation.job_key, message, {
         correlationId : correlation.id,
-        messageId: mid,
-        replyTo: sid,
-        contentType: &#x27;application/json&#x27;,
+        type: correlation.job_key,
+        messageId: correlation.mid,
+        replyTo: correlation.sid,
+        contentType: correlation.format,
         deliveryMode: 2,
         appId: this.get( &#x27;identity&#x27; ),
         headers: {
@@ -349,14 +353,14 @@ Object.defineProperties( Rabbit.prototype, {
         autoDelete: true,
         passive: false,
         arguments: {
-          job_key: job_key,
-          job_type: job_type
+          job_key: correlation.job_key,
+          job_type: correlation.job_type
         }
       };
 
       // Use the default &#x27;amqueue.topic&#x27; exchange
       this.connection.queue( correlation.key, _options, function have_correlation_queue( queue ) {
-        Rabbit.debug( &#x27;Created Correlation Queue [%s] for job key [%s].&#x27;, correlation.key, job_key )
+        Rabbit.debug( &#x27;Created Correlation Queue [%s] for job key [%s].&#x27;, correlation.key, correlation.job_key )
 
         // Start Response correlation stream.
         response.call( correlation );

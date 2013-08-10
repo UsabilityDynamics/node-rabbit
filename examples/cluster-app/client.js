@@ -3,8 +3,10 @@
  *
  * - Process jobs.
  *
- * Set your RabbitMQ login and password as a global variable (e.g. in .bash_profile) and execute as:
- * clear && DEBUG=rabbit* RABBIT_HOST=$RABBIT_HOST RABBIT_PORT=$RABBIT_PORT RABBIT_LOGIN=$RABBIT_LOGIN RABBIT_PASSWORD=$RABBIT_PASSWORD node client
+ * Set your RabbitMQ host, port, login and password as environmental variables (e.g. in .bash_profile) and execute, or
+ * add inline as seen with the port variable below:
+ *
+ * $ RABBIT_PORT=5672 DEBUG=rabbit* node client.js
  *
  * @author potanin
  * @date 8/10/13
@@ -27,10 +29,14 @@ var async   =  require( 'async' )
 Client.configure( function configure( client ) {
   Rabbit.debug( 'Connected to RabbitMQ server.' );
 
-    Rabbit.debug( 'Sending job [%d] to [%s] exchange.', i, client.get( 'exchange.name' ) );
+  async.times( 10, function( count ) {
 
     client.runJob( 'test-job-one', card(), function job_complete() {
-      Rabbit.debug( 'A "test-job-one" work request sent.' );
+      Rabbit.debug( 'Sending job [%s] #[%d] to [%s] exchange.', this.job_type, count, client.get( 'exchange.name' ) );
+
+      this.on( 'progress', function( value ) {
+        Rabbit.debug( 'test-job-one progress update', value );
+      });
 
       this.on( 'complete', function( message ) {
         Rabbit.debug( 'test-job-one complete', message );
@@ -47,11 +53,7 @@ Client.configure( function configure( client ) {
 
     });
 
-  async.times( 10, function( i, next ) {
-
-    next();
-
-  }, function() {});
+  });
 
 });
 

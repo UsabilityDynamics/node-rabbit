@@ -4,7 +4,7 @@
  * - Define several jobs and wait.
  *
  * Set your RabbitMQ login and password as a global variable (e.g. in .bash_profile) and execute as:
- * clear && DEBUG=rabbit* RABBIT_HOST=$RABBIT_HOST RABBIT_PORT=$RABBIT_PORT RABBIT_LOGIN=$RABBIT_LOGIN RABBIT_PASSWORD=$RABBIT_PASSWORD node worker
+ * clear && DEBUG=rabbit* node worker.js
  *
  * @author potanin
  * @date 8/10/13
@@ -39,7 +39,11 @@ Worker.configure( function configure( client ) {
     Rabbit.Job.debug( 'Doing [%s] job.', this.type );
 
     setTimeout( function() {
+
+      // Logic for test-job-two goes here, call "complete" method when done with error/null, and response message
+
       complete( null, { message: 'The TestJobTwo has been complete.' });
+
     }, 10000 )
 
   });

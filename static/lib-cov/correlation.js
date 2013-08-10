@@ -7,44 +7,44 @@ if (! _$jscoverage['correlation.js']) {
   _$jscoverage['correlation.js'][15] = 0;
   _$jscoverage['correlation.js'][16] = 0;
   _$jscoverage['correlation.js'][19] = 0;
-  _$jscoverage['correlation.js'][27] = 0;
-  _$jscoverage['correlation.js'][34] = 0;
-  _$jscoverage['correlation.js'][35] = 0;
-  _$jscoverage['correlation.js'][38] = 0;
-  _$jscoverage['correlation.js'][43] = 0;
-  _$jscoverage['correlation.js'][54] = 0;
+  _$jscoverage['correlation.js'][33] = 0;
   _$jscoverage['correlation.js'][64] = 0;
-  _$jscoverage['correlation.js'][72] = 0;
+  _$jscoverage['correlation.js'][65] = 0;
+  _$jscoverage['correlation.js'][68] = 0;
+  _$jscoverage['correlation.js'][73] = 0;
+  _$jscoverage['correlation.js'][84] = 0;
+  _$jscoverage['correlation.js'][94] = 0;
+  _$jscoverage['correlation.js'][102] = 0;
 }
 _$jscoverage['correlation.js'][11]++;
-function Correlation() {
+function Correlation(data) {
   _$jscoverage['correlation.js'][12]++;
   Correlation.debug("Created new correlation.");
   _$jscoverage['correlation.js'][15]++;
   if (! (this instanceof Correlation)) {
     _$jscoverage['correlation.js'][16]++;
-    return new Correlation();
+    return new Correlation(data);
   }
   _$jscoverage['correlation.js'][19]++;
-  Object.defineProperties(this, {id: {value: Math.random().toString(36).substring(2), enumerable: true, configurable: true, writable: false}, key: {get: (function () {
-  _$jscoverage['correlation.js'][27]++;
+  Object.defineProperties(this, {id: {value: Math.random().toString(36).substring(2), enumerable: true, configurable: true, writable: false}, job_key: {value: data.job_key, writable: true, enumerable: true, configurable: true}, key: {get: (function () {
+  _$jscoverage['correlation.js'][33]++;
   return ["correlation", this.id].join(".");
-}), enumerable: true, configurable: true}});
-  _$jscoverage['correlation.js'][34]++;
+}), enumerable: true, configurable: true}, sid: {value: data.sid, enumerable: true, writable: true, configurable: true}, mid: {value: data.mid, enumerable: true, writable: true, configurable: true}, format: {value: data.format, enumerable: true, writable: true, configurable: true}, job_type: {value: data.job_type, enumerable: true, writable: false, configurable: true}});
+  _$jscoverage['correlation.js'][64]++;
   require("object-settings").mixin(this);
-  _$jscoverage['correlation.js'][35]++;
+  _$jscoverage['correlation.js'][65]++;
   require("object-emitter").mixin(this);
-  _$jscoverage['correlation.js'][38]++;
+  _$jscoverage['correlation.js'][68]++;
   return this;
 }
-_$jscoverage['correlation.js'][43]++;
+_$jscoverage['correlation.js'][73]++;
 Object.defineProperties(Correlation.prototype, {timeout: {value: (function timeout() {
-  _$jscoverage['correlation.js'][54]++;
+  _$jscoverage['correlation.js'][84]++;
   return this;
 }), enumerable: true, configurable: true, writable: true}});
-_$jscoverage['correlation.js'][64]++;
-Object.defineProperties(module.exports = Correlation, {create: {value: (function create() {
-  _$jscoverage['correlation.js'][72]++;
-  return new Correlation();
+_$jscoverage['correlation.js'][94]++;
+Object.defineProperties(module.exports = Correlation, {create: {value: (function create(data) {
+  _$jscoverage['correlation.js'][102]++;
+  return new Correlation(data);
 }), enumerable: true, configurable: true, writable: true}, debug: {value: require("debug")("rabbit:correlation"), enumerable: false, writable: true, configurable: true}});
-_$jscoverage['correlation.js'].source = ["/**"," * Correlation Response Stream"," *"," * -"," *"," * @constructor"," * @chainable"," * @author potanin"," * @date 8/10/13"," */","function Correlation() {","  Correlation.debug( 'Created new correlation.' );","","  // Make sure context is correct otherwise we could screw up the global scope.","  if( !( this instanceof Correlation ) ) {","    return new Correlation();","  }","","  Object.defineProperties( this, {","    id: {","      value: Math.random().toString( 36 ).substring( 2 ),","      enumerable: true,","      configurable: true,","      writable: false","    },","    key: {","      get: function() { return [ 'correlation', this.id ].join( '.' ) },","      enumerable: true,","      configurable: true","    }","  })","","  // Mixin Settings and EventEmitter","  require( 'object-settings' ).mixin( this );","  require( 'object-emitter' ).mixin( this );","","  // @chainable","  return this;","","}","","// Rabbit Correlation prototype properties.","Object.defineProperties( Correlation.prototype, {","  timeout: {","    /**","     * Correlation job timeout.","     *","     * @todo -","     * @returns {*}","     */","    value: function timeout() {","","      // @chainable","      return this;","","    },","    enumerable: true,","    configurable: true,","    writable: true","  }","})","","// Rabit Correlation constructor properties.","Object.defineProperties( module.exports = Correlation, {","  create: {","    /**","     *","     * @param data","     * @returns {Correlation}","     */","    value: function create() {","      return new Correlation();","    },","    enumerable: true,","    configurable: true,","    writable: true","  },","  debug: {","    value: require( 'debug' )( 'rabbit:correlation' ),","    enumerable: false,","    writable: true,","    configurable: true","  }","});",""];
+_$jscoverage['correlation.js'].source = ["/**"," * Correlation Response Stream"," *"," * -"," *"," * @constructor"," * @chainable"," * @author potanin"," * @date 8/10/13"," */","function Correlation( data ) {","  Correlation.debug( 'Created new correlation.' );","","  // Make sure context is correct otherwise we could screw up the global scope.","  if( !( this instanceof Correlation ) ) {","    return new Correlation( data );","  }","","  Object.defineProperties( this, {","    id: {","      value: Math.random().toString( 36 ).substring( 2 ),","      enumerable: true,","      configurable: true,","      writable: false","    },","    job_key: {","      value: data.job_key,","      writable: true,","      enumerable: true,","      configurable: true","    },","    key: {","      get: function() { return [ 'correlation', this.id ].join( '.' ) },","      enumerable: true,","      configurable: true","    },","    sid: {","      value: data.sid,","      enumerable: true,","      writable: true,","      configurable: true","    },","    mid: {","      value: data.mid,","      enumerable: true,","      writable: true,","      configurable: true","    },","    format: {","      value: data.format,","      enumerable: true,","      writable: true,","      configurable: true","    },","    job_type: {","      value: data.job_type,","      enumerable: true,","      writable: false,","      configurable: true","    },","  })","","  // Mixin Settings and EventEmitter","  require( 'object-settings' ).mixin( this );","  require( 'object-emitter' ).mixin( this );","","  // @chainable","  return this;","","}","","// Rabbit Correlation prototype properties.","Object.defineProperties( Correlation.prototype, {","  timeout: {","    /**","     * Correlation job timeout.","     *","     * @todo -","     * @returns {*}","     */","    value: function timeout() {","","      // @chainable","      return this;","","    },","    enumerable: true,","    configurable: true,","    writable: true","  }","})","","// Rabit Correlation constructor properties.","Object.defineProperties( module.exports = Correlation, {","  create: {","    /**","     *","     * @param data","     * @returns {Correlation}","     */","    value: function create( data ) {","      return new Correlation( data );","    },","    enumerable: true,","    configurable: true,","    writable: true","  },","  debug: {","    value: require( 'debug' )( 'rabbit:correlation' ),","    enumerable: false,","    writable: true,","    configurable: true","  }","});",""];
