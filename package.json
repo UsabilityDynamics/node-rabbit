@@ -36,9 +36,13 @@
   "scripts": {
   },
   "dependencies" : {
+    "msgpack": "*",
+    "request": "*",
+    "colors": "*",
+    "extend": "*",
     "debug": "*",
     "amqp": "*",
-    "object-emitter": "*",
+    "object-emitter": ">=0.0.4",
     "object-settings": "*"
   },
   "devDependencies": {

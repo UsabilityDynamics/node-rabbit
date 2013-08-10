@@ -7,6 +7,13 @@
         "logo": "http://a3d72a45d111006ec192-ec5b80a12b0b09b4d52373336afb4254.r80.cf1.rackcdn.com/usability-dynamics.png"
     },
     "files": {
+        "lib/message.js": {
+            "name": "lib/message.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "lib/rabbit.js": {
             "name": "lib/rabbit.js",
             "modules": {},
@@ -19,16 +26,231 @@
     "classes": {},
     "classitems": [
         {
+            "file": "lib/message.js",
+            "line": 1,
+            "description": "-\n\n-",
+            "author": "potanin",
+            "date": "8/10/13",
+            "class": ""
+        },
+        {
+            "file": "lib/message.js",
+            "line": 25,
+            "description": "Pack String",
+            "params": [
+                {
+                    "name": "string",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": ""
+        },
+        {
+            "file": "lib/message.js",
+            "line": 47,
+            "description": "Unpack Message",
+            "params": [
+                {
+                    "name": "string",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": ""
+        },
+        {
+            "file": "lib/message.js",
+            "line": 72,
+            "params": [
+                {
+                    "name": "data",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Message"
+            },
+            "class": ""
+        },
+        {
             "file": "lib/rabbit.js",
-            "line": 141,
+            "line": 1,
+            "description": "Rabbit\n\nThe Rabbit works, or else the Rabbit gets fucked; proper fucked, that is\n\n## Events\n- connection: General connection event - could be an error or a success.\n- connection.success: Successful connection event.\n- connection.error: Connection failure.",
+            "params": [
+                {
+                    "name": "settings",
+                    "description": "Configuration.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "api",
+                            "description": "URL to RabbitMQ management API, if available.",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "name": "cb",
+                    "description": "Callback function.",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Rabbit"
+            },
+            "is_constructor": 1,
+            "class": ""
+        },
+        {
+            "file": "lib/rabbit.js",
+            "line": 92,
+            "description": "Make RabbitMQ API Request",
+            "example": [
+                "\n\n   // Get Vhosts\n   Instance.api( 'get', 'vhosts', console.log );\n\n   // Get queues\n   Instance.api( 'get', 'queues', console.log );"
+            ],
+            "async": 1,
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "method",
+                    "description": ""
+                },
+                {
+                    "name": "query",
+                    "description": ""
+                },
+                {
+                    "name": "cb",
+                    "description": ""
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "lib/rabbit.js",
+            "line": 129,
+            "description": "Define a job.",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Name of job type.",
+                    "type": "String"
+                },
+                {
+                    "name": "fn",
+                    "description": "Function to process job.",
+                    "type": "Function"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "lib/rabbit.js",
+            "line": 177,
+            "description": "Run a job.",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "data",
+                    "description": ""
+                },
+                {
+                    "name": "response",
+                    "description": ""
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "lib/rabbit.js",
+            "line": 280,
             "description": "Returns new instance of Rabbit.",
+            "params": [
+                {
+                    "name": "settings",
+                    "description": "Configuration for connection.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Rabbit"
+            },
             "class": ""
         }
     ],
     "warnings": [
         {
+            "message": "unknown tag: date",
+            "line": " lib/message.js:1"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/message.js:25"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/message.js:47"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/message.js:72"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/rabbit.js:1"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/rabbit.js:280"
+        },
+        {
+            "message": "Missing item type\n-\n\n-",
+            "line": " lib/message.js:1"
+        },
+        {
+            "message": "Missing item type\nPack String",
+            "line": " lib/message.js:25"
+        },
+        {
+            "message": "Missing item type\nUnpack Message",
+            "line": " lib/message.js:47"
+        },
+        {
+            "message": "Missing item type",
+            "line": " lib/message.js:72"
+        },
+        {
+            "message": "Missing item type\nRabbit\n\nThe Rabbit works, or else the Rabbit gets fucked; proper fucked, that is\n\n## Events\n- connection: General connection event - could be an error or a success.\n- connection.success: Successful connection event.\n- connection.error: Connection failure.",
+            "line": " lib/rabbit.js:1"
+        },
+        {
+            "message": "Missing item type\nMake RabbitMQ API Request",
+            "line": " lib/rabbit.js:92"
+        },
+        {
+            "message": "Missing item type\nDefine a job.",
+            "line": " lib/rabbit.js:129"
+        },
+        {
+            "message": "Missing item type\nRun a job.",
+            "line": " lib/rabbit.js:177"
+        },
+        {
             "message": "Missing item type\nReturns new instance of Rabbit.",
-            "line": " lib/rabbit.js:141"
+            "line": " lib/rabbit.js:280"
         }
     ]
 }

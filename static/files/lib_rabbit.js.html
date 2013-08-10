@@ -84,152 +84,293 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-var _debug     = require( &#x27;debug&#x27; );
-var _inherits  = require( &#x27;util&#x27; ).inherits;
-var _settings  = require( &#x27;object-settings&#x27; );
-var _emitter   = require( &#x27;object-emitter&#x27; );
-var _rabbitMQ  = require( &#x27;amqp&#x27; );
+/**
+ * Rabbit
+ *
+ * The Rabbit works, or else the Rabbit gets fucked; proper fucked, that is
+ *
+ * ## Events
+ * - connection: General connection event - could be an error or a success.
+ * - connection.success: Successful connection event.
+ * - connection.error: Connection failure.
+ *
+ * @param settings {Object} Configuration.
+ * @param settings.api {String} URL to RabbitMQ management API, if available.
+ * @param cb {Function} Callback function.
+ * @returns {Rabbit}
+ * @constructor
+ */
+function Rabbit( settings, cb ) {
+  Rabbit.debug( &#x27;Creating new connection.&#x27; );
 
+  // Make sure context is correct otherwise we could screw up the global scope.
+  if( !( this instanceof Rabbit ) ) {
+    return new Rabbit( settings, cb );
+  }
 
+  var Instance = this;
 
-// The Rabbit works, or else the Rabbit gets fucked; proper fucked, that is.
-function Rabbit ( options ) {
-  var self = this;
+  // Mixin Settings and EventEmitter
+  require( &#x27;object-settings&#x27; ).mixin( Instance );
+  require( &#x27;object-emitter&#x27; ).mixin( Instance );
 
-  // Add object settings to store possible meta data, etc.
-  _settings.mixin( this  );
-
-  // Add object emitter for event based structure.
-  _emitter.mixin( this );
-
-  // Properties to a specific instance of Rabbit.
-  Object.defineProperties( this, {
-    defineJobs: {
-      value: {},
-      writable: true
-    }
+  // Configure instance.
+  Instance.set({
+    settings: Rabbit.extend( {}, Rabbit.defaults, settings ),
+    exchange: {},
+    identity: String( process.pid )
   });
 
   // Connect to AMQP.
-  this.connection = _rabbitMQ.createConnection( options );
+  this.connection = Rabbit.amqp.createConnection({
+    host: Instance.get( &#x27;settings.host&#x27; ),
+    port: Instance.get( &#x27;settings.port&#x27; ),
+    login: Instance.get( &#x27;settings.login&#x27; ),
+    password: Instance.get( &#x27;settings.password&#x27; ),
+    vhost: Instance.get( &#x27;settings.vhost&#x27; )
+  }, {
+    defaultExchangeName: Instance.get( &#x27;settings.defaultExchange&#x27;, &#x27;&#x27; ),
+    reconnect: Instance.get( &#x27;settings.reconnect&#x27;, true ),
+  });
 
-  // Connection events.
-  this.connection.on( &#x27;error&#x27;, function( error ) {
-    self.emit( &#x27;error&#x27;, error );
+  // Bind callback to ready event, if provided.
+  if( &#x27;function&#x27; === typeof cb ) {
+    this.on( &#x27;ready&#x27;, cb );
+  }
+
+  // RabbitMQ connection failed.
+  this.connection.on( &#x27;error&#x27;, function rabbit_error( error ) {
+    Instance.emit( &#x27;connection&#x27;, new Error( error.message ), Instance );
+    Instance.emit( &#x27;connection.error&#x27;, new Error( error.message ), Instance );
   });
-  this.connection.on( &#x27;ready&#x27;, function() {
-    self.emit( &#x27;online&#x27;, &#x27;A connection has been made.&#x27; );
+
+  // RabbitMQ connection established.
+  this.connection.on( &#x27;ready&#x27;, function rabbit_ready( connection ) {
+
+    this.exchange( &#x27;wabbit&#x27;, {
+      type: &#x27;topic&#x27;,
+      passive: false,
+      durable: true,
+      //confirm: true,
+      //autoDelete: true,
+      //noDeclare: false,
+    }, function have_exchange() {
+
+      // Set Exchange Variables.
+      Instance.set( &#x27;exchange&#x27;, this );
+
+      // Emit connection success.
+      Instance.emit( &#x27;connection&#x27;, null, Instance );
+      Instance.emit( &#x27;connection.success&#x27;, Instance );
+
+    });
+
   });
+
+  // Return context.
+  return this;
+
 }
-
-
-
-
-
-
-
 
 // Rabbit prototype properties.
 Object.defineProperties( Rabbit.prototype, {
-
-/*
-
-  I don&#x27;t really know where this was going.
-
-  define: {
-    *//**
-     * Add worker to define job container.
+  api: {
+    /**
+     * Make RabbitMQ API Request
      *
-     * @param name
-     * @param worker
-     *//*
-    value: function define ( name, worker ) {
-      this.defineJobs[name] = worker;
-    }
-  },
-*/
+     * @example
+     *
+     *    // Get Vhosts
+     *    Instance.api( &#x27;get&#x27;, &#x27;vhosts&#x27;, console.log );
+     *
+     *    // Get queues
+     *    Instance.api( &#x27;get&#x27;, &#x27;queues&#x27;, console.log );
+     *
+     * @async
+     * @chainable
+     * @param method
+     * @param query
+     * @param cb
+     */
+    value: function api( method, query, cb ) {
 
-  run: {
-    value: function run ( name, data, response ) {
+      Rabbit.request({
+        url: Instance.get( &#x27;settings.api&#x27; ) + &#x27;/vhosts&#x27;,
+        json: true,
+        auth: {
+          user: Instance.get( &#x27;settings.login&#x27; ),
+          pass: Instance.get( &#x27;settings.password&#x27; )
+        }
+      }, function( error, req, body ) { cb( error, body ); });
 
+      // Chainable.
+      return this;
 
-      var exchange = this.connection.exchange( name, {type: &#x27;direct&#x27;, durable: true}, function() {
-        var queue  = this.connection.queue( name + &#x27;.run&#x27;, {durable:true}, function() {
-
-          queue.bind( name, &#x27;&#x27; );
-          queue.on( &#x27;queueBindOk&#x27;, function() {
-
-            exchange.publish( name + &#x27;.run&#x27;, data, {
-              headers:      { api: &#x27;some kind of key&#x27;, sid: &#x27;some kind of id&#x27;},
-              contentType:      &#x27;application/json&#x27;,
-              deliveryMode      : 2,
-              &quot;priority&quot;        : 9,
-              &quot;correlationId&quot;   : &quot;a unique id&quot;,
-              //          &quot;replyTo&quot;         : message.email,
-              //          &quot;expiration&quot;      : &quot;10000&quot;, // Will delete messages in 10 seconds
-              &quot;messageId&quot;       : Math.random().toString( 36 ).substring( 2 ),
-              &quot;type&quot;            : &quot;user&quot;,
-              &quot;userId&quot;          : &quot;udx&quot;, // must match authenticated..
-              &quot;appId&quot;           : &quot;rabbit&quot;,
-              &quot;clusterId&quot;       : &#x27;asdf&#x27;   // does nothing
-            });
-          });
-        });
-      });
     },
     enumerable: true,
     writable: true,
     configurable: true
   },
-  work: {
-    value: function work ( name, response ) {
-      var exchange = this.connection.exchange( name, {type: &#x27;direct&#x27;, durable: true}, function() {
-        var queue  = this.connection.queue( name + &#x27;.run&#x27;, {durable:true}, function() {
+  defineJob: {
+    /**
+     * Define a job.
+     *
+     * @param name {String} Name of job type.
+     * @param fn {Function} Function to process job.
+     */
+    value: function defineJob( name, fn ) {
 
-          queue.bind( name, &#x27;&#x27; );
-          queue.on( &#x27;queueBindOk&#x27;, function() {
+      var Instance = this;
 
-            queue.subscribe(function(message) {
+      // Job Queue Options.
+      var _options = {
+        durable: true,
+        autoDelete: false,
+        passive: false,
+        arguments: {
+          name: name
+        }
+      };
 
-              response( message );
+      // Use the default &#x27;amqueue.topic&#x27; exchange
+      this.connection.queue( _options.arguments.name, _options, function have_queue( queue ) {
+        console.log( &#x27;have_queue&#x27;, queue.state, Instance.get( &#x27;exchange.name&#x27; ) );
 
-            });
+        // Bind to exchange with routing of &quot;job&quot;
+        queue.bind( Instance.get( &#x27;exchange.name&#x27; ), name );
 
+        // Receive messages
+        queue.subscribe({ prefetchCount: 1, ack: true }, function have_message( message, headers, info ) {
 
-          });
+          console.log( &#x27;message&#x27;, message );
+          console.log( &#x27;headers&#x27;, headers );
+          // console.log( &#x27;deliveryTag&#x27;, info.deliveryTag.toString() );
+
+          setTimeout( function() {
+            queue.shift();
+          }, 1000 )
+
         });
+
       });
 
+    },
+    enumerable: true,
+    writable: true,
+    configurable: true
+  },
+  runJob: {
+    /**
+     * Run a job.
+     *
+     * @param name
+     * @param data
+     * @param response
+     */
+    value: function runJob( name, data, response ) {
+
+      var _options = {
+        type: &#x27;job&#x27;,
+        correlationId : Math.random().toString( 36 ).substring( 2 ),
+        contentType:&#x27;application/json&#x27;,
+        headers: {
+          format: &#x27;json&#x27;,
+          sid: Math.random().toString( 36 ).substring( 2 ),
+          jid: Math.random().toString( 36 ).substring( 2 ),
+          pid: this.get( &#x27;identity&#x27; )
+        },
+        deliveryMode: 2
+        // immediate : false,
+        // confirm: false,
+        // priority: 9,
+        // expiration: &quot;10000&quot;,
+        // messageId: Math.random().toString( 36 ).substring( 2 ),
+        // replyTo: message.email,
+        // appId: this.get( &#x27;app_id&#x27; )
+      }
+
+      this.get( &#x27;exchange&#x27; ).publish( name, data, _options, function published() {
+        console.log( &#x27;job request published&#x27; );
+
+        // Instance.subscribe( _options.correlationId );
+
+      });
+
+      return this;
 
     },
+    enumerable: true,
+    writable: true,
+    configurable: true
+  },
+  define: {
+    get: function() { return this.defineJob },
+    enumerable: false,
+    configurable: true
+  },
+  run: {
+    get: function() { return this.runJob },
+    enumerable: false,
+    configurable: true
+  },
+  message: {
+    value: require( &#x27;./message&#x27; ),
     enumerable: true,
     writable: true,
     configurable: true
   }
 });
 
-
-
-
-
-
-
-
 // Rabit constructor properties.
 Object.defineProperties( module.exports = Rabbit, {
   debug: {
-    value: _debug( &#x27;Rabbit&#x27; ),
-    enumerable: true,
+    value: require( &#x27;debug&#x27; )( &#x27;rabbit&#x27; ),
+    enumerable: false,
+    writable: true,
+    configurable: true
+  },
+  request: {
+    value: require( &#x27;request&#x27; ),
+    enumerable: false,
+    writable: true,
+    configurable: true
+  },
+  extend: {
+    value: require( &#x27;extend&#x27; ),
+    enumerable: false,
+    writable: true,
+    configurable: true
+  },
+  amqp: {
+    value: require( &#x27;amqp&#x27; ),
+    enumerable: false,
+    writable: true,
+    configurable: true
+  },
+  defaults: {
+    value: {
+      host: &#x27;localhost&#x27;,
+      port: 5672,
+      login: &#x27;guest&#x27;,
+      password: &#x27;guest&#x27;,
+      vhost: &#x27;/&#x27;,
+      exchange: &#x27;wabbit&#x27;,
+      reconnect: true,
+      api: &#x27;http://localhost:15672/api&#x27;
+    },
+    enumerable: false,
     writable: true,
     configurable: true
   },
   createConnection: {
     /**
      * Returns new instance of Rabbit.
+     *
+     * @param settings {Object} Configuration for connection.
+     * @returns {Rabbit}
      */
-    value: function createConnection ( options ) {
-      Rabbit.debug( &#x27;Creating new connection.&#x27; );
-      return new Rabbit( options );
+    value: function createConnection ( settings, cb ) {
+      return new Rabbit( settings, cb );
     },
     enumerable: true,
     writable: true,

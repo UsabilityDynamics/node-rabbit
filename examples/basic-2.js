@@ -3,8 +3,8 @@ var Rabbit = require( '../' );
 var rabbit = Rabbit.createConnection({
   host         : 'localhost',
   port         : 5672,
-  login        : 'udx',
-  password     : 'ISM0Rules'
+  login        : process.env.RABBIT_LOGIN,
+  password     : process.env.RABBIT_PASSWORD
 });
 
 rabbit.on( '**', function( data ) {

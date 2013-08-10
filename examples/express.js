@@ -7,11 +7,8 @@
 
 var express   = require( 'express' );
 var Rabbit    = require( '../' );
-
-
-
-
 var app = express();
+
 app.configure( function configure() {
 
   this.use( express.bodyParser() );
@@ -21,8 +18,8 @@ app.configure( function configure() {
   this.rabbit = Rabbit.createConnection({
     host         : 'localhost',
     port         : 5672,
-    login        : 'udx',
-    password     : 'ISM0Rules'
+    login        : process.env.RABBIT_LOGIN,
+    password     : process.env.RABBIT_PASSWORD
   });
 
   Rabbit.on( '**', function( data ) {
@@ -34,7 +31,6 @@ app.configure( function configure() {
     this.rabbit.run( 'validate.email', user.email, console.log );
     this.rabbit.run( 'create.account', user, console.log );
   });
-
 
   // Start Service
   this.server = this.listen( 3000, '127.0.0.1' ).on( 'error', console.error );
