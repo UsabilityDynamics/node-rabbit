@@ -1,6 +1,6 @@
 {
   "name": "task-rabbit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "RabbitMQ powered distributed job management.",
   "keywords": [
   ],
