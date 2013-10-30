@@ -1,3 +1,5 @@
+Node.js module for RabbitMQ-controlled job and session management.
+
 ## License
 
 (The MIT License)
