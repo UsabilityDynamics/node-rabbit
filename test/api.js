@@ -30,10 +30,9 @@ module.exports = {
 
       // Constructor properties.
       Rabbit.should.have.property( 'debug' );
-      Rabbit.should.have.property( 'request' );
-      Rabbit.should.have.property( 'amqp' );
-      Rabbit.should.have.property( 'extend' );
-      Rabbit.should.have.property( 'defaults' );
+      //Rabbit.should.have.property( 'request' );
+      //Rabbit.should.have.property( 'amqp' );
+      //Rabbit.should.have.property( 'extend' );
       Rabbit.should.have.property( 'prototype' );
       Rabbit.should.have.property( 'createConnection' );
 
