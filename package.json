@@ -1,6 +1,6 @@
 {
   "name": "rabbit",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "RabbitMQ powered distributed job management.",
   "keywords": [
     "rabbitmq",
@@ -10,6 +10,22 @@
   ],
   "license": "MIT",
   "copyright" : "Copyright (c) 2013 Usability Dynamics, Inc.",
+  "bin": {
+    "rabbit-start": "./bin/rabbit-start.js",
+    "rabbit-stop": "./bin/rabbit-stop.js",
+    "rabbit-console": "./bin/rabbit-console.js"
+  },
+  "scripts": {
+    "test": "make test",
+    "install": "sh bin/shell/install.sh",
+    "publish": "sh bin/shell/publish.sh"
+  },
+  "directories": {
+    "doc": "./static/codex",
+    "lib": "./lib",
+    "bin": "./bin",
+    "examples": "./examples"
+  },
   "author": {
     "name": "Usability Dynamics",
     "email": "info@usabilitydynamics.com",
@@ -35,21 +51,32 @@
     "type": "git",
     "url": "https://github.com/UsabilityDynamics/node-rabbit"
   },
-  "main": "index",
+  "main": "lib/rabbit.js",
   "preferGlobal": false,
   "dependencies" : {
     "async": "*",
     "auto": "*",
+    "abstract": "*",
     "msgpack": "*",
     "request": "*",
     "colors": "*",
-    "extend": "*",
+    "lodash": "*",
     "amqp": "*",
     "debug": "*",
     "object-emitter": ">=0.0.4",
     "object-settings": "*"
   },
   "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-markdown": "~0.4.0",
+    "grunt-contrib-symlink": "*",
+    "grunt-mocha-cli": "~1.3.0",
+    "grunt-contrib-yuidoc": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-contrib-less": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-jscoverage": "0.0.3",
     "mocha": "*",
     "should": "*",
     "faker": "*"
