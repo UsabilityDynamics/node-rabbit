@@ -2,35 +2,45 @@ Node.js module for RabbitMQ-controlled job and session management.
 
 ## Overview
 
-  - [Creating Activities](#creating-activities)
+  - [Registering Activities](#creating-activities)
+  - [Processing Distributed Jobs](#processing-distributed-jobs)
 
 ## Semantics
 
-  - Activity
-  - Correlation
-  - Workflow
-  - Session
-  - Exchange
-  - Queue
-  - Virtual Host
+  - Activity: A defined job handler. 
+  - Job: An instance of an activity with parameters, Session ID, timeout limit, etc..
+  - Job Request: A message sent to the activity exchange to start an activity (job).
+  - Session: Unique identifier for a persistent client.
+  - Exchange: Two exchanges are created - "activities" and "sessions"
+  - Queue: Multiple queues are created automatically for activity workers, job progress and persistent sessions.
+  - Worker: A Node.js service, or cluster of services, that consume job requests.
+  - Virtual Host: Organizational unit.
+
+## Queue Types
+
+  - activity work requests: Queues created for each activity type and monitored by worker nodes.
+  - job correlation: Temporary queue for messages pertaining to a specific Job ID.
+  - session: Created for each persistent session. Job correlation messages are routed here if client is not available.
 
 ## Registering Activities
 Define an activity by specifying a unique name and a callback method.
 The activity will be registered within the client and a corresponding queue will be created and associated with the exchange.
 
 ```js
+// On a Worker node.
 client.registerActivity( 'generate-pdf', function generatePDF() {
 
 
 });
 ```
-## Processing Activities
+## Processing Distributed Jobs
 The registered activities may then be started from any Rabbit Client that is connected to the broker where an activity was registered.
 client.startActivity( 'generate-pdf', function generatePDF() {
 
 
 });
 
+```json
 {
   contentType: 'application/json',
   headers: {
@@ -48,14 +58,13 @@ client.startActivity( 'generate-pdf', function generatePDF() {
   redelivered: false,
   exchange: 'example',
   routingKey: 'activity:api/generate-key',
-  consumerTag: 'node-amqp-48948-0.5767979223746806' }
+  consumerTag: 'node-amqp-48948-0.5767979223746806' 
+}
+```
 
 ## Environment Variables
 
   - RABBIT_URL - e.g. amqp://guest:guest@localhost:5672/
-  - RABBIT_LOGIN - e.g. guest
-  - RABBIT_PASSWORD - e.g. guest
-  - RABBIT_VHOST - e.g. guest
 
 ## Debugging
 The module uses the debug module and emits logs in the "rabbit:client" namespace.
