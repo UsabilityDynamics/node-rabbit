@@ -11,11 +11,7 @@
   "license": "MIT",
   "config": {
     "exchænge": "node-rabbit",
-    "host": "localhost",
-    "port": 5672,
-    "login": "guest",
-    "password": "guest",
-    "vhost": "/",
+    "url": "",
     "reconnect": true,
     "api": "http://localhost:15672/api"
   },
@@ -63,19 +59,20 @@
   "main": "./lib/rabbit-client.js",
   "preferGlobal": false,
   "dependencies" : {
+    "amqp": "*",
     "async": "*",
     "auto": "*",
     "abstract": "*",
     "msgpack": "*",
-    "request": "*",
-    "colors": "*",
     "lodash": "*",
-    "amqp": "*",
     "debug": "*",
+    "winston": ">=0.7.2",
     "object-emitter": ">=0.0.4",
-    "object-settings": "*"
+    "object-settings": "*",
+    "request": "*"
   },
   "devDependencies": {
+    "colors": "~0.6.2",
     "grunt-contrib-symlink": "~0.2.0",
     "grunt-contrib-yuidoc": "~0.5.0",
     "grunt-contrib-watch": "~0.5.3",

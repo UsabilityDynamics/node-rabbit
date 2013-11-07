@@ -78,7 +78,12 @@ module.exports = function( grunt ) {
       }
     },
 
-    clean: [],
+    clean: [
+      "node_modules/abstract",
+      "node_modules/auto",
+      "node_modules/object-emitter",
+      "node_modules/object-settings"
+    ],
 
     shell: {
       install: {},

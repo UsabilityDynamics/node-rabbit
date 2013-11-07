@@ -1,5 +1,15 @@
 Node.js module for RabbitMQ-controlled job and session management.
 
+## Environment Variables
+
+ - RABBIT_URL - e.g. amqp://guest:guest@localhost:5672/
+ - RABBIT_LOGIN - e.g. guest
+ - RABBIT_PASSWORD - e.g. guest
+ - RABBIT_VHOST - e.g. guest
+
+## Debugging
+The module uses the debug module and emits logs in the "rabbit:client" namespace.
+
 ## License
 
 (The MIT License)
