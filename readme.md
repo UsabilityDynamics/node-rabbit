@@ -53,7 +53,7 @@ client.registerActivity( 'api/generate-pdf:v1', function generatePDF( req, res )
   // Send progress update.
   res.send({ 
     progress: 0.2, 
-    message: util.format( 'Generation complete; uploading to Google Cloud Storage bucket [%s].', req.param( 'bucket' )  )
+    message: util.format( 'Generation complete; uploading to GS Bucket [%s].', req.param( 'bucket' ) )
   });
 
   // Test if we are passed the timeout limit - meaning the client is no longer expected to be online
@@ -98,8 +98,8 @@ function jobHandler( req, res ) {
 }
 
 client.processTask( 'api/generate-pdf:v1', { 
-  name: 'My Invoice', 
-  template: 'invoice',
+  name: "My Invoice", 
+  template: "invoice",
   amount: 50 
 }, jobHandler );
 
