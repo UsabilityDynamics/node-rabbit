@@ -1,16 +1,14 @@
 /**
  * Module dependencies.
  */
-
 var express = require( 'express' );
+var rabbit = require( 'rabbit-client' );
 var request = require( 'request' );
 var path = require( 'path' );
-var rabbit = require( 'rabbit-client' );
-var app = express();
-var debug = require( 'debug' )( 'example-express' );
 var routes = require( './routes' );
 var api = require( './routes/api' );
 var user = require( './routes/user' );
+var app = express();
 
 // Start Server
 app.listen( process.env.PORT || 3000 , process.env.HOSTNAME || '0.0.0.0', function() {
@@ -33,20 +31,29 @@ app.listen( process.env.PORT || 3000 , process.env.HOSTNAME || '0.0.0.0', functi
   // Expose
   module.exports = this;
 
+  // Send test request
+  // request.get({ url: 'http://localhost:3000/api/generate-key?site=terminallance.com' }, function( error, res, body ) { console.log( 'body', body ); });
+
 });
 
 // Start Service
-rabbit.create( 'amqp://guest:guest@localhost:5672' ).configure( function( rabbit ) {
-  debug( 'Rabbit Client started on an Express server listening on port %s:%s.', app.get( 'hostname' ), app.get( 'port' ) );
+rabbit.create( function Client( error ) {
+  // console.log( 'Rabbit Client started on an Express server listening on port %s:%s.', app.get( 'hostname' ), app.get( 'port' ) );
 
-  // Add new Routes
-  app.get( '/user/validation', user.validate );
-  app.get( '/api/generate-key', api.generate.key );
+  // Configure
+  this.set( 'settings.url', 'amqp://guest:guest@localhost:5672' );
+  this.set( 'settings.exchange', 'example' );
 
-  // Add Rabbit Client to Application
-  app.rabbit = rabbit;
+  this.configure( function() {
+    this.debug( 'Connected to [%s] exchange; adding jobs to routes.', this.get( 'exchange.name' ) );
 
-  // Send test request
-  // request.get({ url: 'http://localhost:3000/api/generate-key?site=terminallance.com' }, function( error, res, body ) { console.log( 'body', body ); });
+    // Add new Routes
+    app.get( '/user/validation', user.validate );
+    app.get( '/api/generate-key', api.generate.key );
+
+    // Add Rabbit Client to Application
+    app.startActivity = this.startActivity.bind( this );;
+
+  });
 
 });

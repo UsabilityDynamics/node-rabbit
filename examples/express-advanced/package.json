@@ -1,14 +1,17 @@
 {
-  "name": "application-name",
+  "name": "express-advanced",
   "version": "0.0.1",
   "private": true,
+  "bin": {
+    "start": "node app.js",
+    "worker": "node worker.js"
+  },
   "scripts": {
-    "start": "node app.js"
+    "start": "node worker.js"
   },
   "dependencies": {
     "express": "3.4.4",
     "jade": "*",
-    "request": "~2.27.0",
     "debug": "~0.7.3"
   }
 }

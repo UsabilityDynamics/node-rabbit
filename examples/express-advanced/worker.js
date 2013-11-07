@@ -4,14 +4,20 @@
  * @author potanin
  * @date 8/10/13
  */
-require( 'rabbit-client' ).create( 'amqp://guest:guest@localhost:5672' ).configure( function configure( error, Rabbit ) {
-  this.debug( 'Connected to RabbitMQ server, registering jobs.' );
+require( 'rabbit-client' ).create( function Worker( error  ) {
 
-  this.set( 'settings.exchange', 'express-test' );
+  // Configure
+  this.set( 'settings.url', 'amqp://guest:guest@localhost:5672' );
+  this.set( 'settings.exchange', 'example' );
 
-  // Define Jobs
-  this.registerActivity( 'api/generate-key', require( './activities/generate-key' ) );
-  this.registerActivity( 'user/validate', require( './activities/validate-user' ) );
+  this.configure( function() {
+    this.debug( 'Connected to [%s] exchange; registering jobs.', this.get( 'exchange.name' ) );
+
+    // Define Activities
+    this.registerActivity( 'api/generate-key', require( './activities/generate-key' ) );
+    this.registerActivity( 'user/validate', require( './activities/validate-user' ) );
+
+  });
 
 });
 

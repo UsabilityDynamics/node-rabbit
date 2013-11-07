@@ -14,7 +14,7 @@ Node.js module for RabbitMQ-controlled job and session management.
   - Queue
   - Virtual Host
 
-## Creating Activities
+## Registering Activities
 Define an activity by specifying a unique name and a callback method.
 The activity will be registered within the client and a corresponding queue will be created and associated with the exchange.
 
@@ -24,11 +24,31 @@ client.registerActivity( 'generate-pdf', function generatePDF() {
 
 });
 ```
-## Start Activity (startActivity)
+## Processing Activities
+The registered activities may then be started from any Rabbit Client that is connected to the broker where an activity was registered.
 client.startActivity( 'generate-pdf', function generatePDF() {
 
 
 });
+
+{
+  contentType: 'application/json',
+  headers: {
+    correlation_key: 'correlation.6bnd8g14t7nl8fr',
+    activity_type: 'api/generate-key'
+  },
+  deliveryMode: 2,
+  correlationId: '6bnd8g14t7nl8fr',
+  replyTo: 'nty822paalsxajor',
+  messageId: '9a4q0eqxcvc59udi',
+  type: 'activity:api/generate-key',
+  appId: '48927',
+  queue: 'activity:api/generate-key',
+  deliveryTag: <Buffer 00 00 00 00 00 00 00 01>,
+  redelivered: false,
+  exchange: 'example',
+  routingKey: 'activity:api/generate-key',
+  consumerTag: 'node-amqp-48948-0.5767979223746806' }
 
 ## Environment Variables
 

@@ -15,30 +15,28 @@ exports.generate = {
    * @param next
    */
   key: function generateKey( req, res ) {
-    // console.log( 'Request to generateKey...' );
 
-    // Run job
-    req.rabbit.startActivity( 'api/generate-key', req.query, function job( correlation ) {
-      // console.log( 'Sending job [%s] to exchange.', this.job_type );
+    // Start Activity
+    req.app.startActivity( 'api/generate-key', req.query, function job( task ) {
 
       setTimeout( function() {
 
         // Force kill of correlation.
-        correlation.emit( 'kill' );
+        task.emit( 'kill' );
 
         res.send({
           success: false,
           message: 'timed out..',
-          correlation: correlation
+          correlation: task
         });
 
       }, 1000 )
 
-      this.on( '**', function( error, message, data ) {
+      task.on( '**', function( error, message, data ) {
         console.log( this.event.blue, error, JSON.stringify( data ) )
       });
 
-      this.once( 'complete', function( error, message, data ) {
+      task.once( 'complete', function( error, message, data ) {
         console.log( 'generateKey job complete' );
 
         res.send({
