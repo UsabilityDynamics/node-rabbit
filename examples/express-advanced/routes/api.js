@@ -19,19 +19,6 @@ exports.generate = {
     // Start Activity
     req.app.startActivity( 'api/generate-key', req.query, function job( task ) {
 
-      setTimeout( function() {
-
-        // Force kill of correlation.
-        task.emit( 'kill' );
-
-        res.send({
-          success: false,
-          message: 'timed out..',
-          correlation: task
-        });
-
-      }, 1000 )
-
       task.on( '**', function( error, message, data ) {
         console.log( this.event.blue, error, JSON.stringify( data ) )
       });
