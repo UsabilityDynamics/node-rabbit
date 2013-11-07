@@ -9,24 +9,14 @@
  * @author potanin
  * @date 8/10/13
  */
+require( 'rabbit-client' ).create( 'amqp://guest:guest@localhost:5672' ).configure( function configure( error, Rabbit ) {
+  this.debug( 'Connected to RabbitMQ server.' );
 
-var Rabbit  = require( '../../' );
-
-// Create Connection
-var Worker  = Rabbit.createConnection({
-  host: process.env.RABBIT_HOST,
-  port: process.env.RABBIT_PORT,
-  login: process.env.RABBIT_LOGIN,
-  password: process.env.RABBIT_PASSWORD
-});
-
-// Successful worker connection.
-Worker.configure( function configure( client ) {
-  Rabbit.debug( 'Connected to RabbitMQ server.' );
+  this.set( 'settings.exchange', 'cluster-test' );
 
   // Define Job One
-  client.registerJob( 'test-job-one', function TestJobOne( data, complete ) {
-    Rabbit.Job.debug( 'Doing [%s] job.', this.type );
+  this.registerActivity( 'test-job-one', function TestJobOne( data, complete ) {
+    this.debug( 'Doing [%s] job.', this.type );
 
     setTimeout( function() {
       complete( null, { message: 'The TestJobOne has been complete.' });
@@ -35,22 +25,19 @@ Worker.configure( function configure( client ) {
   });
 
   // Define Job Two
-  client.registerJob( 'test-job-two', function TestJobTwo( data, complete ) {
-    Rabbit.Job.debug( 'Doing [%s] job.', this.type );
+  this.registerActivity( 'test-job-two', function TestJobTwo( data, complete ) {
+    this.debug( 'Doing [%s] job.', this.type );
 
     setTimeout( function() {
-
-      // Logic for test-job-two goes here, call "complete" method when done with error/null, and response message
-
       complete( null, { message: 'The TestJobTwo has been complete.' });
-
     }, 10000 )
 
   });
 
+  // Worker connection failure.
+  this.once( 'connection.error', function( error, data ) {
+    this.debug( 'Could not connect to %s:%s - error message: [%s].', this.get( 'settings.host' ), this.get( 'settings.port' ), error.message );
+  });
+
 });
 
-// Worker connection failure.
-Worker.once( 'connection.error', function( error, data ) {
-  Rabbit.debug( 'Could not connect to %s:%s - error message: [%s].', this.get( 'settings.host' ), this.get( 'settings.port' ), error.message );
-});

@@ -40,8 +40,8 @@ module.exports = {
 
       // Prototype properties.
       Rabbit.prototype.should.have.property( 'configure' );
-      Rabbit.prototype.should.have.property( 'registerJob' );
-      Rabbit.prototype.should.have.property( 'runJob' );
+      Rabbit.prototype.should.have.property( 'registerActivity' );
+      Rabbit.prototype.should.have.property( 'startActivity' );
 
       // Message properties.
       Rabbit.Correlation.prototype.should.have.property( 'timeout' );

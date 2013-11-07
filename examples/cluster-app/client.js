@@ -12,52 +12,48 @@
  * @date 8/10/13
  */
 
-var Rabbit  = require( '../../' );
+require( 'rabbit-client' ).create( 'amqp://guest:guest@localhost:5672' ).configure( function configure() {
+  this.debug( 'Starting job runners...' );
 
-// Create Connection.
-var Client  = Rabbit.createConnection({
-  host: process.env.RABBIT_HOST,
-  port: process.env.RABBIT_PORT,
-  login: process.env.RABBIT_LOGIN, 
-  password: process.env.RABBIT_PASSWORD 
-});
+  var card    = require( 'faker' ).Helpers.createCard
+  var async   = require( 'async' )
+  var client  = this;
 
-var card    =  require( 'faker' ).Helpers.createCard
-var async   =  require( 'async' )
+  this.set( 'settings.exchange', 'cluster-test' );
 
-// Successful client connection.
-Client.configure( function configure( client ) {
-  Rabbit.debug( 'Connected to RabbitMQ server.' );
+  // Successful client connection.
 
   async.times( 10, function( count ) {
 
-    client.runJob( 'test-job-one', card(), function job_complete() {
-      Rabbit.debug( 'Sending job [%s] #[%d] to [%s] exchange.', this.job_type, count, client.get( 'exchange.name' ) );
+    client.startActivity( 'test-job-one', card(), function job_complete() {
+      this.debug( 'Sending job [%s] #[%d] to [%s] exchange.', this.job_type, count, client.get( 'exchange.name' ) );
 
       this.on( 'progress', function( value ) {
-        Rabbit.debug( 'test-job-one progress update', value );
+        this.debug( 'test-job-one progress update', value );
       });
 
       this.on( 'complete', function( message ) {
-        Rabbit.debug( 'test-job-one complete', message );
+        this.debug( 'test-job-one complete', message );
       });
 
     });
 
-    client.runJob( 'test-job-two', card(), function job_complete() {
-      Rabbit.debug( 'A "test-job-two" work request sent.' );
+    client.startActivity( 'test-job-two', card(), function job_complete() {
+      this.debug( 'A "test-job-two" work request sent.' );
 
       this.on( 'complete', function( message ) {
-        Rabbit.debug( 'test-job-two complete', message );
+        this.debug( 'test-job-two complete', message );
       });
 
     });
 
   });
 
-});
 
-// Client connection failure.
-Client.once( 'connection.error', function( error, data ) {
-  Rabbit.debug( 'Connection Error: [%s].', error.message );
+  // Client connection failure.
+  this.once( 'connection.error', function( error, data ) {
+  this.debug( 'Connection Error: [%s].', error.message );
+  });
+
+
 });

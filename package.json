@@ -10,9 +10,9 @@
   ],
   "license": "MIT",
   "config": {
-    "exchænge": "node-rabbit",
     "url": "",
-    "reconnect": true,
+    "exchange": "amq.topic",
+    "reconnect": false,
     "api": "http://localhost:15672/api"
   },
   "copyright" : "Copyright (c) 2013 Usability Dynamics, Inc.",

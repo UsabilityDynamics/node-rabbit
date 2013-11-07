@@ -1,14 +1,47 @@
 Node.js module for RabbitMQ-controlled job and session management.
 
+## Overview
+
+  - [Creating Activities](#creating-activities)
+
+## Semantics
+
+  - Activity
+  - Correlation
+  - Workflow
+  - Session
+  - Exchange
+  - Queue
+  - Virtual Host
+
+## Creating Activities
+Define an activity by specifying a unique name and a callback method.
+The activity will be registered within the client and a corresponding queue will be created and associated with the exchange.
+
+```js
+client.registerActivity( 'generate-pdf', function generatePDF() {
+
+
+});
+```
+## Start Activity (startActivity)
+client.startActivity( 'generate-pdf', function generatePDF() {
+
+
+});
+
 ## Environment Variables
 
- - RABBIT_URL - e.g. amqp://guest:guest@localhost:5672/
- - RABBIT_LOGIN - e.g. guest
- - RABBIT_PASSWORD - e.g. guest
- - RABBIT_VHOST - e.g. guest
+  - RABBIT_URL - e.g. amqp://guest:guest@localhost:5672/
+  - RABBIT_LOGIN - e.g. guest
+  - RABBIT_PASSWORD - e.g. guest
+  - RABBIT_VHOST - e.g. guest
 
 ## Debugging
 The module uses the debug module and emits logs in the "rabbit:client" namespace.
+
+## Resources
+  - [AMQP Concepts](http://www.rabbitmq.com/tutorials/amqp-concepts.html)
 
 ## License
 
