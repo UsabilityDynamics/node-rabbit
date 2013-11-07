@@ -105,6 +105,33 @@ client.processTask( 'api/generate-pdf:v1', {
 
 ```
 
+```js
+
+// Instantiate Express
+var app = require( 'express' ).call().configure( function() {
+
+  // Create Rabbit Client instance
+  var client = require( 'rabbit-client' ).create( 'amqp://user:password@localhost:11300/my-vhost' );
+  
+  app.use( express.bodyParser() );
+  app.use( express.methodOverride() );
+  app.use( express.logger() );
+  app.use( express.static( 'public' ) );
+  
+  // Add Rabbit Client task handlers as middleware.
+  app.use( '/api/generate-pdf', client.processTask( 'api/generate-pdf:v1' ) );
+  app.use( '/api/validate-key', client.processTask( 'api/validate-key:v2' ) );
+  app.use( '/api/analyze-site', client.processTask( 'api/analyze-site:v1' ) );
+
+  app.use( app.router );
+  app.use( express.errorHandler() );
+  
+  app.listen( 3000 );
+  
+});
+
+```
+
 ## Exchanges
 In AMQP protocol, specifically RabbitMQ, all messages are published to an exchange.
 Once in the Exchange various rules route messages to a queue or another exchange.
