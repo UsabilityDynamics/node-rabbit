@@ -21,19 +21,42 @@ Define an activity by specifying a unique name and a callback method.
 The activity will be registered within the client and a corresponding queue will be created and associated with the exchange.
 
 ```js
-// On a Worker node.
-client.registerActivity( 'generate-pdf', function generatePDF() {
+/**
+ * On a Worker node we define an Activity Type and a handler method to be invoked for Job Requests.
+ *
+ * @params data {Object} 
+ * @params task {Object} 
+ */
+client.registerActivity( 'api/generate-pdf:v1', function generatePDF( req, res ) {
+
+  res.send({ 
+    progress: 0.2, 
+    message: util.format( 'Generating PDF named [%s].', req.param( 'name' )  )
+  });
+
+  res.send({ 
+    progress: 0.2, 
+    message: util.format( 'Generation complete; uploading to Google Cloud Storage bucket [%s].', req.param( 'bucket' )  )
+  });
+
+  res.send({
+    progress: 1, 
+    message: 'PDF File generated.",
+    url: "http://commondatastorage.googleapis.com/static.saas.usabilitydynamics.com/sample.pdf"
+  });
+
+});
+```
+
+## Processing Distributed Jobs
+The registered activities may then be started from any Rabbit Client that is connected to the broker where an activity was registered.
+
+```js
+client.processTask( 'generate-pdf', function generatePDF() {
 
 
 });
 ```
-## Processing Distributed Jobs
-The registered activities may then be started from any Rabbit Client that is connected to the broker where an activity was registered.
-client.startActivity( 'generate-pdf', function generatePDF() {
-
-
-});
-
 
 ## Exchanges
 In AMQP protocol, specifically RabbitMQ, all messages are published to an exchange.
