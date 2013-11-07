@@ -16,12 +16,6 @@ Node.js module for RabbitMQ-controlled job and session management.
   - Worker: A Node.js service, or cluster of services, that consume job requests.
   - Virtual Host: Organizational unit.
 
-## Queue Types
-
-  - activity work requests: Queues created for each activity type and monitored by worker nodes.
-  - job correlation: Temporary queue for messages pertaining to a specific Job ID.
-  - session: Created for each persistent session. Job correlation messages are routed here if client is not available.
-
 ## Registering Activities
 Define an activity by specifying a unique name and a callback method.
 The activity will be registered within the client and a corresponding queue will be created and associated with the exchange.
@@ -40,27 +34,26 @@ client.startActivity( 'generate-pdf', function generatePDF() {
 
 });
 
-```json
-{
-  contentType: 'application/json',
-  headers: {
-    correlation_key: 'correlation.6bnd8g14t7nl8fr',
-    activity_type: 'api/generate-key'
-  },
-  deliveryMode: 2,
-  correlationId: '6bnd8g14t7nl8fr',
-  replyTo: 'nty822paalsxajor',
-  messageId: '9a4q0eqxcvc59udi',
-  type: 'activity:api/generate-key',
-  appId: '48927',
-  queue: 'activity:api/generate-key',
-  deliveryTag: <Buffer 00 00 00 00 00 00 00 01>,
-  redelivered: false,
-  exchange: 'example',
-  routingKey: 'activity:api/generate-key',
-  consumerTag: 'node-amqp-48948-0.5767979223746806' 
-}
-```
+
+## Exchanges
+In AMQP protocol, specifically RabbitMQ, all messages are published to an exchange.
+Once in the Exchange various rules route messages to a queue or another exchange.
+If the broker is unable to route a message it will be dropped.
+
+  - Activity Exchange: Routes Work Requests to appropriate queue(s).
+  - Session Exchange: Routes Job Progress and Session messages to appropriate queue(s).
+  
+## Queue Types
+
+  - Work Requests Queue: Queues created for each activity type and monitored by worker nodes.
+  - Job Correlation Queue: Temporary queue for messages pertaining to a specific Job ID.
+  - Session Queue: Created for each persistent session. Job correlation messages are routed here if client is not available.
+
+## Message Types
+
+  - Work Request: Send to Activity Exchange and routed to an Activity Work Requests Queue.
+  - Job Progress: Sent to Session Exchange and routed to a temporary Job Correlation Queue.
+  - Session: Sent to Session Exchange and routed to a persistent Session Queue.
 
 ## Environment Variables
 
