@@ -17,7 +17,7 @@ exports.generate = {
   key: function generateKey( req, res ) {
 
     // Start Activity
-    req.app.startActivity( 'api/generate-key', req.query, function job( task ) {
+    req.app.processJob( 'api/generate-key', req.query, function job( task ) {
 
       task.on( '**', function( error, message, data ) {
         console.log( this.event.blue, error, JSON.stringify( data ) )

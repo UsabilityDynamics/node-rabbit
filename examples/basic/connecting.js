@@ -12,7 +12,7 @@ var Client = require( 'rabbit-client' ).create( function Client() {
 Client.configure( function configure( client ) {
   client.log( 'Connected to [%s]', client.get( 'settings.url' ) );
 
-  client.startActivity( 'user', User, console.log );
+  client.processJob( 'user', User, console.log );
 
   setInterval(function() {}, 1000 );
 

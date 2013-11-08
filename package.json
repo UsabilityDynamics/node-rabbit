@@ -8,12 +8,14 @@
     "jobs",
     "amqp"
   ],
-  "license": "MIT",
   "config": {
-    "url": "",
-    "exchange": "amq.topic",
-    "reconnect": false,
-    "api": "http://localhost:15672/api"
+    "name": "rabbit-client",
+    "url": "amqp://guest:guest@localhost:5672/",
+    "api": "http://localhost:15672/api",
+    "exchanges": {
+      "session" : "session.topic",
+      "activity" : "activity.topic"
+    }
   },
   "copyright" : "Copyright (c) 2013 Usability Dynamics, Inc.",
   "bin": {
@@ -36,6 +38,17 @@
     "email": "info@usabilitydynamics.com",
     "url": "http://usabilitydynamics.com"
   },
+  "preferGlobal": true,
+  "homepage": "http://github.com/UsabilityDynamics/node-rabbit-client",
+  "bugs": {
+    "url": "http://github.com/UsabilityDynamics/node-rabbit-client/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/UsabilityDynamics/node-rabbit-client#license"
+    }
+  ],
   "contributors": [
     {
       "name": "Andy Potanin",
@@ -48,28 +61,21 @@
       "url": "http://usabilitydynamics.com"
     }
   ],
-  "engines": [
-    "node >=0.8.0",
-    "npm >=1.0.0"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/UsabilityDynamics/node-rabbit-client"
-  },
   "main": "./lib/rabbit-client.js",
-  "preferGlobal": false,
   "dependencies" : {
-    "amqp": "*",
-    "async": "*",
-    "auto": "*",
-    "abstract": "*",
-    "msgpack": "*",
-    "lodash": "*",
-    "debug": "*",
-    "winston": ">=0.7.2",
-    "object-emitter": ">=0.0.4",
-    "object-settings": "*",
-    "request": "*"
+    "amqp": "git+ssh://git@github.com:UsabilityDynamics/node-amqp#master",
+    "async": ">=0.2.9",
+    "auto": ">=0.0.2",
+    "abstract": ">=0.0.8",
+    "commander": ">=2.0.0",
+    "debug": ">=0.7.3",
+    "lodash": ">=2.2.1",
+    "msgpack": ">=0.2.1",
+    "request": ">=2.27.0",
+    "object-emitter": ">=0.0.5",
+    "object-settings": ">=0.0.6",
+    "object-validation": ">=0.0.3",
+    "winston": ">=0.7.2"
   },
   "devDependencies": {
     "colors": "~0.6.2",
@@ -83,5 +89,13 @@
     "grunt-markdown": "~0.4.0",
     "grunt-mocha-cli": "~1.3.0",
     "grunt-shell": "~0.5.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:UsabilityDynamics/node-rabbit-client.git"
+  },
+  "engines": [
+    "node >=0.8.0",
+    "npm >=1.0.0"
+  ]
 }

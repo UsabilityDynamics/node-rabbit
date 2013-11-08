@@ -23,8 +23,8 @@ app.configure( function() {
     app.get( '/login-validation', function( req, res, next ) {
       client.debug( 'Have job request for login-validation... Sending job request.');
 
-      client.startActivity( 'login-validation', card(), function job_complete() {
-        this.debug( 'Sending job [%s] #[%d] to [%s] exchange.', this.job_type, count, client.get( 'exchange.name' ) );
+      client.processJob( 'login-validation', card(), function job_complete() {
+        this.debug( 'Sending job [%s] #[%d] to [%s] exchange.', this.job_type, count, client.get( 'settings.vhost' ) );
 
         this.on( 'progress', function( value ) {
           this.debug( 'test-job-one progress update', value );

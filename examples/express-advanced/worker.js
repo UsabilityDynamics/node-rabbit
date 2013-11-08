@@ -11,7 +11,7 @@ require( 'rabbit-client' ).create( function Worker( error  ) {
   this.set( 'settings.exchange', 'example' );
 
   this.configure( function() {
-    this.debug( 'Connected to [%s] exchange; registering jobs.', this.get( 'exchange.name' ) );
+    this.debug( 'Connected to [%s] exchange; registering jobs.', this.get( 'settings.vhost' ) );
 
     // Define Activities
     this.registerActivity( 'api/generate-key', require( './activities/generate-key' ) );

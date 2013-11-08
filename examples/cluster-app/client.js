@@ -25,8 +25,8 @@ require( 'rabbit-client' ).create( 'amqp://guest:guest@localhost:5672' ).configu
 
   async.times( 10, function( count ) {
 
-    client.startActivity( 'test-job-one', card(), function job_complete() {
-      this.debug( 'Sending job [%s] #[%d] to [%s] exchange.', this.job_type, count, client.get( 'exchange.name' ) );
+    client.processJob( 'test-job-one', card(), function job_complete() {
+      this.debug( 'Sending job [%s] #[%d] to [%s] exchange.', this.job_type, count, client.get( 'settings.vhost' ) );
 
       this.on( 'progress', function( value ) {
         this.debug( 'test-job-one progress update', value );
@@ -38,7 +38,7 @@ require( 'rabbit-client' ).create( 'amqp://guest:guest@localhost:5672' ).configu
 
     });
 
-    client.startActivity( 'test-job-two', card(), function job_complete() {
+    client.processJob( 'test-job-two', card(), function job_complete() {
       this.debug( 'A "test-job-two" work request sent.' );
 
       this.on( 'complete', function( message ) {

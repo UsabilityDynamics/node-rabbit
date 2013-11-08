@@ -42,17 +42,16 @@ rabbit.create( function Client( error ) {
 
   // Configure
   this.set( 'settings.url', 'amqp://guest:guest@localhost:5672' );
-  this.set( 'settings.exchange', 'example' );
 
   this.configure( function() {
-    this.debug( 'Connected to [%s] exchange; adding jobs to routes.', this.get( 'exchange.name' ) );
+    this.debug( 'Connected to [%s] exchange; adding jobs to routes.', this.get( 'settings.vhost' ) );
 
     // Add new Routes
     app.get( '/user/validation', user.validate );
     app.get( '/api/generate-key', api.generate.key );
 
     // Add Rabbit Client to Application
-    app.startActivity = this.startActivity.bind( this );;
+    app.processJob = this.processJob.bind( this );;
 
   });
 

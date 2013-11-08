@@ -21,14 +21,16 @@ Define an activity by specifying a unique name and a callback method.
 The activity will be registered within the client and a corresponding queue will be created and associated with the exchange.
 
 If you are familiar with Express you will notice that task handler's "request" and "response" parameters follow many of the same conventions. 
+
 ```js
 /**
  * On a Worker node we define an Activity Type and a handler method to be invoked for Job Requests.
  *
+ * @source examples/basic/register-activity.js
  * @params req {Object} Request object.
  * @params res {Object} Response object.
  */
-client.registerActivity( 'api/generate-pdf:v1', function generatePDF( req, res ) {
+require( 'rabbit-client' ).registerActivity( 'api/generate-pdf:v1', function generatePDF( req, res ) {
 
   // Get Header Fields
   this.debug( 'Processing PDF Generation request #[%s] for [%s].', req.get( 'job' ), req.get( 'session' ) );
@@ -43,16 +45,16 @@ client.registerActivity( 'api/generate-pdf:v1', function generatePDF( req, res )
     size: 234323,
     template: req.param( 'template', 'default-template' )
   });
-  
+
   // Send progress update...
-  res.send({ 
-    progress: 0.2, 
+  res.send({
+    progress: 0.2,
     message: util.format( 'Generating PDF named [%s].', req.param( 'name' )  )
   });
 
   // Send progress update.
-  res.send({ 
-    progress: 0.2, 
+  res.send({
+    progress: 0.2,
     message: util.format( 'Generation complete; uploading to GS Bucket [%s].', req.param( 'bucket' ) )
   });
 
@@ -60,11 +62,11 @@ client.registerActivity( 'api/generate-pdf:v1', function generatePDF( req, res )
   if( this.time > req.get( 'timeout' ) ) {
     this.debug( 'PDF Generation request for #[%s] took too long...', req.get( 'job' ) );
   }
-  
+
   // Send final response.
   res.send({
-    progress: 1, 
-    message: 'PDF File generated.",
+    progress: 1,
+    message: "PDF File generated.",
     url: "http://commondatastorage.googleapis.com/static.saas.usabilitydynamics.com/sample.pdf"
   });
 
@@ -78,7 +80,7 @@ The registered activities may then be started from any Rabbit Client that is con
 /**
  * Job Handler
  *
- *
+ * @source examples/basic/job-job-handler.js
  */
 function jobHandler( req, res ) {
   this.debug( 'Starting PDF Generation job.' );
@@ -87,49 +89,54 @@ function jobHandler( req, res ) {
   this.on( 'message', function message( error, data ) {
     this.debug( 'PDF Generation job complete in [s].', this.time );
     console.log( 'Job Message: [%s]', error ? error.message : data.message );
-  }
-  
+  });
+
   // Completion event - could be an error
   this.on( 'complete', function complete( error, data ) {
     this.debug( 'PDF Generation job complete in [s].', this.time );
     console[ error ? 'error' : 'log' ]( error || data );
-  }
+  });
 
 }
 
-client.processTask( 'api/generate-pdf:v1', { 
-  name: "My Invoice", 
+client.processJob( 'api/generate-pdf:v1', {
+  name: "My Invoice",
   template: "invoice",
-  amount: 50 
+  amount: 50
 }, jobHandler );
 
 ```
 
 ```js
-
-// Instantiate Express
+/**
+ * Instantiate Express
+ *
+ * @source examples/basic/express-middleware.js
+ * @type {*|configure|app}
+ */
 var app = require( 'express' ).call().configure( function() {
 
   // Create Rabbit Client instance
   var client = require( 'rabbit-client' ).create( 'amqp://user:password@localhost:11300/my-vhost' );
-  
+
   app.use( express.bodyParser() );
   app.use( express.methodOverride() );
   app.use( express.logger() );
   app.use( express.static( 'public' ) );
-  
+
   // Add Rabbit Client task handlers as middleware.
-  app.use( '/api/generate-pdf', client.processTask( 'api/generate-pdf:v1' ) );
-  app.use( '/api/validate-key', client.processTask( 'api/validate-key:v2' ) );
-  app.use( '/api/analyze-site', client.processTask( 'api/analyze-site:v1' ) );
+  app.use( '/api/generate-pdf', client.processJob( 'api/generate-pdf:v1' ) );
+  app.use( '/api/validate-key', client.processJob( 'api/validate-key:v2' ) );
+  app.use( '/api/analyze-site', client.processJob( 'api/analyze-site:v1' ) );
 
   app.use( app.router );
   app.use( express.errorHandler() );
-  
-  app.listen( 3000 );
-  
-});
 
+  app.listen( 3000 );
+
+  module.exports = this;
+
+});
 ```
 
 ## Exchanges
@@ -154,6 +161,7 @@ If the broker is unable to route a message it will be dropped.
 
 ## Developing and Debuging
 
+  - All objects have get/set methods; all instance properties should be stored via these methods.
   - The environment variable RABBIT_URL can be used as a default URL. e.g. "amqp://guest:guest@localhost:5672/"
   - The module uses the debug module and emits logs in the "rabbit:client" namespace.
 
