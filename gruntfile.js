@@ -67,7 +67,6 @@ module.exports = function( grunt ) {
           // postCompile: function postCompile( src, context ) {},
           templateContext: {},
           markdownOptions: {
-            highlight: 'manual',
             gfm: true,
             codeLines: {
               before: '<span>',

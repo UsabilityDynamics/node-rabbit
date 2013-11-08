@@ -13,11 +13,11 @@
     "url": "amqp://guest:guest@localhost:5672/",
     "api": "http://localhost:15672/api",
     "exchanges": {
-      "session" : "session.topic",
-      "activity" : "activity.topic"
+      "session": "session.topic",
+      "activity": "activity.topic"
     }
   },
-  "copyright" : "Copyright (c) 2013 Usability Dynamics, Inc.",
+  "copyright": "Copyright (c) 2013 Usability Dynamics, Inc.",
   "bin": {
     "rabbit-client": "./bin/rabbit-client.js"
   },
@@ -62,7 +62,7 @@
     }
   ],
   "main": "./lib/rabbit-client.js",
-  "dependencies" : {
+  "dependencies": {
     "amqp": "git+ssh://git@github.com:UsabilityDynamics/node-amqp#master",
     "async": ">=0.2.9",
     "auto": ">=0.0.2",
@@ -75,7 +75,8 @@
     "object-emitter": ">=0.0.5",
     "object-settings": ">=0.0.6",
     "object-validation": ">=0.0.3",
-    "winston": ">=0.7.2"
+    "winston": ">=0.7.2",
+    "string": "~1.6.1"
   },
   "devDependencies": {
     "colors": "~0.6.2",

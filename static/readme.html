@@ -1,0 +1,293 @@
+<!DOCTYPE  html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>doc</title>
+    <style>
+      /*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/
+      pre code {
+        display: block; padding: 0.5em;
+        color: #333;
+        background: #f8f8ff
+      }
+      pre .comment,
+      pre .template_comment,
+      pre .diff .header,
+      pre .javadoc {
+        color: #998;
+        font-style: italic
+      }
+      pre .keyword,
+      pre .css .rule .keyword,
+      pre .winutils,
+      pre .javascript .title,
+      pre .nginx .title,
+      pre .subst,
+      pre .request,
+      pre .status {
+        color: #333;
+        font-weight: bold
+      }
+      pre .number,
+      pre .hexcolor,
+      pre .ruby .constant {
+        color: #099;
+      }
+      pre .string,
+      pre .tag .value,
+      pre .phpdoc,
+      pre .tex .formula {
+        color: #d14
+      }
+      pre .title,
+      pre .id {
+        color: #900;
+        font-weight: bold
+      }
+      pre .javascript .title,
+      pre .lisp .title,
+      pre .clojure .title,
+      pre .subst {
+        font-weight: normal
+      }
+      pre .class .title,
+      pre .haskell .type,
+      pre .vhdl .literal,
+      pre .tex .command {
+        color: #458;
+        font-weight: bold
+      }
+      pre .tag,
+      pre .tag .title,
+      pre .rules .property,
+      pre .django .tag .keyword {
+        color: #000080;
+        font-weight: normal
+      }
+      pre .attribute,
+      pre .variable,
+      pre .lisp .body {
+        color: #008080
+      }
+      pre .regexp {
+        color: #009926
+      }
+      pre .class {
+        color: #458;
+        font-weight: bold
+      }
+      pre .symbol,
+      pre .ruby .symbol .string,
+      pre .lisp .keyword,
+      pre .tex .special,
+      pre .prompt {
+        color: #990073
+      }
+      pre .built_in,
+      pre .lisp .title,
+      pre .clojure .built_in {
+        color: #0086b3
+      }
+      pre .preprocessor,
+      pre .pi,
+      pre .doctype,
+      pre .shebang,
+      pre .cdata {
+        color: #999;
+        font-weight: bold
+      }
+      pre .deletion {
+        background: #fdd
+      }
+      pre .addition {
+        background: #dfd
+      }
+      pre .diff .change {
+        background: #0086b3
+      }
+      pre .chunk {
+        color: #aaa
+      }
+    </style>
+  </head>
+  <body>  
+    <p>Node.js module for RabbitMQ-controlled job and session management.</p>
+<h2>Overview</h2>
+<ul>
+<li><a href="#creating-activities">Registering Activities</a></li>
+<li><a href="#processing-distributed-jobs">Processing Distributed Jobs</a></li>
+</ul>
+<h2>Semantics</h2>
+<ul>
+<li>Activity: A defined job handler. </li>
+<li>Job: An instance of an activity with parameters, Session ID, timeout limit, etc..</li>
+<li>Job Request: A message sent to the activity exchange to start an activity (job).</li>
+<li>Session: Unique identifier for a persistent client.</li>
+<li>Exchange: Two exchanges are created - &quot;activities&quot; and &quot;sessions&quot;</li>
+<li>Queue: Multiple queues are created automatically for activity workers, job progress and persistent sessions.</li>
+<li>Worker: A Node.js service, or cluster of services, that consume job requests.</li>
+<li>Virtual Host: Organizational unit.</li>
+</ul>
+<h2>Registering Activities</h2>
+<p>Define an activity by specifying a unique name and a callback method.
+The activity will be registered within the client and a corresponding queue will be created and associated with the exchange.</p>
+<p>If you are familiar with Express you will notice that task handler&#39;s &quot;request&quot; and &quot;response&quot; parameters follow many of the same conventions. </p>
+<pre><code class="lang-js">/**
+ * On a Worker node we define an Activity Type and a handler method to be invoked for Job Requests.
+ *
+ * @source examples/basic/register-activity.js
+ * @params req {Object} Request object.
+ * @params res {Object} Response object.
+ */
+require( &#39;rabbit-client&#39; ).registerActivity( &#39;api/generate-pdf:v1&#39;, function generatePDF( req, res ) {
+
+  // Get Header Fields
+  this.debug( &#39;Processing PDF Generation request #[%s] for [%s].&#39;, req.get( &#39;job&#39; ), req.get( &#39;session&#39; ) );
+
+  // Get a parameter. In practice, this validation should occur on the producer end.
+  if( !req.param( &#39;name&#39; ) ) {
+    return res.send( new Error( &#39;The name field is not specified.&#39; ) );
+  }
+
+  // Set some response fields.
+  res.set({
+    size: 234323,
+    template: req.param( &#39;template&#39;, &#39;default-template&#39; )
+  });
+
+  // Send progress update...
+  res.send({
+    progress: 0.2,
+    message: util.format( &#39;Generating PDF named [%s].&#39;, req.param( &#39;name&#39; )  )
+  });
+
+  // Send progress update.
+  res.send({
+    progress: 0.2,
+    message: util.format( &#39;Generation complete; uploading to GS Bucket [%s].&#39;, req.param( &#39;bucket&#39; ) )
+  });
+
+  // Test if we are passed the timeout limit - meaning the client is no longer expected to be online
+  if( this.time &gt; req.get( &#39;timeout&#39; ) ) {
+    this.debug( &#39;PDF Generation request for #[%s] took too long...&#39;, req.get( &#39;job&#39; ) );
+  }
+
+  // Send final response.
+  res.send({
+    progress: 1,
+    message: &quot;PDF File generated.&quot;,
+    url: &quot;http://commondatastorage.googleapis.com/static.saas.usabilitydynamics.com/sample.pdf&quot;
+  });
+
+});</code></pre>
+<h2>Processing Distributed Jobs</h2>
+<p>The registered activities may then be started from any Rabbit Client that is connected to the broker where an activity was registered.</p>
+<pre><code class="lang-js">/**
+ * Job Handler
+ *
+ * @source examples/basic/job-job-handler.js
+ */
+function jobHandler( req, res ) {
+  this.debug( &#39;Starting PDF Generation job.&#39; );
+
+  // Receive a message from Activity Worker on the other side of the world.
+  this.on( &#39;message&#39;, function message( error, data ) {
+    this.debug( &#39;PDF Generation job complete in [s].&#39;, this.time );
+    console.log( &#39;Job Message: [%s]&#39;, error ? error.message : data.message );
+  });
+
+  // Completion event - could be an error
+  this.on( &#39;complete&#39;, function complete( error, data ) {
+    this.debug( &#39;PDF Generation job complete in [s].&#39;, this.time );
+    console[ error ? &#39;error&#39; : &#39;log&#39; ]( error || data );
+  });
+
+}
+
+client.processJob( &#39;api/generate-pdf:v1&#39;, {
+  name: &quot;My Invoice&quot;,
+  template: &quot;invoice&quot;,
+  amount: 50
+}, jobHandler );</code></pre>
+<pre><code class="lang-js">/**
+ * Instantiate Express
+ *
+ * @source examples/basic/express-middleware.js
+ * @type {*|configure|app}
+ */
+var app = require( &#39;express&#39; ).call().configure( function() {
+
+  // Create Rabbit Client instance
+  var client = require( &#39;rabbit-client&#39; ).create( &#39;amqp://user:password@localhost:11300/my-vhost&#39; );
+
+  app.use( express.bodyParser() );
+  app.use( express.methodOverride() );
+  app.use( express.logger() );
+  app.use( express.static( &#39;public&#39; ) );
+
+  // Add Rabbit Client task handlers as middleware.
+  app.use( &#39;/api/generate-pdf&#39;, client.processJob( &#39;api/generate-pdf:v1&#39; ) );
+  app.use( &#39;/api/validate-key&#39;, client.processJob( &#39;api/validate-key:v2&#39; ) );
+  app.use( &#39;/api/analyze-site&#39;, client.processJob( &#39;api/analyze-site:v1&#39; ) );
+
+  app.use( app.router );
+  app.use( express.errorHandler() );
+
+  app.listen( 3000 );
+
+  module.exports = this;
+
+});</code></pre>
+<h2>Exchanges</h2>
+<p>In AMQP protocol, specifically RabbitMQ, all messages are published to an exchange.
+Once in the Exchange various rules route messages to a queue or another exchange.
+If the broker is unable to route a message it will be dropped.</p>
+<ul>
+<li>Activity Exchange: Routes Work Requests to appropriate queue(s).</li>
+<li>Session Exchange: Routes Job Progress and Session messages to appropriate queue(s).</li>
+</ul>
+<h2>Queue Types</h2>
+<ul>
+<li>Work Requests Queue: Queues created for each activity type and monitored by worker nodes.</li>
+<li>Job Correlation Queue: Temporary queue for messages pertaining to a specific Job ID.</li>
+<li>Session Queue: Created for each persistent session. Job correlation messages are routed here if client is not available.</li>
+</ul>
+<h2>Message Types</h2>
+<ul>
+<li>Work Request: Send to Activity Exchange and routed to an Activity Work Requests Queue.</li>
+<li>Job Progress: Sent to Session Exchange and routed to a temporary Job Correlation Queue.</li>
+<li>Session: Sent to Session Exchange and routed to a persistent Session Queue.</li>
+</ul>
+<h2>Developing and Debuging</h2>
+<ul>
+<li>All objects have get/set methods; all instance properties should be stored via these methods.</li>
+<li>The environment variable RABBIT_URL can be used as a default URL. e.g. &quot;amqp://guest:guest@localhost:5672/&quot;</li>
+<li>The module uses the debug module and emits logs in the &quot;rabbit:client&quot; namespace.</li>
+</ul>
+<h2>Resources</h2>
+<ul>
+<li><a href="http://www.rabbitmq.com/tutorials/amqp-concepts.html">AMQP Concepts</a></li>
+</ul>
+<h2>License</h2>
+<p>(The MIT License)</p>
+<p>Copyright (c) 2013 Usability Dynamics, Inc. &lt;info@usabilitydynamics.com&gt;</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+&#39;Software&#39;), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &#39;AS IS&#39;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+  </body>
+</html>

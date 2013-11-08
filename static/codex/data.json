@@ -1,0 +1,825 @@
+{
+    "project": {
+        "name": "rabbit-client",
+        "description": "RabbitMQ powered distributed job management.",
+        "version": "0.1.0",
+        "url": "http://github.com/UsabilityDynamics/node-rabbit-client",
+        "logo": "http://media.usabilitydynamics.com/logo.png"
+    },
+    "files": {
+        "lib/client/activity.js": {
+            "name": "lib/client/activity.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/client/correlation.js": {
+            "name": "lib/client/correlation.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/client/job.js": {
+            "name": "lib/client/job.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/client/thing.js": {
+            "name": "lib/client/thing.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/rabbit-client.js": {
+            "name": "lib/rabbit-client.js",
+            "modules": {},
+            "classes": {},
+            "fors": {
+                "RabbitClient": 1
+            },
+            "namespaces": {}
+        },
+        "lib/utility.js": {
+            "name": "lib/utility.js",
+            "modules": {},
+            "classes": {
+                "Utility": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "RabbitClient": {
+            "name": "RabbitClient",
+            "shortname": "RabbitClient",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": []
+        },
+        "Utility": {
+            "name": "Utility",
+            "shortname": "Utility",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "lib/utility.js",
+            "line": 1,
+            "description": "RabbitMQ Client Utility Methods",
+            "uses": [
+                "Abstract"
+            ]
+        }
+    },
+    "classitems": [
+        {
+            "file": "lib/client/activity.js",
+            "line": 1,
+            "description": "Create Activity\n\nThe prototype must be registered prior to being initalized.",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Unique identifier for Activity, used to configure queue names, correlation keys, etc.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Activity"
+            },
+            "is_constructor": 1,
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/activity.js",
+            "line": 45,
+            "description": "Activity Name\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/activity.js",
+            "line": 57,
+            "description": "Activity Group / Type\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/activity.js",
+            "line": 70,
+            "description": "Activity Prototype Status\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/activity.js",
+            "line": 82,
+            "description": "Activity Connection\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/activity.js",
+            "line": 94,
+            "description": "Activity Exchange\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/activity.js",
+            "line": 232,
+            "description": "Initialize Prototype",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "settings",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Function"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/activity.js",
+            "line": 262,
+            "description": "Update Prototype Properties.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/activity.js",
+            "line": 268,
+            "description": "Set Activity Type - can not be changed",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/activity.js",
+            "line": 312,
+            "description": "Exchange Link",
+            "return": {
+                "description": "",
+                "type": "Boolean|debug|string"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/activity.js",
+            "line": 324,
+            "description": "Instance Pool",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/correlation.js",
+            "line": 1,
+            "description": "Correlation Response Stream\n\n-",
+            "is_constructor": 1,
+            "chainable": 1,
+            "author": "potanin",
+            "date": "8/10/13",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/correlation.js",
+            "line": 82,
+            "description": "Correlation job timeout.",
+            "todo": [
+                "-"
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/correlation.js",
+            "line": 121,
+            "params": [
+                {
+                    "name": "data",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Correlation"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/job.js",
+            "line": 1,
+            "description": "Job Instance\n\n-",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "is_constructor": 1,
+            "author": "potanin@UD",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/job.js",
+            "line": 117,
+            "description": "Pack String",
+            "params": [
+                {
+                    "name": "string",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/job.js",
+            "line": 143,
+            "description": "Unpack Message",
+            "params": [
+                {
+                    "name": "string",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/job.js",
+            "line": 169,
+            "description": "Update Progress.",
+            "itemtype": "method",
+            "name": "progress",
+            "params": [
+                {
+                    "name": "string",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/job.js",
+            "line": 205,
+            "description": "Complete Job.",
+            "itemtype": "method",
+            "name": "complete",
+            "params": [
+                {
+                    "name": "string",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/job.js",
+            "line": 266,
+            "params": [
+                {
+                    "name": "data",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Job"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/thing.js",
+            "line": 9,
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Name of exchange to connection to.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*|error|string"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/thing.js",
+            "line": 46,
+            "params": [
+                {
+                    "name": "activity_type",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "message",
+                    "description": ""
+                },
+                {
+                    "name": "headers",
+                    "description": ""
+                },
+                {
+                    "name": "info",
+                    "description": ""
+                },
+                {
+                    "name": "queue",
+                    "description": ""
+                }
+            ],
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/rabbit-client.js",
+            "line": 1,
+            "description": "Rabbit Client\n\nThe Rabbit works, or else the Rabbit gets fucked; proper fucked, that is\n\n## Events\n- connection           : General connection event - could be an error or a success.\n- connection.success   : Successful connection event.\n- connection.error     : Connection failure.\n- error                : General error.\n\n## AMQP Events\n- __connection.end\n- __connection.finish\n- __connection.connect\n- __connection.data\n- __connection.readable\n- __connection.error\n- __connection.ready",
+            "params": [
+                {
+                    "name": "handler",
+                    "description": "Extendeble callback method.",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "Newly created Rabbit context.",
+                "type": "RabbitClient"
+            },
+            "version": "0.1.0",
+            "async": 1,
+            "chainable": 1,
+            "is_constructor": 1,
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/rabbit-client.js",
+            "line": 70,
+            "description": "Action Queue",
+            "itemtype": "property",
+            "name": "__queue",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/rabbit-client.js",
+            "line": 114,
+            "description": "Connect to Broker via AMQP",
+            "itemtype": "method",
+            "name": "connect",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/rabbit-client.js",
+            "line": 207,
+            "description": "Configure Client\n\nMethod executed when connection is ready.\nUsage and semantics emulating Express.",
+            "params": [
+                {
+                    "name": "env",
+                    "description": ""
+                },
+                {
+                    "name": "callback",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/rabbit-client.js",
+            "line": 249,
+            "description": "Regiser New Activity.\n\n- Instantiate Activity Type\n- Subscribe to work-request queue.",
+            "example": [
+                "\n\n   client.registerActivity( '/api/generate-key:v1', function Worker( req, res ) {\n\n   });"
+            ],
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Name of job type.",
+                    "type": "String"
+                },
+                {
+                    "name": "activity",
+                    "description": "Function to process job.",
+                    "type": "Function"
+                }
+            ],
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/rabbit-client.js",
+            "line": 282,
+            "description": "Publish a Work Request",
+            "itemtype": "method",
+            "name": "processJob",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Name of job type.",
+                    "type": "String"
+                },
+                {
+                    "name": "message",
+                    "description": "Job parameters.",
+                    "type": "Object"
+                },
+                {
+                    "name": "handler",
+                    "description": "Callback method.",
+                    "type": "Function"
+                }
+            ],
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/rabbit-client.js",
+            "line": 333,
+            "description": "Validate Settings\n\nAttempts to fix broken settings and laod environment defaults.",
+            "itemtype": "method",
+            "name": "validate",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/rabbit-client.js",
+            "line": 395,
+            "description": "Returns new context of RabbitClient.",
+            "itemtype": "method",
+            "name": "create",
+            "params": [
+                {
+                    "name": "handler",
+                    "description": "Handler method or configuration object for connection.",
+                    "type": "Object|Function"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "RabbitClient"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/rabbit-client.js",
+            "line": 439,
+            "description": "Create Service",
+            "itemtype": "method",
+            "name": "startService",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/rabbit-client.js",
+            "line": 451,
+            "description": "Create Connection",
+            "itemtype": "method",
+            "name": "startService",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/rabbit-client.js",
+            "line": 468,
+            "description": "Module Version",
+            "itemtype": "attribute",
+            "name": "version",
+            "type": "sring",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/rabbit-client.js",
+            "line": 479,
+            "description": "Schemas",
+            "itemtype": "attribute",
+            "name": "_schemas",
+            "type": "object",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/utility.js",
+            "line": 9,
+            "description": "Extra Utility Methods",
+            "class": "Utility"
+        },
+        {
+            "file": "lib/utility.js",
+            "line": 15,
+            "description": "Debug Method\n\nInitialized method that uses the instance's \"name\" property, or constructor name, to identify\ndebug namespace. Caches instance in __debug.",
+            "return": {
+                "description": "",
+                "type": "Boolean|debug|string"
+            },
+            "class": "Utility"
+        },
+        {
+            "file": "lib/utility.js",
+            "line": 34,
+            "description": "Debug",
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "Utility"
+        },
+        {
+            "file": "lib/utility.js",
+            "line": 60,
+            "description": "Subscribe to Pattern",
+            "params": [
+                {
+                    "name": "pattern",
+                    "description": ""
+                },
+                {
+                    "name": "handler",
+                    "description": ""
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "Utility"
+        },
+        {
+            "file": "lib/utility.js",
+            "line": 141,
+            "description": "Publish Message to Exchange",
+            "params": [
+                {
+                    "name": "pattern",
+                    "description": "AMQP",
+                    "type": "String"
+                },
+                {
+                    "name": "message",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "Utility"
+        },
+        {
+            "file": "lib/utility.js",
+            "line": 202,
+            "params": [
+                {
+                    "name": "error",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "Utility"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/activity.js:1"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/activity.js:232"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/activity.js:312"
+        },
+        {
+            "message": "unknown tag: date",
+            "line": " lib/client/correlation.js:1"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/correlation.js:82"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/correlation.js:121"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/job.js:1"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/job.js:117"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/job.js:143"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/job.js:169"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/job.js:205"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/job.js:266"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/thing.js:9"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/rabbit-client.js:1"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " lib/rabbit-client.js:1"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/rabbit-client.js:207"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/rabbit-client.js:395"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/utility.js:15"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/utility.js:34"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/utility.js:60"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/utility.js:141"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/utility.js:202"
+        },
+        {
+            "message": "Missing item type\nCreate Activity\n\nThe prototype must be registered prior to being initalized.",
+            "line": " lib/client/activity.js:1"
+        },
+        {
+            "message": "Missing item type\nActivity Name\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/activity.js:45"
+        },
+        {
+            "message": "Missing item type\nActivity Group / Type\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/activity.js:57"
+        },
+        {
+            "message": "Missing item type\nActivity Prototype Status\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/activity.js:70"
+        },
+        {
+            "message": "Missing item type\nActivity Connection\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/activity.js:82"
+        },
+        {
+            "message": "Missing item type\nActivity Exchange\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/activity.js:94"
+        },
+        {
+            "message": "Missing item type\nInitialize Prototype",
+            "line": " lib/client/activity.js:232"
+        },
+        {
+            "message": "Missing item type\nUpdate Prototype Properties.",
+            "line": " lib/client/activity.js:262"
+        },
+        {
+            "message": "Missing item type\nSet Activity Type - can not be changed",
+            "line": " lib/client/activity.js:268"
+        },
+        {
+            "message": "Missing item type\nExchange Link",
+            "line": " lib/client/activity.js:312"
+        },
+        {
+            "message": "Missing item type\nInstance Pool",
+            "line": " lib/client/activity.js:324"
+        },
+        {
+            "message": "Missing item type\nCorrelation Response Stream\n\n-",
+            "line": " lib/client/correlation.js:1"
+        },
+        {
+            "message": "Missing item type\nCorrelation job timeout.",
+            "line": " lib/client/correlation.js:82"
+        },
+        {
+            "message": "Missing item type",
+            "line": " lib/client/correlation.js:121"
+        },
+        {
+            "message": "Missing item type\nJob Instance\n\n-",
+            "line": " lib/client/job.js:1"
+        },
+        {
+            "message": "Missing item type\nPack String",
+            "line": " lib/client/job.js:117"
+        },
+        {
+            "message": "Missing item type\nUnpack Message",
+            "line": " lib/client/job.js:143"
+        },
+        {
+            "message": "Missing item type",
+            "line": " lib/client/job.js:266"
+        },
+        {
+            "message": "Missing item type",
+            "line": " lib/client/thing.js:9"
+        },
+        {
+            "message": "Missing item type",
+            "line": " lib/client/thing.js:46"
+        },
+        {
+            "message": "Missing item type\nRabbit Client\n\nThe Rabbit works, or else the Rabbit gets fucked; proper fucked, that is\n\n## Events\n- connection           : General connection event - could be an error or a success.\n- connection.success   : Successful connection event.\n- connection.error     : Connection failure.\n- error                : General error.\n\n## AMQP Events\n- __connection.end\n- __connection.finish\n- __connection.connect\n- __connection.data\n- __connection.readable\n- __connection.error\n- __connection.ready",
+            "line": " lib/rabbit-client.js:1"
+        },
+        {
+            "message": "Missing item type\nConfigure Client\n\nMethod executed when connection is ready.\nUsage and semantics emulating Express.",
+            "line": " lib/rabbit-client.js:207"
+        },
+        {
+            "message": "Missing item type\nRegiser New Activity.\n\n- Instantiate Activity Type\n- Subscribe to work-request queue.",
+            "line": " lib/rabbit-client.js:249"
+        },
+        {
+            "message": "Missing item type\nExtra Utility Methods",
+            "line": " lib/utility.js:9"
+        },
+        {
+            "message": "Missing item type\nDebug Method\n\nInitialized method that uses the instance's \"name\" property, or constructor name, to identify\ndebug namespace. Caches instance in __debug.",
+            "line": " lib/utility.js:15"
+        },
+        {
+            "message": "Missing item type\nDebug",
+            "line": " lib/utility.js:34"
+        },
+        {
+            "message": "Missing item type\nSubscribe to Pattern",
+            "line": " lib/utility.js:60"
+        },
+        {
+            "message": "Missing item type\nPublish Message to Exchange",
+            "line": " lib/utility.js:141"
+        },
+        {
+            "message": "Missing item type",
+            "line": " lib/utility.js:202"
+        }
+    ]
+}
