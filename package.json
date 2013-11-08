@@ -12,6 +12,10 @@
     "name": "rabbit-client",
     "url": "amqp://guest:guest@localhost:5672/",
     "api": "http://localhost:15672/api",
+    "authMechanism": "AMQPLAIN",
+    "ssl": {
+      "enabled": false
+    },
     "exchanges": {
       "session": "session.topic",
       "activity": "activity.topic"

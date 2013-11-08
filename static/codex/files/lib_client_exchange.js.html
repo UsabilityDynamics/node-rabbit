@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lib/client/exchange.js - rabbit-client</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="http://media.usabilitydynamics.com/logo.png" title="rabbit-client"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.1.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/RabbitClient.html">RabbitClient</a></li>
+            
+                <li><a href="../classes/Utility.html">Utility</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: lib/client/exchange.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ *
+ * @param handler
+ * @constructor
+ */
+function Exchange( handler ) {
+
+}
+
+// Exchange Instance Properties.
+Object.defineProperties( Exchange.prototype, {
+  name: {
+    /**
+     * Activity Name
+     *
+     * Prototype is considered unregistered until set.
+     *
+     */
+    value: undefined,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  type: {
+    /**
+     * Activity Group / Type
+     *
+     * Prototype is considered unregistered until set.
+     *
+     */
+    value: undefined,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+
+  active: {
+    /**
+     * Activity Prototype Status
+     *
+     * Prototype is considered unregistered until set.
+     *
+     */
+    value: false,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  connection: {
+    /**
+     * Activity Connection
+     *
+     * Prototype is considered unregistered until set.
+     *
+     */
+    value: undefined,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  exchange: {
+    /**
+     * Activity Exchange
+     *
+     * Prototype is considered unregistered until set.
+     *
+     */
+    value: undefined,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+
+  pack: {
+    /**
+     * Pack String
+     *
+     * @param string
+     * @returns {*}
+     */
+    value: function pack( string ) {
+
+      if( this.format === &#x27;application/msgpack&#x27; ) {
+
+        if( this.data instanceof Buffer ) {
+          this.data = this.data.toString();
+        }
+
+        this.data = Exchange.utility.msgpack.pack( string || this.data );
+
+      }
+
+      return this.data;
+
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  unpack: {
+    /**
+     * Unpack Message
+     *
+     * @param string
+     * @returns {*}
+     */
+    value: function unpack( message ) {
+
+      if( this.format === &#x27;application/msgpack&#x27; ) {
+
+        if( message instanceof Buffer ) {
+          message = message.toString();
+        }
+
+        message = Exchange.utility.msgpack.unpack( message );
+
+      }
+
+      return message;
+
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+
+  progress: {
+    /**
+     * Update Progress.
+     *
+     * @method progress
+     * @param string
+     * @returns {*}
+     */
+    value: function progress( value, message ) {
+      this.debug( &#x27;Updating progress job type [%s]. Responding to CQ [%s].&#x27;, this.routing, this.correlation_key );
+
+      // Publish progress message to Exchange Queue.
+      this.exchange.publish( this.correlation_key, {
+        progress: value,
+        message: message instanceof Error ? message.message : message
+      }, {
+        messageId: this.id,
+        contentType: this.format,
+        type: this.correlation_key,
+        deliveryMode: 2,
+        headers: {
+          event: &#x27;progress&#x27;,
+          is_error: error instanceof Error ? true : false,
+          correlation_key: this.correlation_key,
+          job_type: this.type
+        }
+      });
+
+      // @chainable
+      return this;
+
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  complete: {
+    /**
+     * Complete Exchange.
+     *
+     * @method complete
+     * @param string
+     * @returns {*}
+     */
+    value: function complete( error, response ) {
+      this.debug( &#x27;Completing job type [%s]. Responding to Exchange Queue [%s].&#x27;, this.routing, this.correlation_key );
+
+      if( &#x27;object&#x27; !== typeof response ) {
+        response = { message: response }
+      }
+
+      // Publish message to Exchange Queue
+      this.exchange.publish( this.correlation_key, response, {
+        messageId: this.id,
+        contentType: this.format,
+        type: this.correlation_key,
+        deliveryMode: 2,
+        headers: {
+          event: &#x27;complete&#x27;,
+          is_error: error instanceof Error ? true : false,
+          correlation_key: this.correlation_key,
+          job_type: this.type
+        }
+      });
+
+      // @todo Should we force-closure Exchange Queue?
+
+      // @chainable
+      return this;
+
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+
+  message: {
+    value: function message() {
+
+      Object.defineProperties( this, {
+        id: {
+          value: id,
+          enumerable: true,
+          configurable: true,
+          writable: true
+        },
+        format: {
+          value: data.format || &#x27;application/json&#x27;,
+          enumerable: true,
+          configurable: true,
+          writable: true
+        },
+        correlation_key: {
+          value: data.correlation_key,
+          enumerable: true,
+          configurable: true,
+          writable: true
+        },
+        client: {
+          value: data.client,
+          enumerable: true,
+          configurable: true,
+          writable: true
+        },
+        routing: {
+          value: data.routing,
+          enumerable: true,
+          configurable: true,
+          writable: true
+        },
+        message: {
+          value: this.unpack( data.message ),
+          enumerable: true,
+          configurable: true,
+          writable: true
+        },
+        meta: {
+          value: data.meta,
+          enumerable: false,
+          configurable: true,
+          writable: true
+        },
+        queue: {
+          value: data.queue,
+          enumerable: false,
+          configurable: true,
+          writable: true
+        },
+        exchange: {
+          value: data.exchange,
+          enumerable: false,
+          configurable: true,
+          writable: true
+        },
+        rabbit: {
+          value: data.rabbit,
+          enumerable: false,
+          configurable: true,
+          writable: true
+        },
+        headers: {
+          value: data.headers,
+          enumerable: false,
+          configurable: true,
+          writable: true
+        }
+      });
+
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  request: {
+    /**
+     *
+     * @param activity_type {String}
+     * @param message
+     * @param headers
+     * @param info
+     * @param queue
+     */
+    value: function request( activity_type, message, headers, info, queue ) {
+      this.debug( &#x27;Handling incoming work request for job [%s] in [%s] exchange.&#x27;, activity_type, this.get( &#x27;exchange.name&#x27; ) );
+
+      // Create Exchange instance from incoming message.
+      var job = Exchange.create({
+        id: info.messageId,
+        exchange: this.get( &#x27;exchange&#x27; ),
+        type: info.type,
+        client: info.replyTo,
+        message: message,
+        format: info.contentType,
+        routing: info.routingKey,
+        correlation_key: headers.correlation_key,
+        meta: {
+          exchange: info.exchange,
+          appId: info.appId,
+          correlation: info.correlationId,
+          mode: info.deliveryMode,
+          consumer: info.consumerTag,
+          redelivered: info.redelivered
+        },
+        queue: queue,
+        headers: headers
+      });
+
+      // Call the Exchange Worker callback.
+      try {
+
+        this.__activities[ job.type ].call( job, job.message, function complete_wrapper( error, response ) {
+          return job.complete( error, response );
+        });
+
+      } catch( error ) { return this.error( error ); }
+
+      // @chainable
+      return this;
+
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+
+  subscribe: {
+    /**
+     * Subscribe to Pattern
+     *
+     * @param pattern
+     * @param handler
+     * @param options {Object}
+     * @returns {*}
+     */
+    value: function subscribe( pattern, handler, options ) {
+      this.debug( &#x27;%s.subscribe(%s)&#x27;, this.constructor.name, pattern );
+
+      if( !this.connection || !this.exchange ) {
+        throw Error( &#x27;Connectedion not ready.&#x27; );
+      }
+
+      var self = this;
+
+      // Queue Defaults
+      options = Exchange.utility.defaults( options || {}, {
+        durable: true,
+        exclusive: false
+      });
+
+      // Create a self-named queue
+      this.connection.queue( [ this.type, this.name ].join( &#x27;.&#x27; ), options, function( queue ) {
+
+        // Bind Exchange with topic &quot;pattern&quot;
+        queue.bind( self.exchange, pattern, function() {
+          self.debug( &quot;Created queue [%s] and bound to pattern [%s].&quot;, queue.name, pattern );
+        });
+
+        // Hadle messages.
+        queue.subscribe( function have_message( data, headers, info, message ) {
+          self.debug( &quot;Have message on [%s][%s]  [%s].&quot;, info.exchange, info.queue, data );
+
+          if( &#x27;function&#x27; !== typeof handler ) {
+            return message.reject();
+          }
+
+          // Acknowledge receipt
+          message.acknowledge();
+
+          // Call Handler in request/response context
+          handler.call({
+            time: undefined,
+            debug: function() {}
+          }, {
+            get: function() {},
+            param: function() {}
+          }, {
+            send: function() {},
+            set: function() {}
+          });
+
+        });
+
+      });
+
+      // @chainable
+      return this;
+
+    },
+    enumerable: true,
+    writable: true,
+    configurable: true
+  },
+  unsubscribe: {
+    /**
+     *
+     * @param consumer_tag
+     * @returns {*}
+     */
+    value: function unsubscribe( consumer_tag ) {
+      this.debug( &#x27;%s.unsubscribe(%s)&#x27;, this.name, consumer_tag );
+
+      if( !this.connection || !this.exchange ) {
+        throw Error( &#x27;Connectedion not ready.&#x27; );
+      }
+
+      // @chainable
+      return this;
+
+    },
+    enumerable: true,
+    writable: true,
+    configurable: true
+  },
+  publish: {
+    /**
+     * Publish Message to Exchange
+     *
+     * @param pattern {String} AMQP
+     * @param message
+     * @returns {*}
+     */
+    value: function publish( pattern, message, options ) {
+
+      this.debug( &#x27;%s.publish(%s,%s)&#x27;, this.name, pattern, message );
+      this.debug( &#x27;%s.publish(%s,%s)&#x27;, this.name, pattern, message );
+
+      if( !this.connection || !this.exchange ) {
+        throw Error( &#x27;Connectedion not ready.&#x27; );
+      }
+
+      options = Exchange.utility.defaults( options, {
+        //appId: this.get( &#x27;identity&#x27; ),
+        type: this.type,
+        //correlationId: correlation.id,
+        messageId: Math.random().toString( 36 ).substring( 2 ),
+        //replyTo: correlation.sid,
+        // contentType: &#x27;application/json&#x27;,
+        // deliveryMode: 2,
+        headers: {
+          // correlation_key: correlation.key,
+          activity_type: this.type
+        }
+      });
+
+      // is confirmation required?
+      if( this.exchange.confirm ) {}
+
+      this.exchange.publish( pattern, message, options ).once( &#x27;ack&#x27;, function() {
+        console.log( &#x27;PUBLISH:ACK&#x27; );
+
+      });
+
+      // @chainable
+      return this;
+
+    },
+    enumerable: true,
+    writable: true,
+    configurable: true
+  }
+
+});
+
+// Exchange Constructor Properties.
+Object.defineProperties( module.exports = Exchange, {
+  Rabbit: {
+    value: require( &#x27;../rabbit-client&#x27; ),
+    enumerable: false,
+    configurable: true,
+    writable: true
+  },
+  create: {
+    value: function create() {
+      return new Exchange( arguments[0] );
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  utility: {
+    value: require( &#x27;../utility&#x27; ),
+    enumerable: false,
+    writable: false
+  },
+  declare: {
+    /**
+     * Initialize Prototype
+     *
+     * @param type {String}
+     * @param settings
+     * @returns {Function}
+     */
+    value: function declare( type, settings, handler ) {
+
+      // If already registered do nothing.
+      if( this.prototype.active ) {
+        return this;
+      }
+
+      if( !type ) {
+        throw new Error( &#x27;Can not declare Exchange without a valid type.&#x27; );
+      }
+
+      var _exchange_settings = {
+        autoDelete: settings.autoDelete || false,
+        arguments: {
+          created: new Date().getTime()
+        },
+        confirm: settings.confirm,
+        durable: settings.durable,
+        noDeclare: false, // @important If true will not create new exchange on first connection.
+        passive: settings.passive,
+        type: &#x27;topic&#x27;
+      };
+
+      /**
+       * Update Prototype Properties.
+       *
+       */
+      Object.defineProperties( this.prototype, {
+        type: {
+          /**
+           * Set Exchange Type - can not be changed
+           *
+           */
+          value: type,
+          enumerable: true,
+          configurable: false,
+          writable: false
+        },
+        active: {
+          value: true,
+          enumerable: true,
+          configurable: false,
+          writable: true
+        },
+        connection: {
+          value: settings.connection,
+          enumerable: false,
+          configurable: false,
+          writable: false
+        },
+        exchange: {
+          value: settings.connection.exchange( type + &#x27;.topic&#x27;, _exchange_settings, function have_exchange( exchange ) {
+
+            if( &#x27;function&#x27; === typeof handler ) {
+              new handler( Exchange, exchange );
+            }
+
+          }),
+          enumerable: false,
+          configurable: true,
+          writable: false
+        }
+      });
+
+      // @chainable
+      return this;
+
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  exchange: {
+    /**
+     * Exchange Link
+     *
+     * @returns {boolean|debug|string}
+     */
+    get: function() {
+      return Exchange.prototype.exchange ? true : false;
+    },
+    enumerable: true,
+    configurable: true
+  },
+  pool: {
+    /**
+     * Instance Pool
+     *
+     */
+    value: {},
+    enumerable: false,
+    configurable: true,
+    writable: true
+  }
+});
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

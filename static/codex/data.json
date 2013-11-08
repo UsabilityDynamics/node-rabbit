@@ -14,8 +14,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "lib/client/correlation.js": {
-            "name": "lib/client/correlation.js",
+        "lib/client/exchange.js": {
+            "name": "lib/client/exchange.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -28,8 +28,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "lib/client/thing.js": {
-            "name": "lib/client/thing.js",
+        "lib/client/session.js": {
+            "name": "lib/client/session.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -85,7 +85,7 @@
         {
             "file": "lib/client/activity.js",
             "line": 1,
-            "description": "Create Activity\n\nThe prototype must be registered prior to being initalized.",
+            "description": "Create Activity\n\nThe prototype must be declareed prior to being initalized.",
             "params": [
                 {
                     "name": "name",
@@ -102,37 +102,37 @@
         },
         {
             "file": "lib/client/activity.js",
-            "line": 45,
-            "description": "Activity Name\n\nPrototype is considered unregistered until set.",
+            "line": 46,
+            "description": "Activity Name\n\nPrototype is considered undeclareed until set.",
             "class": "RabbitClient"
         },
         {
             "file": "lib/client/activity.js",
-            "line": 57,
-            "description": "Activity Group / Type\n\nPrototype is considered unregistered until set.",
+            "line": 58,
+            "description": "Activity Group / Type\n\nPrototype is considered undeclareed until set.",
             "class": "RabbitClient"
         },
         {
             "file": "lib/client/activity.js",
-            "line": 70,
-            "description": "Activity Prototype Status\n\nPrototype is considered unregistered until set.",
+            "line": 71,
+            "description": "Activity Prototype Status\n\nPrototype is considered undeclareed until set.",
             "class": "RabbitClient"
         },
         {
             "file": "lib/client/activity.js",
-            "line": 82,
-            "description": "Activity Connection\n\nPrototype is considered unregistered until set.",
+            "line": 83,
+            "description": "Activity Connection\n\nPrototype is considered undeclareed until set.",
             "class": "RabbitClient"
         },
         {
             "file": "lib/client/activity.js",
-            "line": 94,
-            "description": "Activity Exchange\n\nPrototype is considered unregistered until set.",
+            "line": 95,
+            "description": "Activity Exchange\n\nPrototype is considered undeclareed until set.",
             "class": "RabbitClient"
         },
         {
             "file": "lib/client/activity.js",
-            "line": 232,
+            "line": 195,
             "description": "Initialize Prototype",
             "params": [
                 {
@@ -153,19 +153,19 @@
         },
         {
             "file": "lib/client/activity.js",
-            "line": 262,
+            "line": 225,
             "description": "Update Prototype Properties.",
             "class": "RabbitClient"
         },
         {
             "file": "lib/client/activity.js",
-            "line": 268,
+            "line": 231,
             "description": "Set Activity Type - can not be changed",
             "class": "RabbitClient"
         },
         {
             "file": "lib/client/activity.js",
-            "line": 312,
+            "line": 275,
             "description": "Exchange Link",
             "return": {
                 "description": "",
@@ -175,70 +175,55 @@
         },
         {
             "file": "lib/client/activity.js",
-            "line": 324,
+            "line": 287,
             "description": "Instance Pool",
             "class": "RabbitClient"
         },
         {
-            "file": "lib/client/correlation.js",
+            "file": "lib/client/exchange.js",
             "line": 1,
-            "description": "Correlation Response Stream\n\n-",
-            "is_constructor": 1,
-            "chainable": 1,
-            "author": "potanin",
-            "date": "8/10/13",
-            "class": "RabbitClient"
-        },
-        {
-            "file": "lib/client/correlation.js",
-            "line": 82,
-            "description": "Correlation job timeout.",
-            "todo": [
-                "-"
-            ],
-            "return": {
-                "description": "",
-                "type": "*"
-            },
-            "class": "RabbitClient"
-        },
-        {
-            "file": "lib/client/correlation.js",
-            "line": 121,
             "params": [
                 {
-                    "name": "data",
+                    "name": "handler",
                     "description": ""
                 }
             ],
-            "return": {
-                "description": "",
-                "type": "Correlation"
-            },
-            "class": "RabbitClient"
-        },
-        {
-            "file": "lib/client/job.js",
-            "line": 1,
-            "description": "Job Instance\n\n-",
-            "chainable": 1,
-            "params": [
-                {
-                    "name": "data",
-                    "description": ""
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "*"
-            },
             "is_constructor": 1,
-            "author": "potanin@UD",
             "class": "RabbitClient"
         },
         {
-            "file": "lib/client/job.js",
-            "line": 117,
+            "file": "lib/client/exchange.js",
+            "line": 13,
+            "description": "Activity Name\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/exchange.js",
+            "line": 25,
+            "description": "Activity Group / Type\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/exchange.js",
+            "line": 38,
+            "description": "Activity Prototype Status\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/exchange.js",
+            "line": 50,
+            "description": "Activity Connection\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/exchange.js",
+            "line": 62,
+            "description": "Activity Exchange\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/exchange.js",
+            "line": 75,
             "description": "Pack String",
             "params": [
                 {
@@ -253,8 +238,8 @@
             "class": "RabbitClient"
         },
         {
-            "file": "lib/client/job.js",
-            "line": 143,
+            "file": "lib/client/exchange.js",
+            "line": 101,
             "description": "Unpack Message",
             "params": [
                 {
@@ -269,8 +254,8 @@
             "class": "RabbitClient"
         },
         {
-            "file": "lib/client/job.js",
-            "line": 169,
+            "file": "lib/client/exchange.js",
+            "line": 128,
             "description": "Update Progress.",
             "itemtype": "method",
             "name": "progress",
@@ -287,9 +272,9 @@
             "class": "RabbitClient"
         },
         {
-            "file": "lib/client/job.js",
-            "line": 205,
-            "description": "Complete Job.",
+            "file": "lib/client/exchange.js",
+            "line": 164,
+            "description": "Complete Exchange.",
             "itemtype": "method",
             "name": "complete",
             "params": [
@@ -305,39 +290,8 @@
             "class": "RabbitClient"
         },
         {
-            "file": "lib/client/job.js",
-            "line": 266,
-            "params": [
-                {
-                    "name": "data",
-                    "description": ""
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Job"
-            },
-            "class": "RabbitClient"
-        },
-        {
-            "file": "lib/client/thing.js",
-            "line": 9,
-            "params": [
-                {
-                    "name": "name",
-                    "description": "Name of exchange to connection to.",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "*|error|string"
-            },
-            "class": "RabbitClient"
-        },
-        {
-            "file": "lib/client/thing.js",
-            "line": 46,
+            "file": "lib/client/exchange.js",
+            "line": 281,
             "params": [
                 {
                     "name": "activity_type",
@@ -364,9 +318,280 @@
             "class": "RabbitClient"
         },
         {
+            "file": "lib/client/exchange.js",
+            "line": 333,
+            "description": "Subscribe to Pattern",
+            "params": [
+                {
+                    "name": "pattern",
+                    "description": ""
+                },
+                {
+                    "name": "handler",
+                    "description": ""
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/exchange.js",
+            "line": 400,
+            "params": [
+                {
+                    "name": "consumer_tag",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/exchange.js",
+            "line": 421,
+            "description": "Publish Message to Exchange",
+            "params": [
+                {
+                    "name": "pattern",
+                    "description": "AMQP",
+                    "type": "String"
+                },
+                {
+                    "name": "message",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/exchange.js",
+            "line": 492,
+            "description": "Initialize Prototype",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "settings",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Function"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/exchange.js",
+            "line": 522,
+            "description": "Update Prototype Properties.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/exchange.js",
+            "line": 528,
+            "description": "Set Exchange Type - can not be changed",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/exchange.js",
+            "line": 572,
+            "description": "Exchange Link",
+            "return": {
+                "description": "",
+                "type": "Boolean|debug|string"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/exchange.js",
+            "line": 584,
+            "description": "Instance Pool",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/job.js",
+            "line": 1,
+            "description": "Job Instance\n\n-",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "is_constructor": 1,
+            "author": "potanin@UD",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/job.js",
+            "line": 32,
+            "description": "Activity Name\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/job.js",
+            "line": 44,
+            "description": "Activity Group / Type\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/job.js",
+            "line": 57,
+            "description": "Activity Prototype Status\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/job.js",
+            "line": 69,
+            "description": "Activity Connection\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/job.js",
+            "line": 81,
+            "description": "Activity Exchange\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/job.js",
+            "line": 167,
+            "params": [
+                {
+                    "name": "data",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Job"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/session.js",
+            "line": 1,
+            "description": "Session Queues\n\nThe prototype must be registered prior to being initalized.",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Unique identifier for Session, used to configure queue names, correlation keys, etc.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Session"
+            },
+            "is_constructor": 1,
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/session.js",
+            "line": 45,
+            "description": "Session Name\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/session.js",
+            "line": 57,
+            "description": "Session Group / Type\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/session.js",
+            "line": 70,
+            "description": "Session Prototype Status\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/session.js",
+            "line": 82,
+            "description": "Session Connection\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/session.js",
+            "line": 94,
+            "description": "Session Exchange\n\nPrototype is considered unregistered until set.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/session.js",
+            "line": 194,
+            "description": "Initialize Prototype",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "settings",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Function"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/session.js",
+            "line": 224,
+            "description": "Update Prototype Properties.",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/session.js",
+            "line": 230,
+            "description": "Set Session Type - can not be changed",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/session.js",
+            "line": 274,
+            "description": "Exchange Link",
+            "return": {
+                "description": "",
+                "type": "Boolean|debug|string"
+            },
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/client/session.js",
+            "line": 286,
+            "description": "Instance Pool",
+            "class": "RabbitClient"
+        },
+        {
             "file": "lib/rabbit-client.js",
             "line": 1,
-            "description": "Rabbit Client\n\nThe Rabbit works, or else the Rabbit gets fucked; proper fucked, that is\n\n## Events\n- connection           : General connection event - could be an error or a success.\n- connection.success   : Successful connection event.\n- connection.error     : Connection failure.\n- error                : General error.\n\n## AMQP Events\n- __connection.end\n- __connection.finish\n- __connection.connect\n- __connection.data\n- __connection.readable\n- __connection.error\n- __connection.ready",
+            "description": "Rabbit Client\n\nThe Rabbit works, or else the Rabbit gets fucked; proper fucked, that is\n\n## Events\n- connection           : General connection event - could be an error or a success.\n- connection.success   : Successful connection event.\n- connection.error     : Connection failure.\n- error                : General error.\n\n## AMQP Events\n- connection.end\n- connection.finish\n- connection.connect\n- connection.data\n- connection.readable\n- connection.error\n- connection.ready\n\n## Useful Properties\n- connection.channels: list of open channels\n- connection.queues: list of open channels",
             "params": [
                 {
                     "name": "handler",
@@ -386,7 +611,7 @@
         },
         {
             "file": "lib/rabbit-client.js",
-            "line": 70,
+            "line": 74,
             "description": "Action Queue",
             "itemtype": "property",
             "name": "__queue",
@@ -394,7 +619,7 @@
         },
         {
             "file": "lib/rabbit-client.js",
-            "line": 114,
+            "line": 123,
             "description": "Connect to Broker via AMQP",
             "itemtype": "method",
             "name": "connect",
@@ -402,7 +627,13 @@
         },
         {
             "file": "lib/rabbit-client.js",
-            "line": 207,
+            "line": 213,
+            "description": "Destroy Connection",
+            "class": "RabbitClient"
+        },
+        {
+            "file": "lib/rabbit-client.js",
+            "line": 225,
             "description": "Configure Client\n\nMethod executed when connection is ready.\nUsage and semantics emulating Express.",
             "params": [
                 {
@@ -422,7 +653,7 @@
         },
         {
             "file": "lib/rabbit-client.js",
-            "line": 249,
+            "line": 267,
             "description": "Regiser New Activity.\n\n- Instantiate Activity Type\n- Subscribe to work-request queue.",
             "example": [
                 "\n\n   client.registerActivity( '/api/generate-key:v1', function Worker( req, res ) {\n\n   });"
@@ -443,7 +674,7 @@
         },
         {
             "file": "lib/rabbit-client.js",
-            "line": 282,
+            "line": 296,
             "description": "Publish a Work Request",
             "itemtype": "method",
             "name": "processJob",
@@ -469,7 +700,7 @@
         },
         {
             "file": "lib/rabbit-client.js",
-            "line": 333,
+            "line": 348,
             "description": "Validate Settings\n\nAttempts to fix broken settings and laod environment defaults.",
             "itemtype": "method",
             "name": "validate",
@@ -477,7 +708,7 @@
         },
         {
             "file": "lib/rabbit-client.js",
-            "line": 395,
+            "line": 410,
             "description": "Returns new context of RabbitClient.",
             "itemtype": "method",
             "name": "create",
@@ -496,7 +727,7 @@
         },
         {
             "file": "lib/rabbit-client.js",
-            "line": 439,
+            "line": 441,
             "description": "Create Service",
             "itemtype": "method",
             "name": "startService",
@@ -504,28 +735,11 @@
         },
         {
             "file": "lib/rabbit-client.js",
-            "line": 451,
-            "description": "Create Connection",
-            "itemtype": "method",
-            "name": "startService",
-            "class": "RabbitClient"
-        },
-        {
-            "file": "lib/rabbit-client.js",
-            "line": 468,
+            "line": 458,
             "description": "Module Version",
             "itemtype": "attribute",
             "name": "version",
             "type": "sring",
-            "class": "RabbitClient"
-        },
-        {
-            "file": "lib/rabbit-client.js",
-            "line": 479,
-            "description": "Schemas",
-            "itemtype": "attribute",
-            "name": "_schemas",
-            "type": "object",
             "class": "RabbitClient"
         },
         {
@@ -556,53 +770,7 @@
         },
         {
             "file": "lib/utility.js",
-            "line": 60,
-            "description": "Subscribe to Pattern",
-            "params": [
-                {
-                    "name": "pattern",
-                    "description": ""
-                },
-                {
-                    "name": "handler",
-                    "description": ""
-                },
-                {
-                    "name": "options",
-                    "description": "",
-                    "type": "Object"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "*"
-            },
-            "class": "Utility"
-        },
-        {
-            "file": "lib/utility.js",
-            "line": 141,
-            "description": "Publish Message to Exchange",
-            "params": [
-                {
-                    "name": "pattern",
-                    "description": "AMQP",
-                    "type": "String"
-                },
-                {
-                    "name": "message",
-                    "description": ""
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "*"
-            },
-            "class": "Utility"
-        },
-        {
-            "file": "lib/utility.js",
-            "line": 202,
+            "line": 73,
             "params": [
                 {
                     "name": "error",
@@ -623,23 +791,47 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/client/activity.js:232"
+            "line": " lib/client/activity.js:195"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/client/activity.js:312"
-        },
-        {
-            "message": "unknown tag: date",
-            "line": " lib/client/correlation.js:1"
+            "line": " lib/client/activity.js:275"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/client/correlation.js:82"
+            "line": " lib/client/exchange.js:75"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/client/correlation.js:121"
+            "line": " lib/client/exchange.js:101"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/exchange.js:128"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/exchange.js:164"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/exchange.js:333"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/exchange.js:400"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/exchange.js:421"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/exchange.js:492"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " lib/client/exchange.js:572"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -647,27 +839,19 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/client/job.js:117"
+            "line": " lib/client/job.js:167"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/client/job.js:143"
+            "line": " lib/client/session.js:1"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/client/job.js:169"
+            "line": " lib/client/session.js:194"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/client/job.js:205"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/client/job.js:266"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/client/thing.js:9"
+            "line": " lib/client/session.js:274"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -679,11 +863,11 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/rabbit-client.js:207"
+            "line": " lib/rabbit-client.js:225"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/rabbit-client.js:395"
+            "line": " lib/rabbit-client.js:410"
         },
         {
             "message": "replacing incorrect tag: returns with return",
@@ -695,107 +879,207 @@
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " lib/utility.js:60"
+            "line": " lib/utility.js:73"
         },
         {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/utility.js:141"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " lib/utility.js:202"
-        },
-        {
-            "message": "Missing item type\nCreate Activity\n\nThe prototype must be registered prior to being initalized.",
+            "message": "Missing item type\nCreate Activity\n\nThe prototype must be declareed prior to being initalized.",
             "line": " lib/client/activity.js:1"
         },
         {
-            "message": "Missing item type\nActivity Name\n\nPrototype is considered unregistered until set.",
-            "line": " lib/client/activity.js:45"
+            "message": "Missing item type\nActivity Name\n\nPrototype is considered undeclareed until set.",
+            "line": " lib/client/activity.js:46"
         },
         {
-            "message": "Missing item type\nActivity Group / Type\n\nPrototype is considered unregistered until set.",
-            "line": " lib/client/activity.js:57"
+            "message": "Missing item type\nActivity Group / Type\n\nPrototype is considered undeclareed until set.",
+            "line": " lib/client/activity.js:58"
         },
         {
-            "message": "Missing item type\nActivity Prototype Status\n\nPrototype is considered unregistered until set.",
-            "line": " lib/client/activity.js:70"
+            "message": "Missing item type\nActivity Prototype Status\n\nPrototype is considered undeclareed until set.",
+            "line": " lib/client/activity.js:71"
         },
         {
-            "message": "Missing item type\nActivity Connection\n\nPrototype is considered unregistered until set.",
-            "line": " lib/client/activity.js:82"
+            "message": "Missing item type\nActivity Connection\n\nPrototype is considered undeclareed until set.",
+            "line": " lib/client/activity.js:83"
         },
         {
-            "message": "Missing item type\nActivity Exchange\n\nPrototype is considered unregistered until set.",
-            "line": " lib/client/activity.js:94"
+            "message": "Missing item type\nActivity Exchange\n\nPrototype is considered undeclareed until set.",
+            "line": " lib/client/activity.js:95"
         },
         {
             "message": "Missing item type\nInitialize Prototype",
-            "line": " lib/client/activity.js:232"
+            "line": " lib/client/activity.js:195"
         },
         {
             "message": "Missing item type\nUpdate Prototype Properties.",
-            "line": " lib/client/activity.js:262"
+            "line": " lib/client/activity.js:225"
         },
         {
             "message": "Missing item type\nSet Activity Type - can not be changed",
-            "line": " lib/client/activity.js:268"
+            "line": " lib/client/activity.js:231"
         },
         {
             "message": "Missing item type\nExchange Link",
-            "line": " lib/client/activity.js:312"
+            "line": " lib/client/activity.js:275"
         },
         {
             "message": "Missing item type\nInstance Pool",
-            "line": " lib/client/activity.js:324"
-        },
-        {
-            "message": "Missing item type\nCorrelation Response Stream\n\n-",
-            "line": " lib/client/correlation.js:1"
-        },
-        {
-            "message": "Missing item type\nCorrelation job timeout.",
-            "line": " lib/client/correlation.js:82"
+            "line": " lib/client/activity.js:287"
         },
         {
             "message": "Missing item type",
-            "line": " lib/client/correlation.js:121"
+            "line": " lib/client/exchange.js:1"
+        },
+        {
+            "message": "Missing item type\nActivity Name\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/exchange.js:13"
+        },
+        {
+            "message": "Missing item type\nActivity Group / Type\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/exchange.js:25"
+        },
+        {
+            "message": "Missing item type\nActivity Prototype Status\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/exchange.js:38"
+        },
+        {
+            "message": "Missing item type\nActivity Connection\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/exchange.js:50"
+        },
+        {
+            "message": "Missing item type\nActivity Exchange\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/exchange.js:62"
+        },
+        {
+            "message": "Missing item type\nPack String",
+            "line": " lib/client/exchange.js:75"
+        },
+        {
+            "message": "Missing item type\nUnpack Message",
+            "line": " lib/client/exchange.js:101"
+        },
+        {
+            "message": "Missing item type",
+            "line": " lib/client/exchange.js:281"
+        },
+        {
+            "message": "Missing item type\nSubscribe to Pattern",
+            "line": " lib/client/exchange.js:333"
+        },
+        {
+            "message": "Missing item type",
+            "line": " lib/client/exchange.js:400"
+        },
+        {
+            "message": "Missing item type\nPublish Message to Exchange",
+            "line": " lib/client/exchange.js:421"
+        },
+        {
+            "message": "Missing item type\nInitialize Prototype",
+            "line": " lib/client/exchange.js:492"
+        },
+        {
+            "message": "Missing item type\nUpdate Prototype Properties.",
+            "line": " lib/client/exchange.js:522"
+        },
+        {
+            "message": "Missing item type\nSet Exchange Type - can not be changed",
+            "line": " lib/client/exchange.js:528"
+        },
+        {
+            "message": "Missing item type\nExchange Link",
+            "line": " lib/client/exchange.js:572"
+        },
+        {
+            "message": "Missing item type\nInstance Pool",
+            "line": " lib/client/exchange.js:584"
         },
         {
             "message": "Missing item type\nJob Instance\n\n-",
             "line": " lib/client/job.js:1"
         },
         {
-            "message": "Missing item type\nPack String",
-            "line": " lib/client/job.js:117"
+            "message": "Missing item type\nActivity Name\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/job.js:32"
         },
         {
-            "message": "Missing item type\nUnpack Message",
-            "line": " lib/client/job.js:143"
+            "message": "Missing item type\nActivity Group / Type\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/job.js:44"
+        },
+        {
+            "message": "Missing item type\nActivity Prototype Status\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/job.js:57"
+        },
+        {
+            "message": "Missing item type\nActivity Connection\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/job.js:69"
+        },
+        {
+            "message": "Missing item type\nActivity Exchange\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/job.js:81"
         },
         {
             "message": "Missing item type",
-            "line": " lib/client/job.js:266"
+            "line": " lib/client/job.js:167"
         },
         {
-            "message": "Missing item type",
-            "line": " lib/client/thing.js:9"
+            "message": "Missing item type\nSession Queues\n\nThe prototype must be registered prior to being initalized.",
+            "line": " lib/client/session.js:1"
         },
         {
-            "message": "Missing item type",
-            "line": " lib/client/thing.js:46"
+            "message": "Missing item type\nSession Name\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/session.js:45"
         },
         {
-            "message": "Missing item type\nRabbit Client\n\nThe Rabbit works, or else the Rabbit gets fucked; proper fucked, that is\n\n## Events\n- connection           : General connection event - could be an error or a success.\n- connection.success   : Successful connection event.\n- connection.error     : Connection failure.\n- error                : General error.\n\n## AMQP Events\n- __connection.end\n- __connection.finish\n- __connection.connect\n- __connection.data\n- __connection.readable\n- __connection.error\n- __connection.ready",
+            "message": "Missing item type\nSession Group / Type\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/session.js:57"
+        },
+        {
+            "message": "Missing item type\nSession Prototype Status\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/session.js:70"
+        },
+        {
+            "message": "Missing item type\nSession Connection\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/session.js:82"
+        },
+        {
+            "message": "Missing item type\nSession Exchange\n\nPrototype is considered unregistered until set.",
+            "line": " lib/client/session.js:94"
+        },
+        {
+            "message": "Missing item type\nInitialize Prototype",
+            "line": " lib/client/session.js:194"
+        },
+        {
+            "message": "Missing item type\nUpdate Prototype Properties.",
+            "line": " lib/client/session.js:224"
+        },
+        {
+            "message": "Missing item type\nSet Session Type - can not be changed",
+            "line": " lib/client/session.js:230"
+        },
+        {
+            "message": "Missing item type\nExchange Link",
+            "line": " lib/client/session.js:274"
+        },
+        {
+            "message": "Missing item type\nInstance Pool",
+            "line": " lib/client/session.js:286"
+        },
+        {
+            "message": "Missing item type\nRabbit Client\n\nThe Rabbit works, or else the Rabbit gets fucked; proper fucked, that is\n\n## Events\n- connection           : General connection event - could be an error or a success.\n- connection.success   : Successful connection event.\n- connection.error     : Connection failure.\n- error                : General error.\n\n## AMQP Events\n- connection.end\n- connection.finish\n- connection.connect\n- connection.data\n- connection.readable\n- connection.error\n- connection.ready\n\n## Useful Properties\n- connection.channels: list of open channels\n- connection.queues: list of open channels",
             "line": " lib/rabbit-client.js:1"
         },
         {
+            "message": "Missing item type\nDestroy Connection",
+            "line": " lib/rabbit-client.js:213"
+        },
+        {
             "message": "Missing item type\nConfigure Client\n\nMethod executed when connection is ready.\nUsage and semantics emulating Express.",
-            "line": " lib/rabbit-client.js:207"
+            "line": " lib/rabbit-client.js:225"
         },
         {
             "message": "Missing item type\nRegiser New Activity.\n\n- Instantiate Activity Type\n- Subscribe to work-request queue.",
-            "line": " lib/rabbit-client.js:249"
+            "line": " lib/rabbit-client.js:267"
         },
         {
             "message": "Missing item type\nExtra Utility Methods",
@@ -810,16 +1094,8 @@
             "line": " lib/utility.js:34"
         },
         {
-            "message": "Missing item type\nSubscribe to Pattern",
-            "line": " lib/utility.js:60"
-        },
-        {
-            "message": "Missing item type\nPublish Message to Exchange",
-            "line": " lib/utility.js:141"
-        },
-        {
             "message": "Missing item type",
-            "line": " lib/utility.js:202"
+            "line": " lib/utility.js:73"
         }
     ]
 }

@@ -100,13 +100,17 @@
  * - error                : General error.
  *
  * ## AMQP Events
- * - __connection.end
- * - __connection.finish
- * - __connection.connect
- * - __connection.data
- * - __connection.readable
- * - __connection.error
- * - __connection.ready
+ * - connection.end
+ * - connection.finish
+ * - connection.connect
+ * - connection.data
+ * - connection.readable
+ * - connection.error
+ * - connection.ready
+ *
+ * ## Useful Properties
+ * - connection.channels: list of open channels
+ * - connection.queues: list of open channels
  *
  * @param handler {Function} Extendeble callback method.
  * @returns {RabbitClient} Newly created Rabbit context.
@@ -177,6 +181,11 @@ function RabbitClient() {
     // Creates Connection.
     context.connect();
 
+    context.get( &#x27;connection&#x27; ).once( &#x27;ready&#x27;, function get_exchanges() {
+
+
+    });
+
   } catch( error ) {
     return new handler( error, RabbitClient ).error( error );
   }
@@ -208,10 +217,9 @@ Object.defineProperties( RabbitClient.prototype, {
      * @for RabbitClient
      */
     value: function connect() {
-
-      var self = this;
-
       this.debug( &#x27;Connecting to [%s].&#x27;, this.get( &#x27;settings.url&#x27; ) );
+
+      var context = this;
 
       // Connect via AMQP.
       this.set( &#x27;connection&#x27;, RabbitClient.utility.amqp.createConnection({
@@ -229,10 +237,10 @@ Object.defineProperties( RabbitClient.prototype, {
 
       // RabbitClient _connection failed.
       this.get( &#x27;connection&#x27; ).on( &#x27;error&#x27;, function error( error ) {
-        self.debug( &#x27;Connection error: [%s]:[%s]&#x27;, error.message, error.code );
+        context.debug( &#x27;Connection error: [%s]:[%s]&#x27;, error.message, error.code );
 
-        self.emit( &#x27;connection&#x27;, new Error( error.message ), self );
-        self.emit( &#x27;connection.error&#x27;, new Error( error.message ), self );
+        context.emit( &#x27;connection&#x27;, new Error( error.message ), context );
+        context.emit( &#x27;connection.error&#x27;, new Error( error.message ), context );
 
         // CONNECTION_FORCED - Closed via management plugin
         if( error.code === 320 ) {}
@@ -241,54 +249,64 @@ Object.defineProperties( RabbitClient.prototype, {
 
       // RabbitClient connection established.
       this.get( &#x27;connection&#x27; ).once( &#x27;ready&#x27;, function get_exchanges() {
-        self.debug( &#x27;Connection is ready.&#x27; );
+        context.debug( &#x27;Connection is ready.&#x27; );
+
+        // Register Activity Exchange Document
+        RabbitClient.Activity.declare( &#x27;activity&#x27;, {
+          connection: context.get( &#x27;connection&#x27; ),
+          durable: true,
+          confirm: false,
+          passive: false
+        });
+
+        // Register Session Exchange Documents
+        RabbitClient.Session.declare( &#x27;session&#x27;, {
+          connection: context.get( &#x27;connection&#x27; ),
+          durable: true,
+          confirm: false,
+          passive: false,
+          autoDelete: false
+        });
+
+        // Register Job Exchange Documents
+        RabbitClient.Session.declare( &#x27;job&#x27;, {
+          connection: context.get( &#x27;connection&#x27; ),
+          durable: true,
+          confirm: false,
+          passive: false,
+          autoDelete: false
+        });
 
         // Emit connection success.
-        self.emit( &#x27;connection&#x27;, null, self );
-        self.emit( &#x27;connection.success&#x27;, null, self );
+        context.emit( &#x27;connection&#x27;, null, context );
+        context.emit( &#x27;connection.success&#x27;, null, context );
 
-        //console.log( &#x27;RabbitClient.Activity.register&#x27;, typeof RabbitClient.Activity.register );
+      });
 
-        // Register Activity Document
-        RabbitClient.Activity.register( &#x27;_activity&#x27;, {
-          durable: true,
-          confirm: false,
-          passive: false,
-          connection: self.get( &#x27;connection&#x27; )
-        });
+      // Connection Closed.
+      this.get( &#x27;connection&#x27; ).on( &#x27;close&#x27;, function close( error ) {
 
-        // Some Activities
-        RabbitClient.Activity.create( &#x27;/api/generate-pdf:v1&#x27; );
-        RabbitClient.Activity.create( &#x27;/api/generate-pdf:v2&#x27; );
+      });
 
-        // Get Created
-        RabbitClient.Activity.create( &#x27;/api/generate-pdf:v1&#x27; ).publish( &#x27;work-request&#x27;, {
-          bells: &#x27;whistles&#x27;
-        });
-
-        return;
-
-        // Register Session Document
-        RabbitClient.Session.register( &#x27;_session&#x27;, {
-          durable: true,
-          confirm: false,
-          passive: false,
-          autoDelete: false,
-          connection: self.get( &#x27;connection&#x27; )
-        }, function() {
-
-
-          // Some Bulilshit Sessions
-          RabbitClient.Session.create( &#x27;usabilitydynamics.com&#x27; );
-          RabbitClient.Session.create( &#x27;terminallance.com.com&#x27; );
-
-        });
-
+      this.get( &#x27;connection&#x27; ).on( &#x27;message&#x27;, function message( message ) {
+        console.log( &#x27;message&#x27;, message );
       });
 
       // @chainable
       return this;
 
+    },
+    enumerable: true,
+    writable: true
+  },
+  destroy: {
+    /**
+     * Destroy Connection
+     *
+     */
+    value: function destroy() {
+      this.get( &#x27;connection&#x27; ).destroy();
+      return this;
     },
     enumerable: true,
     writable: true
@@ -353,16 +371,12 @@ Object.defineProperties( RabbitClient.prototype, {
      * @param activity {Function} Function to process job.
      */
     value: function registerActivity( name, handler ) {
-
-      // Ensure Activity is registered
-      if( !RabbitClient.Activity.ready ) {
-        return this.error ? this.error( &#x27;Can not call registerActivity - Activity is not active.&#x27; ) : new Error( &#x27;processJob() was called out of context.&#x27; );
-      }
+      this.debug( &#x27;Registering Activity [%s].&#x27;, name  );
 
       // Create Activity Instance and subscribe to Work Requests, handler called in request/response context
-      RabbitClient.Activity.create( name ).subscribe( &#x27;work-request&#x27;, handler );
+      var instance = RabbitClient.Activity.create( name ).subscribe( name, handler );
 
-      return this;
+      return instance;
 
     },
     enumerable: true,
@@ -380,19 +394,16 @@ Object.defineProperties( RabbitClient.prototype, {
      */
     value: function processJob( name, message, handler ) {
 
-      // Ensure Activity is registered
-      if( !RabbitClient.Activity.ready ) {
-        return this.error ? this.error( &#x27;Can not call processJob - Activity is not registered.&#x27; ) : new Error( &#x27;processJob() was called out of context.&#x27; );
-      }
-
       // Create or load Activity.
-      var _activity = RabbitClient.Activity.create( name );
-
-      // Send Work Request to Activity Work Queue.
-      _activity.publish( &#x27;work-request&#x27;, message, {
+      RabbitClient.Activity.create( name ).publish( name, message, {
         correlationId: &#x27;unique-id-of-this-task&#x27;,
         mandatory: true,
         immediate: true
+      });
+
+      // Create or load Activity.
+      RabbitClient.Job.create( &#x27;unique-id-of-this-task&#x27; ).subscribe( &#x27;&#x27;, function() {
+
       });
 
       // Subscribe to Work Request queue
@@ -413,7 +424,11 @@ Object.defineProperties( RabbitClient.prototype, {
     writable: true
   },
   getSession: {
-    value: function createSession() {
+    value: function getSession( sid, handler ) {
+      this.debug( &#x27;Get Session [%s].&#x27;, sid );
+
+      // Create Session Instance and subscribe to own queue.
+      return RabbitClient.Session.create( sid ).subscribe( sid, handler );
 
     },
     enumerable: true,
@@ -479,7 +494,7 @@ Object.defineProperties( RabbitClient.prototype, {
   }
 });
 
-// Rabit constructor properties.
+// Rabbit constructor properties.
 Object.defineProperties( module.exports = RabbitClient, {
   create: {
     /**
@@ -495,33 +510,20 @@ Object.defineProperties( module.exports = RabbitClient, {
     enumerable: true,
     writable: false
   },
-  Thing: {
-    value: require( &#x27;./client/thing&#x27; ),
-    enumerable: true,
-    writable: false
-  },
   Activity: {
     value: require( &#x27;./client/activity&#x27; ),
-    enumerable: true,
-    writable: false
-  },
-  Correlation: {
-    value: require( &#x27;./client/correlation&#x27; ),
+    configurable: false,
     enumerable: true,
     writable: false
   },
   Job: {
     value: require( &#x27;./client/job&#x27; ),
+    configurable: false,
     enumerable: true,
     writable: false
   },
   Session: {
     value: require( &#x27;./client/session&#x27; ),
-    enumerable: true,
-    writable: false
-  },
-  Service: {
-    value: require( &#x27;rabbit-service&#x27; ),
     enumerable: true,
     writable: false
   },
@@ -534,18 +536,6 @@ Object.defineProperties( module.exports = RabbitClient, {
      */
     get: function startService() {
       return require( &#x27;rabbit-service&#x27; ).create;
-    },
-    enumerable: true
-  },
-  createConnection: {
-    /**
-     * Create Connection
-     *
-     * @method startService
-     * @for RabbitClient
-     */
-    get: function createConnection() {
-      return require( &#x27;rabbit-client&#x27; ).create;
     },
     enumerable: true
   },
@@ -563,17 +553,6 @@ Object.defineProperties( module.exports = RabbitClient, {
      */
     value: require( &#x27;../package&#x27; ).version,
     enumerable: true,
-    writable: false
-  },
-  _schemas: {
-    /**
-     * Schemas
-     *
-     * @attribute _schemas
-     * @type object
-     */
-    value: {},
-    enumerable: false,
     writable: false
   }
 });
