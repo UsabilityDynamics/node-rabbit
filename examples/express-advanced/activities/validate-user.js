@@ -4,12 +4,16 @@
  * @param data
  * @param complete
  */
-function validateUser( data, complete ) {
-  this.debug( 'Doing [%s] job.', this.type );
+function validateUser( req, res ) {
+  this.debug( 'Doing [%s] job.', this.type, req.get() );
 
-  complete( null, {
-    message: 'The TestJobOne has been complete.'
-  });
+  setTimeout( function() {
+
+    res.send({
+      message: 'The TestJobOne has been complete.'
+    });
+
+  }, 1000 )
 
 }
 

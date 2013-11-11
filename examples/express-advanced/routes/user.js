@@ -16,7 +16,7 @@ exports.list = function listUsers(req, res){
 exports.validate = function validateUser( req, res ) {
   console.log( 'Request to validate user...' );
 
-  req.job( 'user/validate', req.query, function() {
+  req.app.processJob( 'user/validate', req.query, function() {
     console.log( 'Sending job [%s] to exchange.', this.job_type );
 
     setTimeout( function() {

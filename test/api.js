@@ -34,8 +34,7 @@ module.exports = {
       Rabbit.should.have.property( 'utility' );
       Rabbit.should.have.property( 'prototype' );
       Rabbit.should.have.property( 'create' );
-      Rabbit.should.have.property( 'Correlation' );
-      Rabbit.should.have.property( 'Service' );
+      Rabbit.should.have.property( 'startService' );
       Rabbit.should.have.property( 'Job' );
 
       // Prototype properties.
@@ -55,7 +54,7 @@ module.exports = {
     'can establish a RabbitMQ connection and use configure() method.': function( done ) {
       this.timeout( 5000 );
 
-      require( '../' ).createConnection({ login: process.env.RABBIT_LOGIN, password: process.env.RABBIT_PASSWORD }).configure( function configure() {
+      require( '../' ).create({ login: process.env.RABBIT_LOGIN, password: process.env.RABBIT_PASSWORD }).configure( function configure() {
 
         this.should.have.property( '_connection' );
         this.should.have.property( '_queue' );
@@ -70,23 +69,10 @@ module.exports = {
 
       require( '../' ).create( function configure( error ) {
 
-        this.should.have.property( '_connection' );
-        this.should.have.property( '_queue' );
+        this.should.have.property( 'get' );
+        this.should.have.property( 'set' );
 
-        this.on( '**', function( error, data ) {
-          // console.log( "Event Debug:", this.event.magenta, error, typeof data );
-        });
-
-        this.once( 'connection', function( error, client ) {
-          // console.log( 'Client Connected.'.green );
-
-          this.should.have.property( '_connection' );
-          this.should.have.property( '_queue' );
-          this._connection.should.have.property( '_connecting' );
-
-          done();
-
-        });
+        done();
 
       });
 
