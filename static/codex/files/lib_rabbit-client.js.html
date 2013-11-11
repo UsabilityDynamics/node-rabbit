@@ -181,8 +181,29 @@ function RabbitClient() {
     // Creates Connection.
     context.connect();
 
-    context.get( &#x27;connection&#x27; ).once( &#x27;ready&#x27;, function get_exchanges() {
+    context.get( &#x27;connection&#x27; ).once( &#x27;ready&#x27;, function declare_exchanges() {
+      context.debug( &#x27;Connection is ready, declaring Exchange Documents.&#x27; );
 
+      // Register Activity Exchange Document
+      RabbitClient.Activity.declare({
+        name: &#x27;activity&#x27;,
+        connection: context.get( &#x27;connection&#x27; ),
+        version: RabbitClient.version
+      });
+
+      // Register Session Exchange Documents
+      RabbitClient.Session.declare({
+        name: &#x27;session&#x27;,
+        connection: context.get( &#x27;connection&#x27; ),
+        version: RabbitClient.version
+      });
+
+      // Register Job Exchange Documents
+      RabbitClient.Job.declare({
+        name: &#x27;job&#x27;,
+        connection: context.get( &#x27;connection&#x27; ),
+        version: RabbitClient.version
+      });
 
     });
 
@@ -249,37 +270,12 @@ Object.defineProperties( RabbitClient.prototype, {
 
       // RabbitClient connection established.
       this.get( &#x27;connection&#x27; ).once( &#x27;ready&#x27;, function get_exchanges() {
-        context.debug( &#x27;Connection is ready.&#x27; );
-
-        // Register Activity Exchange Document
-        RabbitClient.Activity.declare( &#x27;activity&#x27;, {
-          connection: context.get( &#x27;connection&#x27; ),
-          durable: true,
-          confirm: false,
-          passive: false
-        });
-
-        // Register Session Exchange Documents
-        RabbitClient.Session.declare( &#x27;session&#x27;, {
-          connection: context.get( &#x27;connection&#x27; ),
-          durable: true,
-          confirm: false,
-          passive: false,
-          autoDelete: false
-        });
-
-        // Register Job Exchange Documents
-        RabbitClient.Session.declare( &#x27;job&#x27;, {
-          connection: context.get( &#x27;connection&#x27; ),
-          durable: true,
-          confirm: false,
-          passive: false,
-          autoDelete: false
-        });
 
         // Emit connection success.
-        context.emit( &#x27;connection&#x27;, null, context );
-        context.emit( &#x27;connection.success&#x27;, null, context );
+        process.nextTick( function() {
+          context.emit( &#x27;connection&#x27;, null, context );
+          context.emit( &#x27;connection.success&#x27;, null, context );
+        })
 
       });
 
@@ -394,20 +390,31 @@ Object.defineProperties( RabbitClient.prototype, {
      */
     value: function processJob( name, message, handler ) {
 
-      // Create or load Activity.
+      // Detect Middleware Use
+      if( !message &amp;&amp; !handler ) {
+
+        // Prepare Activity Queue.
+        // Return Middleware handler.
+        return require( &#x27;./middleware/process-job&#x27; ).bind({
+          activity: RabbitClient.Activity.create( name ),
+          client: this,
+          constructor: RabbitClient
+        });
+
+      }
+
+      var job_id = Math.random().toString( 36 ).substring( 2 );
+
+      // Create Job Instance and subscribe to all messages
+
+      RabbitClient.Job.create( job_id ).subscribe( job_id, handler );
+
+      // Publish Work Request message to an Activity Work Queue.
       RabbitClient.Activity.create( name ).publish( name, message, {
-        correlationId: &#x27;unique-id-of-this-task&#x27;,
-        mandatory: true,
-        immediate: true
+        correlationId: job_id
       });
 
-      // Create or load Activity.
-      RabbitClient.Job.create( &#x27;unique-id-of-this-task&#x27; ).subscribe( &#x27;&#x27;, function() {
-
-      });
-
-      // Subscribe to Work Request queue
-      // &#x27;unique-id-of-this-task&#x27;;
+      //console.log( require( &#x27;util&#x27; ).inspect( handler, { showHidden: true, colors: true, depth: 2 } ) )
 
       // @chainable.
       return this;
@@ -417,9 +424,7 @@ Object.defineProperties( RabbitClient.prototype, {
     writable: true
   },
   getJob: {
-    value: function createSession() {
-
-    },
+    value: function getJob() {},
     enumerable: true,
     writable: true
   },
@@ -511,21 +516,100 @@ Object.defineProperties( module.exports = RabbitClient, {
     writable: false
   },
   Activity: {
-    value: require( &#x27;./client/activity&#x27; ),
+    value: require( &#x27;./exchange/activity&#x27; ),
+    configurable: false,
+    enumerable: true,
+    writable: false
+  },
+  Exchange: {
+    value: require( &#x27;./exchange&#x27; ),
     configurable: false,
     enumerable: true,
     writable: false
   },
   Job: {
-    value: require( &#x27;./client/job&#x27; ),
+    value: require( &#x27;./exchange/job&#x27; ),
     configurable: false,
     enumerable: true,
     writable: false
   },
   Session: {
-    value: require( &#x27;./client/session&#x27; ),
+    value: require( &#x27;./exchange/session&#x27; ),
     enumerable: true,
     writable: false
+  },
+  sessionStore: {
+    /**
+     * Create Session Store Instance
+     *
+     * @param {Object} connect Connect, or Express, module.
+     * @method sessionStore
+     * @for RabbitClient
+     */
+    value: function sessionStore( connect ) {
+
+      var Store = connect.session.Store;
+
+      /**
+       * Initialize RedisStore with the given &#x60;options&#x60;.
+       *
+       * @param options
+       */
+      function rabbitStore( options ) {
+
+        options = options || {};
+
+        Store.call( this, options );
+
+        this.prefix = null == options.prefix ? &#x27;sess:&#x27; : options.prefix;
+
+        this.client = options.client || new RabbitClient.create( options.port || options.socket, options.host, options );
+
+        self.client.on( &#x27;error&#x27;, function() {
+          self.emit( &#x27;disconnect&#x27; );
+        });
+
+        self.client.on( &#x27;connect&#x27;, function() {
+          self.emit( &#x27;connect&#x27; );
+        });
+
+      }
+
+      // Inherit Store prototyp
+      rabbitStore.prototype.__proto__ = Store.prototype;
+
+      /**
+       * Add Custom Handlers
+       *
+       */
+      Object.defineProperties( rabbitStore.prototype, {
+        get: {
+          value: function get() {},
+          enumerable: true,
+          configurable: true,
+          writable: true
+        },
+        set: {
+          value: function set() {},
+          enumerable: true,
+          configurable: true,
+          writable: true
+        },
+        destroy: {
+          value: function destroy() {},
+          enumerable: true,
+          configurable: true,
+          writable: true
+        },
+      });
+
+      // Export rabbitStore
+      return rabbitStore;
+
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
   },
   startService: {
     /**

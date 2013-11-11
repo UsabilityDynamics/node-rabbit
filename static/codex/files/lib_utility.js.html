@@ -101,6 +101,46 @@ var Utility = require( &#x27;abstract&#x27; ).utility;
  *
  */
 Object.defineProperties( module.exports = Utility, {
+  pack: {
+    /**
+     * Pack String
+     *
+     * @param string
+     * @returns {*}
+     */
+    value: function pack( message ) {
+
+      if( message instanceof Buffer ) {
+        message = message.toString();
+      }
+
+      return module.exports.utility.msgpack.pack( message );
+
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  unpack: {
+    /**
+     * Unpack Message
+     *
+     * @param string
+     * @returns {*}
+     */
+    value: function unpack( message ) {
+
+      if( string instanceof Buffer ) {
+        string = string.toString();
+      }
+
+      return module.exports.utility.msgpack.unpack( message );
+
+    },
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
   debug: {
     /**
      * Debug Method
@@ -127,8 +167,17 @@ Object.defineProperties( module.exports = Utility, {
          * @returns {*}
          */
         value: function debug() {
-          var debug = this.__debug = this.__debug || require( &#x27;debug&#x27; )([ &#x27;rabbit&#x27;, &#x27;client&#x27;, this.name || this.constructor.name  ].join( &#x27;:&#x27; ))
-          debug.apply( this, arguments );
+
+          if( !this.__debug ) {
+            Object.defineProperty( this, &#x27;__debug&#x27;, {
+              value: require( &#x27;debug&#x27; )([ &#x27;rabbit&#x27;, &#x27;client&#x27;, this.type, this.name || this.constructor.name  ].join( &#x27;:&#x27; )),
+              enumerable: false,
+              configurable: true
+            });
+          }
+
+          // Apply.
+          this.__debug.apply( this, arguments );
 
           // @chainable
           return this;
@@ -265,12 +314,6 @@ Object.defineProperties( module.exports = Utility, {
   },
   url_parse: {
     value: require( &#x27;url&#x27; ).parse,
-    configurable: false,
-    enumerable: true,
-    writable: true
-  },
-  request: {
-    value: require( &#x27;request&#x27; ),
     configurable: false,
     enumerable: true,
     writable: true

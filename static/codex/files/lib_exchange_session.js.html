@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>lib/client/job.js - rabbit-client</title>
+    <title>lib/exchange/session.js - rabbit-client</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -84,43 +84,51 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: lib/client/job.js</h1>
+                        <h1 class="file-heading">File: lib/exchange/session.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
- * Job Instance
+ * Session Queues
  *
- * -
+ * The prototype must be registered prior to being initalized.
  *
- * @chainable
- *
- * @param data
- * @returns {*}
+ * @param name {String} Unique identifier for Session, used to configure queue names, correlation keys, etc.
+ * @returns {Session}
  * @constructor
- *
- * @author potanin@UD
  */
-function Job( id ) {
+function Session( name ) {
 
   // Make sure context is correct otherwise we could screw up the global scope.
-  if( !( this instanceof Job ) ) {
-    return new Job( id );
+  if( !( this instanceof Session ) ) {
+    return Session.create( name );
   }
 
-  // Mixin Settings and EventEmitter
-  Job.utility.settings( this );
+  // No name.
+  if( &#x27;string&#x27; !== typeof name ) {
+    return this.error( new Error( &#x27;The Session name must be set.&#x27; ) );
+  }
+
+  // Lockin Session Instance Name
+  Object.defineProperty( this, &#x27;name&#x27;, {
+    value: name,
+    enumerable: true,
+    configurable: false,
+    writable: false
+  });
+
+  this.debug( &#x27;Initializing Session [%s] for [%s] exchange.&#x27;, name, this.exchange.name );
 
   // @chainable
   return this;
 
 }
 
-// Job Prototype Properties.
-Object.defineProperties( Job.prototype, {
+// Session Instance Properties.
+Object.defineProperties( Session.prototype, {
   name: {
     /**
-     * Activity Name
+     * Session Name
      *
      * Prototype is considered unregistered until set.
      *
@@ -132,7 +140,7 @@ Object.defineProperties( Job.prototype, {
   },
   type: {
     /**
-     * Activity Group / Type
+     * Session Group / Type
      *
      * Prototype is considered unregistered until set.
      *
@@ -142,22 +150,9 @@ Object.defineProperties( Job.prototype, {
     configurable: true,
     writable: true
   },
-
-  active: {
-    /**
-     * Activity Prototype Status
-     *
-     * Prototype is considered unregistered until set.
-     *
-     */
-    value: false,
-    enumerable: true,
-    configurable: true,
-    writable: true
-  },
   connection: {
     /**
-     * Activity Connection
+     * Session Connection
      *
      * Prototype is considered unregistered until set.
      *
@@ -169,7 +164,7 @@ Object.defineProperties( Job.prototype, {
   },
   exchange: {
     /**
-     * Activity Exchange
+     * Session Exchange
      *
      * Prototype is considered unregistered until set.
      *
@@ -179,39 +174,42 @@ Object.defineProperties( Job.prototype, {
     configurable: true,
     writable: true
   },
-
-  request: {
-    value: require( &#x27;./exchange&#x27; ).prototype.request,
+  create_context: {
+    value: require( &#x27;../exchange&#x27; ).prototype.create_context,
     enumerable: true,
     configurable: true,
     writable: true
   },
-
   subscribe: {
-    value: require( &#x27;./exchange&#x27; ).prototype.subscribe,
+    value: require( &#x27;../exchange&#x27; ).prototype.subscribe,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  request: {
+    value: require( &#x27;../exchange&#x27; ).prototype.request,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  },
+  response: {
+    value: require( &#x27;../exchange&#x27; ).prototype.response,
     enumerable: true,
     configurable: true,
     writable: true
   },
   unsubscribe: {
-    value: require( &#x27;./exchange&#x27; ).prototype.unsubscribe,
+    value: require( &#x27;../exchange&#x27; ).prototype.unsubscribe,
     enumerable: true,
     configurable: true,
     writable: true
   },
   publish: {
-    value: require( &#x27;./exchange&#x27; ).prototype.publish,
+    value: require( &#x27;../exchange&#x27; ).prototype.publish,
     enumerable: true,
     configurable: true,
     writable: true
   },
-  message: {
-    value: require( &#x27;./exchange&#x27; ).prototype.message,
-    enumerable: true,
-    configurable: true,
-    writable: true
-  },
-
   error: {
     value: require( &#x27;../utility&#x27; ).error,
     enumerable: true,
@@ -223,45 +221,13 @@ Object.defineProperties( Job.prototype, {
     enumerable: true,
     configurable: true,
     writable: true
-  },
-
-  pack: {
-    value: require( &#x27;./exchange&#x27; ).prototype.pack,
-    enumerable: true,
-    configurable: true,
-    writable: true
-  },
-  unpack: {
-    value: require( &#x27;./exchange&#x27; ).prototype.unpack,
-    enumerable: true,
-    configurable: true,
-    writable: true
-  },
-  progress: {
-    value: require( &#x27;./exchange&#x27; ).prototype.progress,
-    enumerable: true,
-    configurable: true,
-    writable: true
-  },
-  complete: {
-    value: require( &#x27;./exchange&#x27; ).prototype.complete,
-    enumerable: true,
-    configurable: true,
-    writable: true
   }
 });
 
-// Job Constructor Properties.
-Object.defineProperties( module.exports = Job, {
+// Session Constructor Properties.
+Object.defineProperties( module.exports = Session, {
   create: {
-    /**
-     *
-     * @param data
-     * @returns {Job}
-     */
-    value: function create( id ) {
-      return new Job( id );
-    },
+    value: require( &#x27;../exchange&#x27; ).create,
     enumerable: true,
     configurable: true,
     writable: true
@@ -269,8 +235,13 @@ Object.defineProperties( module.exports = Job, {
   utility: {
     value: require( &#x27;../utility&#x27; ),
     enumerable: false,
-    writable: true,
-    configurable: true
+    writable: false
+  },
+  declare: {
+    value: require( &#x27;../exchange&#x27; ).declare,
+    enumerable: true,
+    configurable: true,
+    writable: true
   }
 });
     </pre>
