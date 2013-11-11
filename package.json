@@ -68,6 +68,7 @@
   "main": "./lib/rabbit-client.js",
   "dependencies": {
     "amqp": "git+ssh://git@github.com:UsabilityDynamics/node-amqp#master",
+    "rabbit-service": "git+ssh://git@github.com:UsabilityDynamics/node-rabbit-service#master",
     "async": ">=0.2.9",
     "auto": ">=0.0.2",
     "abstract": ">=0.0.8",
@@ -83,6 +84,7 @@
     "string": "~1.6.1"
   },
   "devDependencies": {
+    "express": "*",
     "colors": "~0.6.2",
     "grunt-contrib-symlink": "~0.2.0",
     "grunt-contrib-yuidoc": "~0.5.0",

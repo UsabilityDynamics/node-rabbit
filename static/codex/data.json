@@ -787,13 +787,13 @@
         },
         {
             "file": "lib/rabbit-client.js",
-            "line": 491,
+            "line": 493,
             "description": "Add Custom Handlers",
             "class": "RabbitClient"
         },
         {
             "file": "lib/rabbit-client.js",
-            "line": 525,
+            "line": 527,
             "description": "Create Service",
             "itemtype": "method",
             "name": "startService",
@@ -801,7 +801,7 @@
         },
         {
             "file": "lib/rabbit-client.js",
-            "line": 542,
+            "line": 559,
             "description": "Module Version",
             "itemtype": "attribute",
             "name": "version",
@@ -1117,7 +1117,7 @@
         },
         {
             "message": "Missing item type\nAdd Custom Handlers",
-            "line": " lib/rabbit-client.js:491"
+            "line": " lib/rabbit-client.js:493"
         },
         {
             "message": "Missing item type\nExtra Utility Methods",

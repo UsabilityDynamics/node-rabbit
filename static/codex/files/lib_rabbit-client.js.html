@@ -557,6 +557,8 @@ Object.defineProperties( module.exports = RabbitClient, {
        */
       function rabbitStore( options ) {
 
+        var self = this;
+
         options = options || {};
 
         Store.call( this, options );
@@ -619,7 +621,22 @@ Object.defineProperties( module.exports = RabbitClient, {
      * @for RabbitClient
      */
     get: function startService() {
-      return require( &#x27;rabbit-service&#x27; ).create;
+
+      var _service;
+
+      try {
+        _service = require( &#x27;rabbit-service&#x27; );
+
+        if( &#x27;function&#x27; !== typeof _service.create ) {
+          throw new Error( &#x27;Rabbit Service not loaded.&#x27; );
+        }
+
+      } catch( error ) {
+        return {}
+      }
+
+      return _service.create;
+
     },
     enumerable: true
   },

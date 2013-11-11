@@ -42,12 +42,9 @@ module.exports = {
       Rabbit.prototype.should.have.property( 'registerActivity' );
       Rabbit.prototype.should.have.property( 'processJob' );
 
-      // Message properties.
-      Rabbit.Correlation.prototype.should.have.property( 'timeout' );
-
       // Job properties.
-      Rabbit.Job.prototype.should.have.property( 'progress' );
-      Rabbit.Job.prototype.should.have.property( 'complete' );
+      // Rabbit.Job.prototype.should.have.property( 'progress' );
+      // Rabbit.Job.prototype.should.have.property( 'complete' );
 
     },
 
@@ -56,8 +53,8 @@ module.exports = {
 
       require( '../' ).create({ login: process.env.RABBIT_LOGIN, password: process.env.RABBIT_PASSWORD }).configure( function configure() {
 
-        this.should.have.property( '_connection' );
-        this.should.have.property( '_queue' );
+        //this.should.have.property( '_connection' );
+        //this.should.have.property( '_queue' );
 
         done();
 
