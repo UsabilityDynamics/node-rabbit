@@ -28,7 +28,7 @@ module.exports = {
      */
     'has expected properties.': function() {
 
-      var Rabbit = require( '../' );
+      var Rabbit = require( '.' );
 
       // Constructor properties.
       Rabbit.should.have.property( 'utility' );
@@ -51,7 +51,7 @@ module.exports = {
     'can establish a RabbitMQ connection and use configure() method.': function( done ) {
       this.timeout( 5000 );
 
-      require( '../' ).create({ login: process.env.RABBIT_LOGIN, password: process.env.RABBIT_PASSWORD }).configure( function configure() {
+      require( '.' ).create({ login: process.env.RABBIT_LOGIN, password: process.env.RABBIT_PASSWORD }).configure( function configure() {
 
         //this.should.have.property( '_connection' );
         //this.should.have.property( '_queue' );
@@ -64,7 +64,7 @@ module.exports = {
 
     'can establish a RabbitMQ connection.': function( done ) {
 
-      require( '../' ).create( function configure( error ) {
+      require( '.' ).create( function configure( error ) {
 
         this.should.have.property( 'get' );
         this.should.have.property( 'set' );

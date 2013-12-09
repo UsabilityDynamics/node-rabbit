@@ -77,37 +77,37 @@ Object.defineProperties(Job.prototype, {
         writable: true
     },
     create_context: {
-        value: require("../exchange").prototype.create_context,
+        value: require("").prototype.create_context,
         enumerable: true,
         configurable: true,
         writable: true
     },
     request: {
-        value: require("../exchange").prototype.request,
+        value: require("").prototype.request,
         enumerable: true,
         configurable: true,
         writable: true
     },
     response: {
-        value: require("../exchange").prototype.response,
+        value: require("").prototype.response,
         enumerable: true,
         configurable: true,
         writable: true
     },
     subscribe: {
-        value: require("../exchange").prototype.subscribe,
+        value: require("").prototype.subscribe,
         enumerable: true,
         configurable: true,
         writable: true
     },
     unsubscribe: {
-        value: require("../exchange").prototype.unsubscribe,
+        value: require("").prototype.unsubscribe,
         enumerable: true,
         configurable: true,
         writable: true
     },
     publish: {
-        value: require("../exchange").prototype.publish,
+        value: require("").prototype.publish,
         enumerable: true,
         configurable: true,
         writable: true
@@ -129,7 +129,7 @@ Object.defineProperties(Job.prototype, {
 _$jscoverage_done("lib/exchange/job.js", 137);
 Object.defineProperties(module.exports = Job, {
     create: {
-        value: require("../exchange").create,
+        value: require("").create,
         enumerable: true,
         configurable: true,
         writable: true
@@ -140,7 +140,7 @@ Object.defineProperties(module.exports = Job, {
         writable: false
     },
     declare: {
-        value: require("../exchange").declare,
+        value: require("").declare,
         enumerable: true,
         configurable: true,
         writable: true
