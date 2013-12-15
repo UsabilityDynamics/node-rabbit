@@ -67,8 +67,8 @@
   ],
   "main": "./lib/rabbit-client.js",
   "dependencies": {
-    "amqp": "git+ssh://git@github.com:UsabilityDynamics/node-amqp#master",
-    "rabbit-service": "git+ssh://git@github.com:UsabilityDynamics/node-rabbit-service#master",
+    "amqp": "UsabilityDynamics/node-amqp",
+    "rabbit-service": "UsabilityDynamics/node-rabbit-service",
     "async": ">=0.2.9",
     "auto": ">=0.0.2",
     "abstract": ">=0.0.8",
